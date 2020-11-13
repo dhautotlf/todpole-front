@@ -2,11 +2,11 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import PropTypes from 'prop-types';
 
-function CreateToddler({ displayName }) {
+function CreateToddler({ displayName, navigation }) {
   return (
     <View>
       <Text>{displayName}</Text>
-      <Text onPress={() => {}}>NEXT</Text>
+      <Text onPress={() => navigation.navigate('SignUp')}>Go to SignUp</Text>
     </View>
   );
 }
