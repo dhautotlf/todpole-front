@@ -1,8 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Image, View, Platform } from 'react-native';
+import { TouchableOpacity, Image, View, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import CameraIcon from "../assets/icons/photo-camera.svg";
 import Constants from 'expo-constants';
 import styled from 'styled-components/native';
+
+const CameraButton = styled.TouchableOpacity`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 132px;
+  height: 132px;
+  border-radius: ${props => props.theme.spacing.tiny}px;
+  background: ${props => props.theme.colors.lightGray};
+  margin-bottom: 28px;
+`;
+
+const PreviewImage = styled.Image`
+  width: 132px;
+  height: 132px;
+  border-radius: ${props => props.theme.spacing.tiny}px;
+  margin-bottom: 28px;
+`;
 
 export default function ImagePickerComponent() {
   const [image, setImage] = useState(null);
@@ -26,17 +45,19 @@ export default function ImagePickerComponent() {
       quality: 1,
     });
 
-    console.log(result);
-
     if (!result.cancelled) {
       setImage(result.uri);
     }
   };
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Button title="Pick an image from camera roll" onPress={pickImage} />
-      {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+    <View>
+      {!image && (
+        <CameraButton onPress={pickImage}>
+          <CameraIcon width={53} height={43}/>
+        </CameraButton>
+      )}
+      {image && <TouchableOpacity onPress={pickImage}><PreviewImage source={{ uri: image }} style={{ width: 200, height: 200 }}/></TouchableOpacity>}
     </View>
   );
 }

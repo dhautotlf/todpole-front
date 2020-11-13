@@ -5,7 +5,8 @@
     "ios": "react-native run-ios",
     "web": "expo start --web",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "postinstall": "husky install"
   },
   "dependencies": {
     "@apollo/client": "^3.2.5",
@@ -34,6 +35,7 @@
     "react-native-reanimated": "~1.13.0",
     "react-native-safe-area-context": "3.1.4",
     "react-native-screens": "~2.10.1",
+    "react-native-svg": "12.1.0",
     "react-native-unimodules": "~0.11.0",
     "react-native-web": "~0.13.12",
     "react-redux": "^7.2.2",
@@ -49,11 +51,22 @@
     "eslint": "^7.9.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^2.7.0",
+    "husky": ">=4",
     "jest": "~25.2.6",
+    "lint-staged": ">=10",
+    "react-native-svg-transformer": "^0.14.3",
     "react-test-renderer": "~16.13.1"
   },
   "jest": {
     "preset": "react-native"
   },
-  "private": true
+  "private": true,
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix"
+  }
 }

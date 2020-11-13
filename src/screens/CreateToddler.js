@@ -32,14 +32,6 @@ const Body = styled.View`
   margin-top: 44px;
 `;
 
-const PhotoImage = styled.Image`
-  width: 132px;
-  height: 132px;
-  border-radius: 8px;
-  background: ${props => props.theme.colors.lightGray};
-  margin-bottom: 28px;
-`;
-
 
 const Footer = styled.View`
   align-items: center;
@@ -60,7 +52,6 @@ function CreateToddler({ displayName, navigation }) {
         <Description>{translations.createtoddler_header_text}</Description>
       </Header>
       <Body>
-        <PhotoImage source={{ uri: 'https://www.theladders.com/wp-content/uploads/Lion_030818-800x450.jpg' }} ></PhotoImage>
         <ImagePickerComponent/>
         <UserForm />
       </Body>
