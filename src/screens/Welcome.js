@@ -47,6 +47,7 @@ const LoginText = styled.Text`
   font-weight: normal;
   font-size: 14px;
   line-height: 17px;
+  
 `;
 
 function Welcome({ navigation }) {
