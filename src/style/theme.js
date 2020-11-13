@@ -32,10 +32,6 @@ export default {
     large: 40,
     xlarge: 80
   },
-  // A place to store flags for helping with contextual styling. For example,
-  // you could set a `cartDrawer` flag so that components can render differently
-  // if they know they are inside the CartDrawer component, without needing to
-  // use CSS selectors.
   context: {},
   button: {
     defaultStyle: css`
