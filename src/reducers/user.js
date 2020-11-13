@@ -1,11 +1,22 @@
+import { handleActions, combineActions } from 'redux-actions';
+import { session } from '../actions';
+
 const INITIAL_STATE = {
-  name: '',
-  gender: 'female',
+  isLoading: true,
+  name: null,
 };
 
-export default (state = INITIAL_STATE, action) => {
-  switch (action.type) {
-    default:
-      return state;
-  }
-};
+export default handleActions(
+  {
+    [combineActions(
+      session.sessionRestoreSuccess,
+      session.signInSuccess,
+      session.signUpSuccess,
+    )]: (state, { payload }) => ({
+      ...state,
+      isLoading: false,
+      name: payload.name,
+    }),
+  },
+  INITIAL_STATE,
+);
