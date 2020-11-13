@@ -5,8 +5,10 @@
     "ios": "react-native run-ios",
     "web": "expo start --web",
     "start": "react-native start",
-    "test": "jest",
-    "postinstall": "husky install"
+    "test": "lint-staged",
+    "lint:fix": "eslint src/*.js --fix",
+    "lint": "eslint src/*.js",
+    "prettify": "prettier src/*.js --write"
   },
   "dependencies": {
     "@apollo/client": "^3.2.5",
