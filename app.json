@@ -1,0 +1,12 @@
+{
+  "name": "todpole-front",
+  "displayName": "todpole-front",
+  "expo": {
+    "name": "todpole-front",
+    "slug": "todpole-front",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
