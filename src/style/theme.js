@@ -18,7 +18,15 @@ const colors = {
   white40: 'rgba(255, 255, 255, 0.4)',
   white20: 'rgba(255, 255, 255, 0.2)',
 
-  green: '#84A59D';
+  green: '#84A59D',
+  yellow: '#F6BD60',
+
+  whiteSmoke: '#F5F5F5',
+  veryLightGray: '#FAFAFA',
+  lightGray: '#E5E5E5',
+  silver: '#C4C4C4',
+  mediumGray: '#979797',
+  darkGray: '#5C5C5C',
 
 };
 
