@@ -4,11 +4,13 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import BasicButton from '../components/BasicButton';
 import UserForm from '../components/UserForm';
+import ImagePickerComponent from '../components/ImagePickerComponent';
 import {translations} from '../constants/translations';
 
 const ScreenWrapper = styled.View`
   display: flex;
   flex: 1;
+  background: ${props => props.theme.colors.white};
 `;
 
 const Header = styled.View`
@@ -25,6 +27,7 @@ const Description = styled.Text`
 `;
 
 const Body = styled.View`
+  flex: 1;
   align-items: center;
   margin-top: 44px;
 `;
@@ -58,6 +61,7 @@ function CreateToddler({ displayName, navigation }) {
       </Header>
       <Body>
         <PhotoImage source={{ uri: 'https://www.theladders.com/wp-content/uploads/Lion_030818-800x450.jpg' }} ></PhotoImage>
+        <ImagePickerComponent/>
         <UserForm />
       </Body>
       <Footer>
