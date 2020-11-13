@@ -64,7 +64,7 @@ function Welcome({ navigation }) {
       </CategoriesWrapper>
       <Footer>
         <BasicButton label={translations.welcome_footer_button1} onPress={() => navigation.navigate('CreateToddler')}/>
-        <LoginText>{translations.welcome_footer_button2}</LoginText>
+        <LoginText onPress={() => navigation.navigate('SignIn')}>{translations.welcome_footer_button2}</LoginText>
       </Footer>
     </ScreenWrapper>
   );
