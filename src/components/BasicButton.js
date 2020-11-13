@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Text, View } from 'react-native';
+import { Button, Text, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 
@@ -21,7 +21,7 @@ const Label = styled.Text`
   color: ${props => props.theme.colors.white};
 `;
 
-function SignUpButton({label, onPress}) {
+function BasicButton({label, onPress}) {
   return (
       <StyledButton onPress={onPress}>
         <Label>{label}</Label>
@@ -29,13 +29,13 @@ function SignUpButton({label, onPress}) {
   );
 }
 
-SignUpButton.propTypes = {
+BasicButton.propTypes = {
   label: PropTypes.string,
   onPress: PropTypes.func
 };
 
-SignUpButton.defaultProps = {
+BasicButton.defaultProps = {
   label: "Default Category"
 };
 
-export default SignUpButton;
+export default BasicButton;

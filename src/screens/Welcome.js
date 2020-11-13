@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import Category from '../components/Category';
-import SignUpButton from '../components/SignUpButton';
+import BasicButton from '../components/BasicButton';
 import {translations} from '../constants/translations';
 
 const ScreenWrapper = styled.View`
@@ -34,7 +34,7 @@ const Description = styled.Text`
 
 const CategoriesWrapper = styled.View`
   flex: 1;
-  margin: 0px ${props => props.theme.spacing.large}px 50px ${props => props.theme.spacing.large}px;
+  margin: 0px ${props => props.theme.spacing.large}px;
 `;
 
 const Footer = styled.View`
@@ -63,7 +63,7 @@ function Welcome({ navigation }) {
       {listCategories}
       </CategoriesWrapper>
       <Footer>
-        <SignUpButton label={translations.welcome_footer_button1} onPress={() => navigation.navigate('CreateToddler')}/>
+        <BasicButton label={translations.welcome_footer_button1} onPress={() => navigation.navigate('CreateToddler')}/>
         <LoginText>{translations.welcome_footer_button2}</LoginText>
       </Footer>
     </ScreenWrapper>
