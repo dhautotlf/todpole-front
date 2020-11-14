@@ -2,14 +2,16 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import ActivityDetail from '../screens/ActivityDetail';
+// import ActivityDetail from '../screens/ActivityDetail';
 import CreateActivity from '../screens/CreateActivity';
 import CreateToddler from '../screens/CreateToddler';
 import Discover from '../screens/Discover';
-import Saved from '../screens/Saved';
+// import Saved from '../screens/Saved';
 import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
 import Welcome from '../screens/Welcome';
+import User from '../screens/User';
+import { isAuthenticated } from '../hooks';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -27,18 +29,23 @@ const HomeTab = () => (
   <Tab.Navigator>
     <Tab.Screen name="Discover" component={Discover} />
     <Tab.Screen name="CreateActivity" component={CreateActivity} />
+    <Tab.Screen name="User" component={User} />
   </Tab.Navigator>
 );
 
 const Navigator = () => {
+  const isSignedIn = isAuthenticated();
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen
-          name="UnAuthenticatedStack"
-          component={UnAuthenticatedStack}
-        />
-        <Stack.Screen name="HomeTab" component={HomeTab} />
+        {isSignedIn ? (
+          <Stack.Screen name="HomeTab" component={HomeTab} />
+        ) : (
+          <Stack.Screen
+            name="UnAuthenticatedStack"
+            component={UnAuthenticatedStack}
+          />
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );

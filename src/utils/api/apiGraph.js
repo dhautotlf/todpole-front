@@ -3,20 +3,15 @@ import { InMemoryCache, NormalizedCacheObject } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 import Config from '../config';
 import { setContext } from 'apollo-link-context';
-//import store from '../../store';
+
+import AuthHeader from '../authHeader';
 
 const authLink = setContext(async (req, { headers }) => {
-  // const { session } = await store.getState();
-  //
-  // const authHeader = session.userToken
-  //   ? {
-  //       Authorization: `Bearer ${session.userToken}`,
-  //     }
-  //   : {};
+  const authHeader = AuthHeader.getInstance().getHeader();
   return {
     headers: {
       ...headers,
-      //...authHeader,
+      ...authHeader,
     },
   };
 });

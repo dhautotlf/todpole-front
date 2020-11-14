@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { authenticate } from '../reducers/session';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import BasicButton from '../components/BasicButton';
@@ -38,6 +40,10 @@ const Footer = styled.View`
 
 function SignIn({  }) {
   const [errorMessage, setErrorMessage] = useState('');
+  const dispatch = useDispatch();
+
+  const signIn = () =>
+    dispatch(authenticate({ login: 'email@email.com', password: 'password' }));
 
   return (
     <ScreenWrapper>
@@ -51,6 +57,7 @@ function SignIn({  }) {
         <BasicButton label={translations.signin_footer_button} onPress={() => navigation.navigate('SignUp')}/>
         {errorMessage ? <Text>{errorMessage}</Text> : null}
       </Footer>
+      <Text onPress={signIn}>Login</Text>
     </ScreenWrapper>
   );
 }
