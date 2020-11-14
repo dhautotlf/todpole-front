@@ -48,6 +48,7 @@ function SignIn({  }) {
   return (
     <ScreenWrapper>
       <Header>
+        <Text onPress={signIn}>Test Login</Text>
         <Description>{translations.signin_header_text}</Description>
       </Header>
       <Body>
@@ -57,7 +58,6 @@ function SignIn({  }) {
         <BasicButton label={translations.signin_footer_button} onPress={() => navigation.navigate('SignUp')}/>
         {errorMessage ? <Text>{errorMessage}</Text> : null}
       </Footer>
-      <Text onPress={signIn}>Login</Text>
     </ScreenWrapper>
   );
 }
