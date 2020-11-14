@@ -26,7 +26,7 @@ const StyledTextInput = styled.TextInput`
   border: 1px solid ${props => props.theme.colors.darkGray};
   border-radius: 8px;
   color: ${props => props.theme.colors.black};
-  
+
 `;
 
 const StyledDateTimePicker = styled(DateTimePicker)`
@@ -78,7 +78,7 @@ function UserForm({label, onPress}) {
           value={name}
           placeholder={translations.createtoddler_name_text}
           placeholderTextColor={themeContext.colors.silver}
-          onChange={e => setName(e.target.value)}
+          onChangeText={text => setName(text)}
           required />
       </FieldView>
       <FieldView>

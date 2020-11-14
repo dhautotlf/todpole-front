@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Text, View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { register } from '../reducers/session';
+import { getSession } from '../hooks';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import BasicButton from '../components/BasicButton';
@@ -37,26 +40,31 @@ const Footer = styled.View`
 `;
 
 function SignUp({ navigation }) {
-  const [errorMessage, setErrorMessage] = useState('');
+  const dispatch = useDispatch();
+  const {errorMessage, isLoading} = getSession();
+
+  const signUp = (user) => {
+    dispatch(register(user));
+  }
 
   return (
     <ScreenWrapper>
+      <Text onPress={() => navigation.navigate('SignIn')}>Go to SignIn</Text>
+      <Text
+        onPress={() => navigation.navigate('HomeTab', { screen: 'Settings' })}
+      >
+        Go to Discover
+      </Text>
       <Header>
         <Description>{translations.signup_header_text}</Description>
       </Header>
       <Body>
-        <LoginForm/>
-      </Body>
-      <Footer>
-        <BasicButton label={translations.signup_footer_button} onPress={() => navigation.navigate('SignUp')}/>
         {errorMessage ? <Text>{errorMessage}</Text> : null}
-        <Text onPress={() => navigation.navigate('SignIn')}>Go to SignIn</Text>
-        <Text
-          onPress={() => navigation.navigate('HomeTab', { screen: 'Settings' })}
-        >
-          Go to Discover
-        </Text>
-      </Footer>
+        <LoginForm
+          onLogin={signUp}
+          submitButtonLabel={translations.signup_footer_button}
+        />
+      </Body>
     </ScreenWrapper>
   );
 }

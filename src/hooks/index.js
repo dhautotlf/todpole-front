@@ -1,3 +1,4 @@
 import isAuthenticated from './isAuthenticated';
+import getSession from './getSession';
 
-export { isAuthenticated };
+export { isAuthenticated, getSession };

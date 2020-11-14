@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Text, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { authenticate } from '../reducers/session';
+import { getSession } from '../hooks';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import BasicButton from '../components/BasicButton';
 import LoginForm from '../components/LoginForm';
 import {translations} from '../constants/translations';
 
 const ScreenWrapper = styled.View`
   display: flex;
   flex: 1;
+  flex-direction: column;
   background: ${props => props.theme.colors.white};
 `;
 
@@ -33,17 +34,13 @@ const Body = styled.View`
   margin-top: 44px;
 `;
 
-
-const Footer = styled.View`
-  align-items: center;
-`;
-
-function SignIn({  }) {
-  const [errorMessage, setErrorMessage] = useState('');
+function SignIn() {
   const dispatch = useDispatch();
+  const {errorMessage, isLoading} = getSession();
 
-  const signIn = () =>
-    dispatch(authenticate({ login: 'email@email.com', password: 'password' }));
+  const signIn = (credentials) => {
+    dispatch(authenticate(credentials));
+  }
 
   return (
     <ScreenWrapper>
@@ -52,20 +49,18 @@ function SignIn({  }) {
         <Description>{translations.signin_header_text}</Description>
       </Header>
       <Body>
-        <LoginForm/>
-      </Body>
-      <Footer>
-        <BasicButton label={translations.signin_footer_button} onPress={() => navigation.navigate('SignUp')}/>
         {errorMessage ? <Text>{errorMessage}</Text> : null}
-      </Footer>
+        <LoginForm
+          onLogin={signIn}
+          submitButtonLabel={translations.signin_footer_button}
+        />
+      </Body>
     </ScreenWrapper>
   );
 }
 
-SignIn.propTypes = {
-};
+SignIn.propTypes = {};
 
-SignIn.defaultProps = {
-};
+SignIn.defaultProps = {};
 
 export default SignIn;

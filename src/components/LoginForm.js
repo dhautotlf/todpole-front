@@ -2,9 +2,12 @@ import React, { useState, useContext } from 'react';
 import { Button, Picker, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import styled, { ThemeContext } from 'styled-components/native';
 import PropTypes from 'prop-types';
+import BasicButton from '../components/BasicButton';
 import {translations} from '../constants/translations';
 
-const Form = styled.View``;
+const Form = styled.View`
+  flex: 1;
+`;
 
 const FieldView = styled.View`
   margin-bottom: 15px;
@@ -28,10 +31,22 @@ const StyledTextInput = styled.TextInput`
 
 `;
 
-function LoginForm({label, onPress}) {
+const Footer = styled.View`
+  align-items: center;
+`;
+
+function LoginForm({label, onLogin, submitButtonLabel}) {
   const [email, onChangeEmail] = useState('');
   const [password, onChangePassword] = useState('');
   const themeContext = useContext(ThemeContext);
+
+  const submitForm = () => {
+    const user = {
+      login: email,
+      password
+    }
+    onLogin && onLogin(user);
+  };
 
   return (
     <Form>
@@ -43,7 +58,7 @@ function LoginForm({label, onPress}) {
           value={email}
           placeholder={translations.signup_option_text1}
           placeholderTextColor={themeContext.colors.silver}
-          onChange={e => onChangeEmail(e.target.value)}
+          onChangeText={onChangeEmail}
           required />
       </FieldView>
       <FieldView>
@@ -54,10 +69,18 @@ function LoginForm({label, onPress}) {
           value={password}
           placeholder={translations.signup_option_text2}
           placeholderTextColor={themeContext.colors.silver}
-          onChange={e => onChangePassword(e.target.value)}
+          onChangeText={onChangePassword}
+          textContentType={'oneTimeCode'}
+          secureTextEntry
           required
-          secureTextEntry />
+          />
       </FieldView>
+      <Footer>
+        <BasicButton
+          label={submitButtonLabel}
+          onPress={submitForm}
+        />
+      </Footer>
     </Form>
   );
 }

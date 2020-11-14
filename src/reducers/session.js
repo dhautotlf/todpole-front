@@ -7,6 +7,7 @@ import {
 import { current as getCurrentUser } from '../utils/queries';
 import Storage from '../utils/storageUtils';
 import AuthHeader from '../utils/authHeader';
+import { get } from 'lodash';
 
 const INITIAL_STATE = {
   isLoading: true,
@@ -50,6 +51,9 @@ export default handleActions(
 
 export const isAuthenticated = ({ session }) =>
   session.userToken !== INITIAL_STATE.userToken;
+
+export const getSession = ({ session }) =>
+  ({...session, errorMessage: get(session,'error.graphQLErrors[0].message', null)})
 
 // THUNKS
 
