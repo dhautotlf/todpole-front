@@ -32,11 +32,6 @@ export default handleActions(
       isLoading: false,
       userToken: payload.userToken,
     }),
-    [sessionAction.signOutSuccess]: (state) => ({
-      ...state,
-      isLoading: false,
-      userToken: INITIAL_STATE.userToken,
-    }),
     [combineActions(
       sessionAction.sessionRestoreError,
       sessionAction.signInError,
@@ -91,7 +86,6 @@ export const register = (creds) => {
       AuthHeader.getInstance().setSession(session);
       dispatch(sessionAction.signUpSuccess(session));
     } catch (error) {
-      console.log({ error });
       dispatch(sessionAction.signUpError({ error }));
     }
   };
