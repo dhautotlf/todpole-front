@@ -16,4 +16,8 @@ export default createActions({
   SIGN_UP_START: () => {},
   SIGN_UP_SUCCESS: (session) => session,
   SIGN_UP_ERROR: (error) => error,
+
+  SIGN_OUT_START: () => {},
+  SIGN_OUT_SUCCESS: () => {},
+  SIGN_OUT_ERROR: (error) => error,
 });

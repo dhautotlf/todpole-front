@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import Category from '../components/Category';
 import BasicButton from '../components/BasicButton';
-import {translations} from '../constants/translations';
+import { translations } from '../constants/translations';
 
 const ScreenWrapper = styled.View`
   display: flex;
@@ -34,7 +34,7 @@ const Description = styled.Text`
 
 const CategoriesWrapper = styled.View`
   flex: 1;
-  margin: 0px ${props => props.theme.spacing.large}px;
+  margin: 0px ${(props) => props.theme.spacing.large}px;
 `;
 
 const Footer = styled.View`
@@ -43,15 +43,21 @@ const Footer = styled.View`
 
 const LoginText = styled.Text`
   margin-bottom: 26px;
-  color: ${props => props.theme.colors.mediumGray};
+  color: ${(props) => props.theme.colors.mediumGray};
   font-weight: normal;
   font-size: 14px;
   line-height: 17px;
 `;
 
 function Welcome({ navigation }) {
-  const listCategories = translations.welcome_categories.map((category,index) =>
-    <Category key={index} title={category.title} description={category.text}/>
+  const listCategories = translations.welcome_categories.map(
+    (category, index) => (
+      <Category
+        key={index}
+        title={category.title}
+        description={category.text}
+      />
+    ),
   );
   return (
     <ScreenWrapper>
@@ -59,12 +65,15 @@ function Welcome({ navigation }) {
         <Title>{translations.welcome_header_title}</Title>
         <Description>{translations.welcome_header_text}</Description>
       </Header>
-      <CategoriesWrapper>
-      {listCategories}
-      </CategoriesWrapper>
+      <CategoriesWrapper>{listCategories}</CategoriesWrapper>
       <Footer>
-        <BasicButton label={translations.welcome_footer_button1} onPress={() => navigation.navigate('CreateToddler')}/>
-        <LoginText onPress={() => navigation.navigate('SignIn')}>{translations.welcome_footer_button2}</LoginText>
+        <BasicButton
+          label={translations.welcome_footer_button1}
+          onPress={() => navigation.navigate('CreateToddler')}
+        />
+        <LoginText onPress={() => navigation.navigate('SignIn')}>
+          {translations.welcome_footer_button2}
+        </LoginText>
       </Footer>
     </ScreenWrapper>
   );

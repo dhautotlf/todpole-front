@@ -1,12 +1,20 @@
 import React from 'react';
 import { Text, View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { register } from '../reducers/session';
 import PropTypes from 'prop-types';
 
 function SignIn({ displayName }) {
+  const dispatch = useDispatch();
+
+  const signIn = () =>
+    dispatch(register({ login: 'email@email.com', password: 'password' }));
+
   return (
     <View>
       <Text>{displayName}</Text>
       <Text onPress={() => {}}>NEXT</Text>
+      <Text onPress={signIn}>Login</Text>
     </View>
   );
 }

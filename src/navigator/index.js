@@ -10,6 +10,7 @@ import Saved from '../screens/Saved';
 import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
 import Welcome from '../screens/Welcome';
+import { isAuthenticated } from '../hooks';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -31,14 +32,18 @@ const HomeTab = () => (
 );
 
 const Navigator = () => {
+  const isSignedIn = isAuthenticated();
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen
-          name="UnAuthenticatedStack"
-          component={UnAuthenticatedStack}
-        />
-        <Stack.Screen name="HomeTab" component={HomeTab} />
+        {isSignedIn ? (
+          <Stack.Screen name="HomeTab" component={HomeTab} />
+        ) : (
+          <Stack.Screen
+            name="UnAuthenticatedStack"
+            component={UnAuthenticatedStack}
+          />
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );
