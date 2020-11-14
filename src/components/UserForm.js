@@ -26,6 +26,7 @@ const StyledTextInput = styled.TextInput`
   border: 1px solid ${props => props.theme.colors.darkGray};
   border-radius: 8px;
   color: ${props => props.theme.colors.black};
+  
 `;
 
 const StyledDateTimePicker = styled(DateTimePicker)`
