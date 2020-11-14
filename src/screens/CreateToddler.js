@@ -45,7 +45,7 @@ const SkipText = styled.Text`
   line-height: 17px;
 `;
 
-function CreateToddler({ displayName, navigation }) {
+function CreateToddler({ navigation }) {
   return (
     <ScreenWrapper>
       <Header>
@@ -63,12 +63,8 @@ function CreateToddler({ displayName, navigation }) {
   );
 }
 
-CreateToddler.propTypes = {
-  displayName: PropTypes.string,
-};
+CreateToddler.propTypes = {};
 
-CreateToddler.defaultProps = {
-  displayName: 'CreateToddler',
-};
+CreateToddler.defaultProps = {};
 
 export default CreateToddler;
