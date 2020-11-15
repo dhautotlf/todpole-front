@@ -73,6 +73,23 @@ export const translations = {
   discover_header_bar: 'Search',
   discover_topic_title1: 'Trending Now',
   discover_topic_title2: 'Idea For You',
+  discover_categories: [
+    {
+      title: 'Physical'
+    },
+    {
+      title: 'Cognitive',
+    },
+    {
+      title: 'Speech',
+    },
+    {
+      title: 'Social Emotional',
+    },
+    {
+      title: 'Self Care',
+    },
+  ],
   discover_category_title1: 'Physical',
   discover_category_title2: 'Cognitive',
   discover_category_title3: 'Speech',

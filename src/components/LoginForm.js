@@ -65,7 +65,7 @@ function LoginForm({ submitButtonLabel, onLogin }) {
           <StyledTextInput
             name="email"
             type="email"
-            value={'email@email.com'}
+            value={email}
             placeholder={translations.signup_option_text1}
             placeholderTextColor={themeContext.colors.silver}
             onChangeText={onChangeEmail}
@@ -77,7 +77,7 @@ function LoginForm({ submitButtonLabel, onLogin }) {
           <StyledTextInput
             name="password"
             type="password"
-            value={'password'}
+            value="password"
             placeholder={translations.signup_option_text2}
             placeholderTextColor={themeContext.colors.silver}
             onChangeText={onChangePassword}
