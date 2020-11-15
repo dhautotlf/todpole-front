@@ -10,7 +10,7 @@ import AuthHeader from '../utils/authHeader';
 import { get } from 'lodash';
 
 const INITIAL_STATE = {
-  isLoading: true,
+  isLoading: false,
   userToken: null,
 };
 
