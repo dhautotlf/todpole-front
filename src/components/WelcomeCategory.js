@@ -10,7 +10,6 @@ const CategoryWrapper = styled.View`
 
 const TextWrapper = styled.View`
   display: flex;
-  flex: 1;
   flex-direction: column;
   width: 80px;
 `;
@@ -34,6 +33,7 @@ const ThumbnailImage = styled.Image`
 `;
 
 function WelcomeCategory({ title, description }) {
+  console.log("title",title);
   return (
     <CategoryWrapper>
       <ThumbnailImage
