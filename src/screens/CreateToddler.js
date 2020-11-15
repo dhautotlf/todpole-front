@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import BasicButton from '../components/BasicButton';
@@ -7,15 +7,21 @@ import UserForm from '../components/UserForm';
 import ImagePickerComponent from '../components/ImagePickerComponent';
 import {translations} from '../constants/translations';
 
-const ScreenWrapper = styled.View`
-  display: flex;
-  flex: 1;
+const ScreenWrapper = styled.ScrollView.attrs(props => ({
+  contentContainerStyle: {
+      display: 'flex',
+      flexDirection: 'column',
+      flex: 1,
+      justifyContent: 'space-between'
+    }
+}))`
   background: ${props => props.theme.colors.white};
 `;
 
 const Header = styled.View`
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
 `;
 
 const Description = styled.Text`
@@ -27,14 +33,15 @@ const Description = styled.Text`
 `;
 
 const Body = styled.View`
-  flex: 1;
   align-items: center;
+  justify-content: flex-start;
   margin-top: 44px;
 `;
 
-
 const Footer = styled.View`
   align-items: center;
+  justify-content: flex-end;
+  margin-top: 40px;
 `;
 
 const SkipText = styled.Text`
