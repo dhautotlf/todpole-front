@@ -34,7 +34,7 @@ const Description = styled.Text`
 const ThumbnailImage = styled.Image`
   width: 61px;
   height: 61px;
-  borderradius: 61px;
+  border-radius: 61px;
   margin-right: 22px;
 `;
 

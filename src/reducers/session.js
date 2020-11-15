@@ -31,7 +31,7 @@ export default handleActions(
     )]: (state, { payload }) => ({
       ...state,
       isLoading: false,
-      userToken: payload.userToken,
+      userToken: payload,
     }),
     [combineActions(
       sessionAction.sessionRestoreError,
@@ -67,7 +67,8 @@ export const restoreSession = () => {
     dispatch(sessionAction.sessionRestoreStart());
     try {
       const session = await Storage.restoreSession();
-      AuthHeader.getInstance().setSession(session);
+
+      AuthHeader.getInstance().setTokens(session);
       const user = await getCurrentUser();
       if (!user) throw Error('Session Invalid or Expired');
 
@@ -89,7 +90,8 @@ export const register = (creds) => {
     try {
       const session = await registerMutation(creds);
       await Storage.storeSession(session);
-      AuthHeader.getInstance().setSession(session);
+
+      AuthHeader.getInstance().setTokens(session);
       dispatch(sessionAction.signUpSuccess(session));
     } catch (error) {
       dispatch(sessionAction.signUpError({ error }));
@@ -108,7 +110,7 @@ export const authenticate = (creds) => {
     try {
       const session = await loginMutation(creds);
       await Storage.storeSession(session);
-      AuthHeader.getInstance().setSession(session);
+      AuthHeader.getInstance().setTokens(session);
       dispatch(sessionAction.signInSuccess(session));
     } catch (error) {
       dispatch(sessionAction.signInError({ error }));
