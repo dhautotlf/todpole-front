@@ -27,7 +27,6 @@ const colors = {
   silver: '#C4C4C4',
   mediumGray: '#979797',
   darkGray: '#5C5C5C',
-
 };
 
 export default {
@@ -38,23 +37,23 @@ export default {
     moderate: 24,
     medium: 32,
     large: 40,
-    xlarge: 80
+    xlarge: 80,
   },
   context: {},
   button: {
     defaultStyle: css`
       border-radius: 8px;
       letter-spacing: 1px;
-    `
+    `,
   },
   checkbox: {
     defaultStyle: css`
       background-color: transparent;
-    `
+    `,
   },
   radio: {
     defaultStyle: css`
-      opacity: ${props => (props.disabled ? 0.2 : 1)};
-    `
+      opacity: ${(props) => (props.disabled ? 0.2 : 1)};
+    `,
   },
 };

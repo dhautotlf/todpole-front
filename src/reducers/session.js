@@ -52,8 +52,10 @@ export default handleActions(
 export const isAuthenticated = ({ session }) =>
   session.userToken !== INITIAL_STATE.userToken;
 
-export const getSession = ({ session }) =>
-  ({...session, errorMessage: get(session,'error.graphQLErrors[0].message', null)})
+export const getSession = ({ session }) => ({
+  ...session,
+  errorMessage: get(session, 'error.graphQLErrors[0].message', null),
+});
 
 // THUNKS
 

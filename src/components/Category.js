@@ -1,5 +1,4 @@
 import React from 'react';
-import { Image, Text, View } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 
@@ -20,7 +19,7 @@ const Title = styled.Text`
   font-size: 14px;
   line-height: 17px;
   margin-bottom: 2px;
-  color: ${props => props.theme.colors.black};
+  color: ${(props) => props.theme.colors.black};
 `;
 
 const Description = styled.Text`
@@ -29,20 +28,25 @@ const Description = styled.Text`
   font-weight: normal;
   font-size: 12px;
   line-height: 14px;
-  color: ${props => props.theme.colors.black};
+  color: ${(props) => props.theme.colors.black};
 `;
 
 const ThumbnailImage = styled.Image`
   width: 61px;
   height: 61px;
-  borderRadius: 61px;
+  borderradius: 61px;
   margin-right: 22px;
 `;
 
-function Category({title, description}) {
+function Category({ title, description }) {
   return (
     <CategoryWrapper>
-      <ThumbnailImage source={{ uri: 'https://www.theladders.com/wp-content/uploads/Lion_030818-800x450.jpg' }} ></ThumbnailImage>
+      <ThumbnailImage
+        source={{
+          uri:
+            'https://www.theladders.com/wp-content/uploads/Lion_030818-800x450.jpg',
+        }}
+      ></ThumbnailImage>
       <TextWrapper>
         <Title>{title}</Title>
         <Description>{description}</Description>
@@ -53,12 +57,12 @@ function Category({title, description}) {
 
 Category.propTypes = {
   title: PropTypes.string,
-  description: PropTypes.string
+  description: PropTypes.string,
 };
 
 Category.defaultProps = {
-  title: "Default Category",
-  description: "default text category"
+  title: 'Default Category',
+  description: 'default text category',
 };
 
 export default Category;

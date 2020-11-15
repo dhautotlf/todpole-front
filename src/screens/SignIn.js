@@ -1,18 +1,17 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { authenticate } from '../reducers/session';
 import { getSession } from '../hooks';
-import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import LoginForm from '../components/LoginForm';
-import {translations} from '../constants/translations';
+import { translations } from '../constants/translations';
 
 const ScreenWrapper = styled.View`
   display: flex;
   flex: 1;
   flex-direction: column;
-  background: ${props => props.theme.colors.white};
+  background: ${(props) => props.theme.colors.white};
 `;
 
 const Header = styled.View`
@@ -36,11 +35,11 @@ const Body = styled.View`
 
 function SignIn() {
   const dispatch = useDispatch();
-  const {errorMessage, isLoading} = getSession();
+  const { errorMessage } = getSession();
 
   const signIn = (credentials) => {
     dispatch(authenticate(credentials));
-  }
+  };
 
   return (
     <ScreenWrapper>
