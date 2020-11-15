@@ -18,7 +18,7 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const UnAuthenticatedStack = () => (
-  <Stack.Navigator>
+  <Stack.Navigator screenOptions={hideHeader}>
     <Stack.Screen name="Welcome" component={Welcome} />
     <Stack.Screen name="CreateToddler" component={CreateToddler} />
     <Stack.Screen name="SignIn" component={SignIn} />
@@ -27,7 +27,7 @@ const UnAuthenticatedStack = () => (
 );
 
 const HomeTab = () => (
-  <Tab.Navigator>
+  <Tab.Navigator screenOptions={hideHeader}>
     <Tab.Screen name="Discover" component={Discover} />
     <Tab.Screen name="CreateActivity" component={CreateActivity} />
     <Tab.Screen name="User" component={User} />
@@ -36,10 +36,11 @@ const HomeTab = () => (
 
 const Navigator = () => {
   const { data: isSignedIn, isLoading } = isAuthenticated();
+  console.log();
   if (isLoading) return <ActivityIndicator />;
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={hideHeader}>
         {isSignedIn ? (
           <Stack.Screen name="HomeTab" component={HomeTab} />
         ) : (
@@ -51,6 +52,10 @@ const Navigator = () => {
       </Stack.Navigator>
     </NavigationContainer>
   );
+};
+
+const hideHeader = {
+  header: () => {},
 };
 
 export default Navigator;
