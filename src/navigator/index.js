@@ -31,6 +31,13 @@ const UnAuthenticatedStack = () => (
   </Stack.Navigator>
 );
 
+const DiscoverStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen name="Discover" component={Discover} />
+    <Stack.Screen name="ActivityDetail" component={ActivityDetail} />
+  </Stack.Navigator>
+);
+
 const HomeTab = () => {
   const themeContext = React.useContext(ThemeContext);
 
@@ -44,8 +51,8 @@ const HomeTab = () => {
       screenOptions={hideHeader}
     >
       <Tab.Screen
-        name="Discover"
-        component={Discover}
+        name="DiscoverStack"
+        component={DiscoverStack}
         options={{
           tabBarIcon: HomeIcon,
         }}
