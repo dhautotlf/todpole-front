@@ -14,6 +14,11 @@ import Welcome from '../screens/Welcome';
 import User from '../screens/User';
 import { isAuthenticated } from '../hooks';
 
+import CreateIcon from '../assets/icons/create.svg';
+import HomeIcon from '../assets/icons/home.svg';
+import UserIcon from '../assets/icons/user.svg';
+import { ThemeContext } from 'styled-components/native';
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -26,13 +31,42 @@ const UnAuthenticatedStack = () => (
   </Stack.Navigator>
 );
 
-const HomeTab = () => (
-  <Tab.Navigator screenOptions={hideHeader}>
-    <Tab.Screen name="Discover" component={Discover} />
-    <Tab.Screen name="CreateActivity" component={CreateActivity} />
-    <Tab.Screen name="User" component={User} />
-  </Tab.Navigator>
-);
+const HomeTab = () => {
+  const themeContext = React.useContext(ThemeContext);
+
+  return (
+    <Tab.Navigator
+      tabBarOptions={{
+        showLabel: false,
+        activeTintColor: themeContext.colors.black,
+        inactiveTintColor: themeContext.colors.mediumGray,
+      }}
+      screenOptions={hideHeader}
+    >
+      <Tab.Screen
+        name="Discover"
+        component={Discover}
+        options={{
+          tabBarIcon: HomeIcon,
+        }}
+      />
+      <Tab.Screen
+        name="CreateActivity"
+        component={CreateActivity}
+        options={{
+          tabBarIcon: CreateIcon,
+        }}
+      />
+      <Tab.Screen
+        name="User"
+        component={User}
+        options={{
+          tabBarIcon: UserIcon,
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
 
 const Navigator = () => {
   const { data: isSignedIn, isLoading } = isAuthenticated();

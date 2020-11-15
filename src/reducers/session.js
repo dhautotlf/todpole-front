@@ -72,7 +72,6 @@ export const restoreSession = () => {
       AuthHeader.getInstance().setTokens(session);
       const user = await Queries.current();
       if (!user) throw Error('Session Invalid or Expired');
-
       dispatch(sessionAction.sessionRestoreSuccess(session));
     } catch (error) {
       dispatch(sessionAction.sessionRestoreError({ error }));
