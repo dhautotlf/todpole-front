@@ -4,13 +4,13 @@ import {
   register as registerMutation,
   login as loginMutation,
 } from '../utils/mutations';
-import { current as getCurrentUser } from '../utils/queries';
+import Queries from '../utils/queries';
 import Storage from '../utils/storageUtils';
 import AuthHeader from '../utils/authHeader';
 import { get } from 'lodash';
 
 const INITIAL_STATE = {
-  isLoading: true,
+  isLoading: false,
   userToken: null,
 };
 
@@ -49,8 +49,10 @@ export default handleActions(
 
 // SELECTORS
 
-export const isAuthenticated = ({ session }) =>
-  session.userToken !== INITIAL_STATE.userToken;
+export const isAuthenticated = ({ session }) => ({
+  isLoading: session.isLoading,
+  data: session.userToken !== INITIAL_STATE.userToken,
+});
 
 export const getSession = ({ session }) => ({
   ...session,
@@ -67,9 +69,8 @@ export const restoreSession = () => {
     dispatch(sessionAction.sessionRestoreStart());
     try {
       const session = await Storage.restoreSession();
-
       AuthHeader.getInstance().setTokens(session);
-      const user = await getCurrentUser();
+      const user = await Queries.current();
       if (!user) throw Error('Session Invalid or Expired');
 
       dispatch(sessionAction.sessionRestoreSuccess(session));

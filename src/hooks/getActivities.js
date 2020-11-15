@@ -4,7 +4,6 @@ import { getActivities, fetchActivities } from '../reducers/activities';
 
 export default function () {
   const dispatch = useDispatch();
-  //debugger;
   const activities = useSelector(getActivities);
   useEffect(() => {
     dispatch(fetchActivities());
