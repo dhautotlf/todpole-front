@@ -1,6 +1,13 @@
-import { useSelector } from 'react-redux';
-import { isAuthenticated } from '../reducers/session';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { isAuthenticated, restoreSession } from '../reducers/session';
 
 export default function () {
-  return useSelector(isAuthenticated);
+  const dispatch = useDispatch();
+  const auth = useSelector(isAuthenticated);
+  useEffect(() => {
+    if (!auth.isAuthenticated) dispatch(restoreSession());
+  }, [dispatch]);
+
+  return auth;
 }

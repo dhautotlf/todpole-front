@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -34,7 +35,8 @@ const HomeTab = () => (
 );
 
 const Navigator = () => {
-  const isSignedIn = isAuthenticated();
+  const { data: isSignedIn, isLoading } = isAuthenticated();
+  if (isLoading) return <ActivityIndicator />;
   return (
     <NavigationContainer>
       <Stack.Navigator>
