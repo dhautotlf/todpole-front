@@ -12,6 +12,11 @@ const Form = styled.View`
   justify-content: space-between;
 `;
 
+const FieldsContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+`;
+
 const FieldView = styled.View`
   margin-bottom: 15px;
 `;
@@ -36,6 +41,7 @@ const StyledTextInput = styled.TextInput`
 const Footer = styled.View`
   align-items: center;
   margin-top: auto;
+  margin-bottom: 45px;
 `;
 
 function LoginForm({ submitButtonLabel, onLogin }) {
@@ -53,32 +59,34 @@ function LoginForm({ submitButtonLabel, onLogin }) {
 
   return (
     <Form>
-      <FieldView>
-        <Label>{translations.signup_option_title1}:</Label>
-        <StyledTextInput
-          name="email"
-          type="email"
-          value={'email@email.com'}
-          placeholder={translations.signup_option_text1}
-          placeholderTextColor={themeContext.colors.silver}
-          onChangeText={onChangeEmail}
-          required
-        />
-      </FieldView>
-      <FieldView>
-        <Label>{translations.signup_option_title2}:</Label>
-        <StyledTextInput
-          name="password"
-          type="password"
-          value={'password'}
-          placeholder={translations.signup_option_text2}
-          placeholderTextColor={themeContext.colors.silver}
-          onChangeText={onChangePassword}
-          textContentType={'oneTimeCode'}
-          secureTextEntry
-          required
-        />
-      </FieldView>
+      <FieldsContainer>
+        <FieldView>
+          <Label>{translations.signup_option_title1}:</Label>
+          <StyledTextInput
+            name="email"
+            type="email"
+            value={'email@email.com'}
+            placeholder={translations.signup_option_text1}
+            placeholderTextColor={themeContext.colors.silver}
+            onChangeText={onChangeEmail}
+            required
+          />
+        </FieldView>
+        <FieldView>
+          <Label>{translations.signup_option_title2}:</Label>
+          <StyledTextInput
+            name="password"
+            type="password"
+            value={'password'}
+            placeholder={translations.signup_option_text2}
+            placeholderTextColor={themeContext.colors.silver}
+            onChangeText={onChangePassword}
+            textContentType={'oneTimeCode'}
+            secureTextEntry
+            required
+          />
+        </FieldView>
+      </FieldsContainer>
       <Footer>
         <BasicButton label={submitButtonLabel} onPress={submitForm} />
       </Footer>
