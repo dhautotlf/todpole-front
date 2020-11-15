@@ -20,7 +20,7 @@ export default class AuthHeader {
     if (!this.accessToken) {
       return {};
     }
-    return { Authorization: this.accessToken };
+    return { Authorization: `Bearer ${this.accessToken}` };
   }
 
   /**

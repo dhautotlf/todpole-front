@@ -1,9 +1,8 @@
 import React, { useState, useContext } from 'react';
-import { Button, Picker, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import styled, { ThemeContext } from 'styled-components/native';
 import PropTypes from 'prop-types';
 import BasicButton from '../components/BasicButton';
-import {translations} from '../constants/translations';
+import { translations } from '../constants/translations';
 
 const Form = styled.View`
   display: flex;
@@ -22,17 +21,16 @@ const Label = styled.Text`
   font-size: 14px;
   line-height: 17px;
   margin-bottom: 10px;
-  color: ${props => props.theme.colors.black};
+  color: ${(props) => props.theme.colors.black};
 `;
 
 const StyledTextInput = styled.TextInput`
   padding: 10px;
   width: 320px;
   height: 44px;
-  border: 1px solid ${props => props.theme.colors.darkGray};
+  border: 1px solid ${(props) => props.theme.colors.darkGray};
   border-radius: 8px;
-  color: ${props => props.theme.colors.black};
-
+  color: ${(props) => props.theme.colors.black};
 `;
 
 const Footer = styled.View`
@@ -40,7 +38,7 @@ const Footer = styled.View`
   margin-top: auto;
 `;
 
-function LoginForm({label, onLogin, submitButtonLabel}) {
+function LoginForm({ submitButtonLabel, onLogin }) {
   const [email, onChangeEmail] = useState('');
   const [password, onChangePassword] = useState('');
   const themeContext = useContext(ThemeContext);
@@ -48,9 +46,9 @@ function LoginForm({label, onLogin, submitButtonLabel}) {
   const submitForm = () => {
     const user = {
       login: email,
-      password
-    }
-    onLogin && onLogin(user);
+      password,
+    };
+    onLogin(user);
   };
 
   return (
@@ -60,42 +58,43 @@ function LoginForm({label, onLogin, submitButtonLabel}) {
         <StyledTextInput
           name="email"
           type="email"
-          value={email}
+          value={'email@email.com'}
           placeholder={translations.signup_option_text1}
           placeholderTextColor={themeContext.colors.silver}
           onChangeText={onChangeEmail}
-          required />
+          required
+        />
       </FieldView>
       <FieldView>
         <Label>{translations.signup_option_title2}:</Label>
         <StyledTextInput
           name="password"
           type="password"
-          value={password}
+          value={'password'}
           placeholder={translations.signup_option_text2}
           placeholderTextColor={themeContext.colors.silver}
           onChangeText={onChangePassword}
           textContentType={'oneTimeCode'}
           secureTextEntry
           required
-          />
+        />
       </FieldView>
       <Footer>
-        <BasicButton
-          label={submitButtonLabel}
-          onPress={submitForm}
-        />
+        <BasicButton label={submitButtonLabel} onPress={submitForm} />
       </Footer>
     </Form>
   );
 }
 
 LoginForm.propTypes = {
-  label: PropTypes.string
+  label: PropTypes.string,
+  onLogin: PropTypes.func,
+  submitButtonLabel: PropTypes.string,
 };
 
 LoginForm.defaultProps = {
-  label: "Default Category"
+  label: 'Default Category',
+  onLogin: () => {},
 };
 
 export default LoginForm;

@@ -1,13 +1,11 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { register } from '../reducers/session';
 import { getSession } from '../hooks';
-import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import BasicButton from '../components/BasicButton';
 import LoginForm from '../components/LoginForm';
-import {translations} from '../constants/translations';
+import { translations } from '../constants/translations';
 
 const ScreenWrapper = styled.View`
   display: flex;
@@ -37,11 +35,11 @@ const Body = styled.View`
 
 function SignUp({ navigation }) {
   const dispatch = useDispatch();
-  const {errorMessage, isLoading} = getSession();
+  const { errorMessage /* isLoading*/ } = getSession();
 
   const signUp = (user) => {
     dispatch(register(user));
-  }
+  };
 
   return (
     <ScreenWrapper>

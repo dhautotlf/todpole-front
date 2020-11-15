@@ -1,9 +1,8 @@
 import React, { useState, useContext } from 'react';
-import { Button, Picker, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import styled, { ThemeContext } from 'styled-components/native';
 import PropTypes from 'prop-types';
-import {translations} from '../constants/translations';
+import { translations } from '../constants/translations';
 
 const Form = styled.View``;
 
@@ -16,17 +15,16 @@ const Label = styled.Text`
   font-size: 14px;
   line-height: 17px;
   margin-bottom: 10px;
-  color: ${props => props.theme.colors.black};
+  color: ${(props) => props.theme.colors.black};
 `;
 
 const StyledTextInput = styled.TextInput`
   padding: 10px;
   width: 320px;
   height: 44px;
-  border: 1px solid ${props => props.theme.colors.darkGray};
+  border: 1px solid ${(props) => props.theme.colors.darkGray};
   border-radius: 8px;
-  color: ${props => props.theme.colors.black};
-
+  color: ${(props) => props.theme.colors.black};
 `;
 
 const StyledDateTimePicker = styled(DateTimePicker)`
@@ -43,30 +41,34 @@ const GenderLabel = styled.Text`
   font-weight: bold;
   font-size: 14px;
   line-height: 17px;
-  color: ${props => props.selected ? props.theme.colors.whiteSmoke : props.theme.colors.black};
+  color: ${(props) =>
+    props.selected ? props.theme.colors.whiteSmoke : props.theme.colors.black};
 `;
 
 const GenderButton = styled.TouchableOpacity`
   padding: 10px;
-  background: ${props => props.selected ? props.theme.colors.darkGray : props.theme.colors.whiteSmoke};
+  background: ${(props) =>
+    props.selected
+      ? props.theme.colors.darkGray
+      : props.theme.colors.whiteSmoke};
   border-radius: 8px;
 `;
 
-function UserForm({label, onPress}) {
-  const [name, setName] = React.useState("");
+function UserForm() {
+  const [name, setName] = React.useState('');
   const [birthDate, setBirthDate] = useState(new Date(1598051730000));
-  const [gender, setGender] = useState("");
+  const [gender, setGender] = useState('');
   const themeContext = useContext(ThemeContext);
 
   const onDateChange = (event, selectedDate) => {
-   const currentDate = selectedDate || birthDate;
-   setBirthDate(currentDate);
- };
+    const currentDate = selectedDate || birthDate;
+    setBirthDate(currentDate);
+  };
 
- const onGenderSelect = (selectedGender) => {
-  const currentGender = selectedGender || gender;
-  setGender(currentGender);
-};
+  const onGenderSelect = (selectedGender) => {
+    const currentGender = selectedGender || gender;
+    setGender(currentGender);
+  };
 
   return (
     <Form>
@@ -78,8 +80,9 @@ function UserForm({label, onPress}) {
           value={name}
           placeholder={translations.createtoddler_name_text}
           placeholderTextColor={themeContext.colors.silver}
-          onChangeText={text => setName(text)}
-          required />
+          onChangeText={(text) => setName(text)}
+          required
+        />
       </FieldView>
       <FieldView>
         <Label>{translations.createtoddler_birthdate_title}:</Label>
@@ -96,26 +99,38 @@ function UserForm({label, onPress}) {
         <Label>{translations.createtoddler_gender_title}:</Label>
         <GenderView>
           <GenderButton
-            onPress={() => onGenderSelect(translations.createtoddler_gender_text1)}
+            onPress={() =>
+              onGenderSelect(translations.createtoddler_gender_text1)
+            }
             selected={gender === translations.createtoddler_gender_text1}
           >
-            <GenderLabel selected={gender === translations.createtoddler_gender_text1}>
+            <GenderLabel
+              selected={gender === translations.createtoddler_gender_text1}
+            >
               {translations.createtoddler_gender_text1}
             </GenderLabel>
           </GenderButton>
           <GenderButton
-            onPress={() => onGenderSelect(translations.createtoddler_gender_text2)}
+            onPress={() =>
+              onGenderSelect(translations.createtoddler_gender_text2)
+            }
             selected={gender === translations.createtoddler_gender_text2}
           >
-            <GenderLabel selected={gender === translations.createtoddler_gender_text2}>
+            <GenderLabel
+              selected={gender === translations.createtoddler_gender_text2}
+            >
               {translations.createtoddler_gender_text2}
             </GenderLabel>
           </GenderButton>
           <GenderButton
-            onPress={() => onGenderSelect(translations.createtoddler_gender_text3)}
+            onPress={() =>
+              onGenderSelect(translations.createtoddler_gender_text3)
+            }
             selected={gender === translations.createtoddler_gender_text3}
           >
-            <GenderLabel selected={gender === translations.createtoddler_gender_text3}>
+            <GenderLabel
+              selected={gender === translations.createtoddler_gender_text3}
+            >
               {translations.createtoddler_gender_text3}
             </GenderLabel>
           </GenderButton>
@@ -127,11 +142,11 @@ function UserForm({label, onPress}) {
 
 UserForm.propTypes = {
   label: PropTypes.string,
-  onPress: PropTypes.func
+  onPress: PropTypes.func,
 };
 
 UserForm.defaultProps = {
-  label: "Default Category"
+  label: 'Default Category',
 };
 
 export default UserForm;

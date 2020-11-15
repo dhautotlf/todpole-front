@@ -5,7 +5,7 @@ import styled from 'styled-components/native';
 import BasicButton from '../components/BasicButton';
 import UserForm from '../components/UserForm';
 import ImagePickerComponent from '../components/ImagePickerComponent';
-import {translations} from '../constants/translations';
+import { translations } from '../constants/translations';
 
 const StyledSafeAreaView = styled.SafeAreaView`
   flex: 1;
@@ -50,7 +50,7 @@ const Footer = styled.View`
 
 const SkipText = styled.Text`
   margin-bottom: 26px;
-  color: ${props => props.theme.colors.mediumGray};
+  color: ${(props) => props.theme.colors.mediumGray};
   font-weight: normal;
   font-size: 14px;
   line-height: 17px;
@@ -68,8 +68,13 @@ function CreateToddler({ navigation }) {
           <UserForm />
         </Body>
         <Footer>
-          <BasicButton label={translations.createtoddler_footer_button1} onPress={() => navigation.navigate('SignUp')}/>
-          <SkipText>{translations.createtoddler_footer_button2}</SkipText>
+          <BasicButton
+            label={translations.createtoddler_footer_button1}
+            onPress={() => navigation.navigate('SignUp')}
+          />
+          <SkipText onPress={() => navigation.navigate('SignUp')}>
+            {translations.createtoddler_footer_button2}
+          </SkipText>
         </Footer>
       </ScreenWrapper>
     </StyledSafeAreaView>
