@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { ActivityIndicator, Text } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { authenticate } from '../reducers/session';
 import { getSession } from '../hooks';
@@ -49,10 +49,12 @@ function SignIn() {
       </Header>
       <Body>
         {errorMessage ? <Text>{errorMessage}</Text> : null}
-        <LoginForm
-          onLogin={signIn}
-          submitButtonLabel={translations.signin_footer_button}
-        />
+        {isLoading ? <ActivityIndicator /> :
+          <LoginForm
+            onLogin={signIn}
+            submitButtonLabel={translations.signin_footer_button}
+          />
+        }
       </Body>
     </ScreenWrapper>
   );

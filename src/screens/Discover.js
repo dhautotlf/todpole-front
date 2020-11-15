@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   ActivityIndicator,
-  Image,
+  FlatList,
   SafeAreaView,
   ScrollView,
   Text,
@@ -14,7 +14,7 @@ import WelcomeCategory from '../components/WelcomeCategory';
 import { getActivities } from '../hooks';
 import { translations } from '../constants/translations';
 
-const StyledSafeAreaView = styled.SafeAreaView`
+const StyledSafeAreaView = styled(SafeAreaView)`
   flex: 1;
 `;
 
@@ -31,37 +31,24 @@ const ScreenWrapper = styled.ScrollView.attrs((props) => ({
   flex: 1;
 `;
 
-const SectionTitle = styled.Text`
+const SectionTitle = styled(Text)`
   font-weight: bold;
   font-size: 14px;
   line-height: 17px;
   margin-bottom: 15px;
 `;
 
-const Activities = styled.View`
+const Activities = styled(View)`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-evenly;
 `;
 
-const CategoriesWrapper = styled.View`
-  flex-direction: row;
-  flex: 1;
-`;
+const IdeasForYou = styled(FlatList)``;
 
 function Discover({ displayName }) {
   const { data = [], isLoading } = getActivities();
-
-  const listCategories = translations.discover_categories.map(
-    (category, index) => (
-      <WelcomeCategory
-        key={index}
-        title={category.title}
-        description={category.text}
-      />
-    ),
-  );
 
   const renderActivities = () => {
     const activities = data.map((d) => {
@@ -76,7 +63,12 @@ function Discover({ displayName }) {
       <ScreenWrapper>
         <View>
           <SectionTitle>{translations.discover_topic_title2}</SectionTitle>
-          <CategoriesWrapper>{listCategories}</CategoriesWrapper>
+          <IdeasForYou
+            horizontal
+            data={translations.discover_categories}
+            renderItem={({ item }) => <WelcomeCategory title={item.title} />}
+            keyExtractor={(item) => item.title}
+          />
         </View>
         <View>
           <SectionTitle>{translations.discover_topic_title3}</SectionTitle>

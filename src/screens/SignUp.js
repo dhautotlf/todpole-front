@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { ActivityIndicator, Text } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { register } from '../reducers/session';
 import { getSession } from '../hooks';
@@ -35,7 +35,7 @@ const Body = styled.View`
 
 function SignUp({ navigation }) {
   const dispatch = useDispatch();
-  const { errorMessage /* isLoading*/ } = getSession();
+  const { errorMessage, isLoading } = getSession();
 
   const signUp = (user) => {
     dispatch(register(user));
@@ -54,10 +54,12 @@ function SignUp({ navigation }) {
       </Header>
       <Body>
         {errorMessage ? <Text>{errorMessage}</Text> : null}
-        <LoginForm
-          onLogin={signUp}
-          submitButtonLabel={translations.signup_footer_button}
-        />
+        {isLoading ? <ActivityIndicator /> :
+          <LoginForm
+            onLogin={signUp}
+            submitButtonLabel={translations.signup_footer_button}
+          />
+        }
       </Body>
     </ScreenWrapper>
   );

@@ -10,7 +10,6 @@ const CategoryWrapper = styled.View`
 
 const TextWrapper = styled.View`
   display: flex;
-  flex: 1;
   flex-direction: column;
   width: 80px;
 `;
@@ -33,8 +32,7 @@ const ThumbnailImage = styled.Image`
   margin-bottom: 12px;
 `;
 
-function WelcomeCategory({ title, description }) {
-  console.log('title', title);
+function WelcomeCategory({ title }) {
   return (
     <CategoryWrapper>
       <ThumbnailImage
@@ -52,12 +50,10 @@ function WelcomeCategory({ title, description }) {
 
 WelcomeCategory.propTypes = {
   title: PropTypes.string,
-  description: PropTypes.string,
 };
 
 WelcomeCategory.defaultProps = {
   title: 'Default Category',
-  description: 'default text category',
 };
 
 export default WelcomeCategory;
