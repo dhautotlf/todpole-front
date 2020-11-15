@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, ActivityIndicator } from 'react-native';
+import { Text, View, ActivityIndicator, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import { getActivities } from '../hooks';
 
@@ -13,7 +13,18 @@ function Discover({ displayName }) {
       {isLoading || !data ? (
         <ActivityIndicator />
       ) : (
-        data.map((d) => <Text key={d.id}>{JSON.stringify(d)}</Text>)
+        data.map((d) => (
+          <View key={d.id}>
+            {d.activityImageList.map(({ url }) => (
+              <Image
+                key={url}
+                style={{ height: 50, width: 50, backgroundColor: 'pink' }}
+                source={{ uri: url }}
+              />
+            ))}
+            <Text>{JSON.stringify(d)}</Text>
+          </View>
+        ))
       )}
     </View>
   );
