@@ -12,6 +12,7 @@ import {translations} from '../constants/translations';
 const ScreenWrapper = styled.View`
   display: flex;
   flex: 1;
+  flex-direction: column;
   background: ${props => props.theme.colors.white};
 `;
 
@@ -32,11 +33,6 @@ const Body = styled.View`
   flex: 1;
   align-items: center;
   margin-top: 44px;
-`;
-
-
-const Footer = styled.View`
-  align-items: center;
 `;
 
 function SignUp({ navigation }) {

@@ -6,8 +6,18 @@ import Category from '../components/Category';
 import BasicButton from '../components/BasicButton';
 import { translations } from '../constants/translations';
 
-const ScreenWrapper = styled.View`
-  display: flex;
+const StyledSafeAreaView = styled.SafeAreaView`
+  flex: 1;
+`;
+
+const ScreenWrapper = styled.ScrollView.attrs(props => ({
+  contentContainerStyle: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between'
+    }
+}))`
+  background: ${props => props.theme.colors.white};
   flex: 1;
 `;
 
@@ -60,22 +70,24 @@ function Welcome({ navigation }) {
     ),
   );
   return (
-    <ScreenWrapper>
-      <Header>
-        <Title>{translations.welcome_header_title}</Title>
-        <Description>{translations.welcome_header_text}</Description>
-      </Header>
-      <CategoriesWrapper>{listCategories}</CategoriesWrapper>
-      <Footer>
-        <BasicButton
-          label={translations.welcome_footer_button1}
-          onPress={() => navigation.navigate('CreateToddler')}
-        />
-        <LoginText onPress={() => navigation.navigate('SignIn')}>
-          {translations.welcome_footer_button2}
-        </LoginText>
-      </Footer>
-    </ScreenWrapper>
+    <StyledSafeAreaView>
+      <ScreenWrapper>
+        <Header>
+          <Title>{translations.welcome_header_title}</Title>
+          <Description>{translations.welcome_header_text}</Description>
+        </Header>
+        <CategoriesWrapper>{listCategories}</CategoriesWrapper>
+        <Footer>
+          <BasicButton
+            label={translations.welcome_footer_button1}
+            onPress={() => navigation.navigate('CreateToddler')}
+          />
+          <LoginText onPress={() => navigation.navigate('SignIn')}>
+            {translations.welcome_footer_button2}
+          </LoginText>
+        </Footer>
+      </ScreenWrapper>
+    </StyledSafeAreaView>
   );
 }
 

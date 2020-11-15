@@ -6,7 +6,11 @@ import BasicButton from '../components/BasicButton';
 import {translations} from '../constants/translations';
 
 const Form = styled.View`
+  display: flex;
+  flex-direction: column;
   flex: 1;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const FieldView = styled.View`
@@ -33,6 +37,7 @@ const StyledTextInput = styled.TextInput`
 
 const Footer = styled.View`
   align-items: center;
+  margin-top: auto;
 `;
 
 function LoginForm({label, onLogin, submitButtonLabel}) {
