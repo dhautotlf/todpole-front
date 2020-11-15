@@ -10,7 +10,8 @@ import { translations } from '../constants/translations';
 const ScreenWrapper = styled.View`
   display: flex;
   flex: 1;
-  background: ${(props) => props.theme.colors.white};
+  flex-direction: column;
+  background: ${props => props.theme.colors.white};
 `;
 
 const Header = styled.View`

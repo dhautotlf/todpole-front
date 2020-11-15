@@ -1,19 +1,25 @@
 import React from 'react';
+import { Text, SafeAreaView, ScrollView } from 'react-native';
+import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import BasicButton from '../components/BasicButton';
 import UserForm from '../components/UserForm';
 import ImagePickerComponent from '../components/ImagePickerComponent';
 import { translations } from '../constants/translations';
 
-const ScreenWrapper = styled.ScrollView.attrs(() => ({
+const StyledSafeAreaView = styled.SafeAreaView`
+  flex: 1;
+`;
+
+const ScreenWrapper = styled.ScrollView.attrs(props => ({
   contentContainerStyle: {
-    display: 'flex',
-    flexDirection: 'column',
-    flex: 1,
-    justifyContent: 'space-between',
-  },
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between'
+    }
 }))`
-  background: ${(props) => props.theme.colors.white};
+  background: ${props => props.theme.colors.white};
+  flex: 1;
 `;
 
 const Header = styled.View`
@@ -52,24 +58,26 @@ const SkipText = styled.Text`
 
 function CreateToddler({ navigation }) {
   return (
-    <ScreenWrapper>
-      <Header>
-        <Description>{translations.createtoddler_header_text}</Description>
-      </Header>
-      <Body>
-        <ImagePickerComponent />
-        <UserForm />
-      </Body>
-      <Footer>
-        <BasicButton
-          label={translations.createtoddler_footer_button1}
-          onPress={() => navigation.navigate('SignUp')}
-        />
-        <SkipText onPress={() => navigation.navigate('SignUp')}>
-          {translations.createtoddler_footer_button2}
-        </SkipText>
-      </Footer>
-    </ScreenWrapper>
+    <StyledSafeAreaView>
+      <ScreenWrapper>
+        <Header>
+          <Description>{translations.createtoddler_header_text}</Description>
+        </Header>
+        <Body>
+          <ImagePickerComponent/>
+          <UserForm />
+        </Body>
+        <Footer>
+          <BasicButton
+            label={translations.createtoddler_footer_button1}
+            onPress={() => navigation.navigate('SignUp')}
+          />
+          <SkipText onPress={() => navigation.navigate('SignUp')}>
+            {translations.createtoddler_footer_button2}
+          </SkipText>
+        </Footer>
+      </ScreenWrapper>
+    </StyledSafeAreaView>
   );
 }
 
