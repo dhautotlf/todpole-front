@@ -1,5 +1,12 @@
 import React from 'react';
-import { ActivityIndicator, Image, SafeAreaView, ScrollView, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import Activity from '../components/Activity';
@@ -11,16 +18,16 @@ const StyledSafeAreaView = styled.SafeAreaView`
   flex: 1;
 `;
 
-const ScreenWrapper = styled.ScrollView.attrs(props => ({
+const ScreenWrapper = styled.ScrollView.attrs((props) => ({
   contentContainerStyle: {
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'space-between',
-      paddingLeft: 17,
-      paddingRight: 17
-    }
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    paddingLeft: 17,
+    paddingRight: 17,
+  },
 }))`
-  background: ${props => props.theme.colors.white};
+  background: ${(props) => props.theme.colors.white};
   flex: 1;
 `;
 
@@ -58,20 +65,10 @@ function Discover({ displayName }) {
 
   const renderActivities = () => {
     const activities = data.map((d) => {
-      const img = d.activityImageList.filter(image => image.isMain)[0];
-      return(
-        <Activity
-          key={d.id}
-          img={img}
-          title={d.name}
-        />
-      );
-    })
-    return (
-      <Activities>
-        {activities}
-      </Activities>
-    );
+      const img = d.activityImageList.filter((image) => image.isMain)[0];
+      return <Activity key={d.id} img={img} title={d.name} />;
+    });
+    return <Activities>{activities}</Activities>;
   };
 
   return (
@@ -83,7 +80,7 @@ function Discover({ displayName }) {
         </View>
         <View>
           <SectionTitle>{translations.discover_topic_title3}</SectionTitle>
-          {(isLoading || !data) ? <ActivityIndicator /> : renderActivities()}
+          {isLoading || !data ? <ActivityIndicator /> : renderActivities()}
         </View>
       </ScreenWrapper>
     </StyledSafeAreaView>
@@ -91,11 +88,11 @@ function Discover({ displayName }) {
 }
 
 Discover.propTypes = {
-  displayName: PropTypes.string
+  displayName: PropTypes.string,
 };
 
 Discover.defaultProps = {
-  displayName: 'Discover'
+  displayName: 'Discover',
 };
 
 export default Discover;
