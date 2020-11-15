@@ -35,7 +35,7 @@ const Body = styled.View`
 
 function SignIn() {
   const dispatch = useDispatch();
-  const { errorMessage } = getSession();
+  const { errorMessage, isLoading } = getSession();
 
   const signIn = (credentials) => {
     dispatch(authenticate(credentials));
