@@ -36,7 +36,6 @@ const HomeTab = () => (
 
 const Navigator = () => {
   const { data: isSignedIn, isLoading } = isAuthenticated();
-  console.log();
   if (isLoading) return <ActivityIndicator />;
   return (
     <NavigationContainer>
