@@ -75,7 +75,7 @@ export const translations = {
   discover_topic_title2: 'Idea For You',
   discover_categories: [
     {
-      title: 'Physical'
+      title: 'Physical',
     },
     {
       title: 'Cognitive',
@@ -132,4 +132,5 @@ export const translations = {
   activitydetail_topic_title1: 'Material',
   activitydetail_topic_title2: 'Description',
   activitydetail_topic_title3: 'Review',
+  activitydetail_topic_age: 'months',
 };

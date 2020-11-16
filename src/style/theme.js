@@ -27,6 +27,7 @@ const colors = {
   silver: '#C4C4C4',
   mediumGray: '#979797',
   darkGray: '#5C5C5C',
+  anotherGray: '#DADADA',
 };
 
 export default {
