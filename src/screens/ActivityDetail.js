@@ -2,21 +2,18 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import PropTypes from 'prop-types';
 
-function CreateActivity({ displayName }) {
+function ActivityDetail({ route }) {
+  const { id } = route.params;
+
   return (
     <View>
-      <Text>{displayName}</Text>
       <Text onPress={() => {}}>NEXT</Text>
     </View>
   );
 }
 
-CreateActivity.propTypes = {
-  displayName: PropTypes.string,
-};
+ActivityDetail.propTypes = {};
 
-CreateActivity.defaultProps = {
-  displayName: 'CreateActivity',
-};
+ActivityDetail.defaultProps = {};
 
-export default CreateActivity;
+export default ActivityDetail;

@@ -1,22 +1,56 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native';
+import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
+import MenuArea from '../components/MenuArea';
+import { translations } from '../constants/translations';
 
-function Saved({ displayName }) {
+const StyledSafeAreaView = styled(SafeAreaView)`
+  flex: 1;
+`;
+
+const ScreenWrapper = styled.ScrollView.attrs((props) => ({
+  contentContainerStyle: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    paddingLeft: 17,
+    paddingRight: 17,
+  },
+}))`
+  background: ${(props) => props.theme.colors.white};
+  flex: 1;
+`;
+
+const Header = styled.View`
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+`;
+
+const SearchArea = styled.View``;
+
+function Saved() {
   return (
-    <View>
-      <Text>{displayName}</Text>
-      <Text onPress={() => {}}>NEXT</Text>
-    </View>
+    <StyledSafeAreaView>
+      <ScreenWrapper>
+        <Header>
+          <MenuArea screen="saved"/>
+          <SearchArea>
+          </SearchArea>
+        </Header>
+      </ScreenWrapper>
+    </StyledSafeAreaView>
   );
 }
 
-Saved.propTypes = {
-  displayName: PropTypes.string,
-};
+Saved.propTypes = {};
 
-Saved.defaultProps = {
-  displayName: 'Saved',
-};
+Saved.defaultProps = {};
 
 export default Saved;

@@ -59,7 +59,7 @@ const HomeTab = () => {
       />
       <Tab.Screen
         name="Saved"
-        component={User}
+        component={Saved}
         options={{
           tabBarIcon: UserIcon,
         }}

@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
+import { TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
 
 const ActivityWrapper = styled.View`
@@ -34,17 +36,24 @@ const ThumbnailImage = styled.Image`
   border-radius: 8px;
 `;
 
-function Activity({ img, title }) {
+function Activity({ id, img, title }) {
+  const { navigate } = useNavigation();
+  const goToActivityPdp = () => {
+    navigate('ActivityDetail', { id });
+  };
+
   return (
     <ActivityWrapper>
-      <ThumbnailImage
-        source={{
-          uri: img.url
-        }}
-      ></ThumbnailImage>
-      <Caption>
-        <Title>{title}</Title>
-      </Caption>
+      <TouchableOpacity onPress={goToActivityPdp}>
+        <ThumbnailImage
+          source={{
+            uri: img.url,
+          }}
+        ></ThumbnailImage>
+        <Caption>
+          <Title>{title}</Title>
+        </Caption>
+      </TouchableOpacity>
     </ActivityWrapper>
   );
 }

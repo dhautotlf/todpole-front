@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import {
   View,
@@ -20,22 +20,15 @@ const DiscoverButton = styled.View`
 
 const SavedButton = styled.View``;
 
-function MenuArea() {
-  const [selectedButton, setSelectedButton] = useState('discover');
-  const navigation = useNavigation();
-
-  useCallback(() => {
-      setValue(v => !v);
-    }, []);
+function MenuArea({ screen }) {
+  const { navigate } = useNavigation();
 
   const onDiscoverClicked = useCallback(() => {
-    setSelectedButton('discover');
-    navigation.navigate('Discover');
+    navigate('Discover');
   }, []);
 
   const onSavedClicked = useCallback(() => {
-    setSelectedButton('saved');
-    navigation.navigate('Saved')
+    navigate('Saved');
   }, []);
 
   return (
@@ -44,14 +37,14 @@ function MenuArea() {
         <BasicButton
           label={translations.saved_header_title1}
           onPress={onDiscoverClicked}
-          selected={selectedButton === "discover"}
+          selected={screen === "discover"}
         />
       </DiscoverButton>
       <SavedButton>
         <BasicButton
           label={translations.saved_header_title2}
           onPress={onSavedClicked}
-          selected={selectedButton === "saved"}
+          selected={screen === "saved"}
         />
       </SavedButton>
     </Wrapper>

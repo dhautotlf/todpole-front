@@ -72,7 +72,7 @@ function Discover() {
   const renderActivities = () => {
     const activities = data.map((d) => {
       const img = d.activityImageList.filter((image) => image.isMain)[0];
-      return <Activity key={d.id} img={img} title={d.name} />;
+      return <Activity key={d.id} id={d.id} img={img} title={d.name} />;
     });
     return <Activities>{activities}</Activities>;
   };
@@ -88,7 +88,7 @@ function Discover() {
     <StyledSafeAreaView>
       <ScreenWrapper>
         <Header>
-          <MenuArea/>
+          <MenuArea screen="discover"/>
           <SearchArea>
           </SearchArea>
         </Header>

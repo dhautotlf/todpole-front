@@ -7,6 +7,12 @@ const INITIAL_STATE = {
   data: null,
 };
 
+const normalize = (activities) =>
+  activities.reduce(
+    (acc, activity) => ({ ...acc, [activity.id]: activity }),
+    {},
+  );
+
 export default handleActions(
   {
     [activitiesAction.getActivitiesStart]: (state) => ({
@@ -19,7 +25,7 @@ export default handleActions(
     ) => ({
       ...state,
       isLoading: false,
-      data: payload,
+      data: normalize(payload),
     }),
     [combineActions(activitiesAction.getActivitiesError)]: (
       state,
@@ -35,7 +41,10 @@ export default handleActions(
 
 // SELECTORS
 
-export const getActivities = ({ activities }) => activities;
+export const getActivities = ({ activities }) => ({
+  ...activities,
+  data: activities.data ? Object.values(activities.data) : INITIAL_STATE.data,
+});
 
 // THUNKS
 
