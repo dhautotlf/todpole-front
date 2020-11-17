@@ -6,7 +6,7 @@ export default function () {
   const dispatch = useDispatch();
   const activities = useSelector(getActivities);
   useEffect(() => {
-    dispatch(fetchActivities());
+    if (!activities.isLoading && !activities.data) dispatch(fetchActivities());
   }, [dispatch]);
 
   return activities;
