@@ -38,14 +38,13 @@ const ThumbnailImage = styled.Image`
   margin-right: 22px;
 `;
 
-function Category({ title, description }) {
+function Category({ title, description, image }) {
   return (
     <CategoryWrapper>
       <ThumbnailImage
-        source={{
-          uri:
-            'https://www.theladders.com/wp-content/uploads/Lion_030818-800x450.jpg',
-        }}
+        source={
+          image
+        }
       ></ThumbnailImage>
       <TextWrapper>
         <Title>{title}</Title>
