@@ -32,14 +32,11 @@ const ThumbnailImage = styled.Image`
   margin-bottom: 12px;
 `;
 
-function WelcomeCategory({ title }) {
+function WelcomeCategory({ title, image }) {
   return (
     <CategoryWrapper>
       <ThumbnailImage
-        source={{
-          uri:
-            'https://www.theladders.com/wp-content/uploads/Lion_030818-800x450.jpg',
-        }}
+        source={image}
       ></ThumbnailImage>
       <TextWrapper>
         <Title>{title}</Title>
