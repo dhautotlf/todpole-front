@@ -11,14 +11,14 @@ const StyledSafeAreaView = styled.SafeAreaView`
   flex: 1;
 `;
 
-const ScreenWrapper = styled.ScrollView.attrs(props => ({
+const ScreenWrapper = styled.ScrollView.attrs((props) => ({
   contentContainerStyle: {
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'space-between'
-    }
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
 }))`
-  background: ${props => props.theme.colors.white};
+  background: ${(props) => props.theme.colors.white};
   flex: 1;
 `;
 
@@ -64,7 +64,7 @@ function CreateToddler({ navigation }) {
           <Description>{translations.createtoddler_header_text}</Description>
         </Header>
         <Body>
-          <ImagePickerComponent/>
+          <ImagePickerComponent />
           <UserForm />
         </Body>
         <Footer>

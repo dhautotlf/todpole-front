@@ -1,14 +1,12 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  Text,
-  View,
-} from 'react-native';
+import { SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import MenuArea from '../components/MenuArea';
 import { translations } from '../constants/translations';
+import BasicButton from '../components/BasicButton'
+import { signOut } from '../reducers/session';
 
 const StyledSafeAreaView = styled(SafeAreaView)`
   flex: 1;
@@ -36,12 +34,18 @@ const Header = styled.View`
 const SearchArea = styled.View``;
 
 function Saved() {
+  const dispatch = useDispatch();
+  const logout = () => dispatch(signOut());
+
   return (
     <StyledSafeAreaView>
       <ScreenWrapper>
         <Header>
-          <MenuArea screen="saved"/>
+          <MenuArea screen="saved" />
           <SearchArea>
+            <ScreenWrapper>
+              <BasicButton label={'logout'} onPress={logout} />
+            </ScreenWrapper>
           </SearchArea>
         </Header>
       </ScreenWrapper>

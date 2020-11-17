@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
-import { getActivities } from '../hooks';
+import { getActivity } from '../hooks';
 import { translations } from '../constants/translations';
 import ActivitySummary from '../components/ActivitySummary';
 import ActivityDetails from '../components/ActivityDetails';
@@ -63,9 +63,9 @@ const Body = styled.View`
 
 function ActivityDetail({ route }) {
   const { id, url } = route.params;
-  const { data = [], isLoading } = getActivities();
-  const activityData = data[id];
-  if (isLoading || !data || !activityData) return null;
+  const activityData = getActivity(id);
+
+  const { activityImageList } = activityData;
 
   return (
     <ScreenWrapper>
@@ -75,7 +75,7 @@ function ActivityDetail({ route }) {
         </AgeDetails>
         <ActivityImage
           source={{
-            uri: url,
+            uri: url || activityImageList.find(({ isMain }) => isMain).url,
           }}
         ></ActivityImage>
       </Header>

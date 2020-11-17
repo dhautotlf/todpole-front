@@ -49,12 +49,14 @@ function SignIn() {
       </Header>
       <Body>
         {errorMessage ? <Text>{errorMessage}</Text> : null}
-        {isLoading ? <ActivityIndicator /> :
+        {isLoading ? (
+          <ActivityIndicator />
+        ) : (
           <LoginForm
             onLogin={signIn}
             submitButtonLabel={translations.signin_footer_button}
           />
-        }
+        )}
       </Body>
     </ScreenWrapper>
   );
