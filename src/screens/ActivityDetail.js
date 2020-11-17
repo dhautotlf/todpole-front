@@ -5,12 +5,14 @@ import PropTypes from 'prop-types';
 import { getActivities } from '../hooks';
 import { translations } from '../constants/translations';
 import ActivitySummary from '../components/ActivitySummary';
+import ActivityDetails from '../components/ActivityDetails';
 
 const ScreenWrapper = styled.ScrollView.attrs((props) => ({
   contentContainerStyle: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
+    flex: 1,
   },
 }))`
   background: ${(props) => props.theme.colors.white};
@@ -20,7 +22,6 @@ const ScreenWrapper = styled.ScrollView.attrs((props) => ({
 const Header = styled.View`
   display: flex;
   flex-direction: row;
-  flex: 1;
   position: relative;
   justify-content: center;
   margin-top: ${(props) => props.theme.spacing.tiny}px;
@@ -56,9 +57,8 @@ const Body = styled.View`
   display: flex;
   flex-direction: column;
   flex: 1;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  position: relative;
 `;
 
 function ActivityDetail({ route }) {
@@ -83,6 +83,7 @@ function ActivityDetail({ route }) {
           name={activityData.name}
           category={activityData.category}
         />
+        <ActivityDetails activityData={activityData} />
       </Body>
     </ScreenWrapper>
   );

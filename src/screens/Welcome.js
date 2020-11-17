@@ -81,6 +81,7 @@ function Welcome({ navigation }) {
           <BasicButton
             label={translations.welcome_footer_button1}
             onPress={() => navigation.navigate('CreateToddler')}
+            selected
           />
           <LoginText onPress={() => navigation.navigate('SignIn')}>
             {translations.welcome_footer_button2}

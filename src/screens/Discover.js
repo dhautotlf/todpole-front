@@ -80,7 +80,7 @@ function Discover() {
   const getTrendingData = () => {
     return data.map((d) => {
       const img = d.activityImageList.filter((image) => image.isMain)[0];
-      return { title: d.name, url: img.url };
+      return { id: d.id, title: d.name, url: img.url };
     });
   };
 
@@ -101,9 +101,14 @@ function Discover() {
                 horizontal
                 data={getTrendingData()}
                 renderItem={({ item }) => (
-                  <Activity title={item.title} img={item} />
+                  <Activity
+                    key={item.id}
+                    id={item.id}
+                    title={item.title}
+                    img={item}
+                  />
                 )}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => item.title}
               />
             </TrendingContainer>
             <IdeasContainer>
@@ -114,7 +119,7 @@ function Discover() {
                 renderItem={({ item }) => (
                   <WelcomeCategory title={item.title} />
                 )}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => item.title}
               />
             </IdeasContainer>
             <MoreSection>

@@ -74,6 +74,7 @@ export const restoreSession = () => {
       if (!user) throw Error('Session Invalid or Expired');
       dispatch(sessionAction.sessionRestoreSuccess(session));
     } catch (error) {
+      AuthHeader.destroyInstance();
       dispatch(sessionAction.sessionRestoreError({ error }));
     }
   };
