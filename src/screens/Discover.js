@@ -72,7 +72,7 @@ function Discover() {
   const renderActivities = () => {
     const activities = data.map((d) => {
       const img = d.activityImageList.filter((image) => image.isMain)[0];
-      return <Activity key={d.id} id={d.id} img={img} title={d.name} />;
+      return <Activity key={`ALL${d.id}`} id={d.id} img={img} title={d.name} />;
     });
     return <Activities>{activities}</Activities>;
   };
@@ -102,13 +102,12 @@ function Discover() {
                 data={getTrendingData()}
                 renderItem={({ item }) => (
                   <Activity
-                    key={item.id}
                     id={item.id}
                     title={item.title}
                     img={item}
                   />
                 )}
-                keyExtractor={(item) => item.title}
+                keyExtractor={(item) => `TRENDING-${item.id}`}
               />
             </TrendingContainer>
             <IdeasContainer>
@@ -119,7 +118,7 @@ function Discover() {
                 renderItem={({ item }) => (
                   <WelcomeCategory title={item.title} />
                 )}
-                keyExtractor={(item) => item.title}
+                keyExtractor={({ title }) => `IDEAS-${title}`}
               />
             </IdeasContainer>
             <MoreSection>
