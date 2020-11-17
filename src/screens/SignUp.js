@@ -11,7 +11,7 @@ const ScreenWrapper = styled.View`
   display: flex;
   flex: 1;
   flex-direction: column;
-  background: ${props => props.theme.colors.white};
+  background: ${(props) => props.theme.colors.white};
 `;
 
 const Header = styled.View`
@@ -54,12 +54,14 @@ function SignUp({ navigation }) {
       </Header>
       <Body>
         {errorMessage ? <Text>{errorMessage}</Text> : null}
-        {isLoading ? <ActivityIndicator /> :
+        {isLoading ? (
+          <ActivityIndicator />
+        ) : (
           <LoginForm
             onLogin={signUp}
             submitButtonLabel={translations.signup_footer_button}
           />
-        }
+        )}
       </Body>
     </ScreenWrapper>
   );

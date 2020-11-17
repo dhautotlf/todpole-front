@@ -8,9 +8,7 @@ const StyledButton = styled.TouchableOpacity`
   padding: 10px 30px;
   margin-bottom: 15px;
   background: ${(props) =>
-    props.selected
-      ? props.theme.colors.green
-      : props.theme.colors.lightGray};
+    props.selected ? props.theme.colors.green : props.theme.colors.lightGray};
 `;
 
 const Label = styled.Text`
@@ -35,12 +33,12 @@ function BasicButton({ label, onPress, selected }) {
 BasicButton.propTypes = {
   label: PropTypes.string,
   onPress: PropTypes.func,
-  selected: PropTypes.bool
+  selected: PropTypes.bool,
 };
 
 BasicButton.defaultProps = {
   label: 'Default Category',
-  selected: false
+  selected: false,
 };
 
 BasicButton.StyledButton = StyledButton;

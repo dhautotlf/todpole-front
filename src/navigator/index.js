@@ -32,7 +32,7 @@ const UnAuthenticatedStack = () => (
 );
 
 const DiscoverStack = () => (
-  <Stack.Navigator>
+  <Stack.Navigator screenOptions={hideHeader}>
     <Stack.Screen name="Discover" component={Discover} />
     <Stack.Screen name="ActivityDetail" component={ActivityDetail} />
   </Stack.Navigator>

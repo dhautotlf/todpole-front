@@ -65,7 +65,6 @@ function ActivityDetail({ route }) {
   const { id, url } = route.params;
   const { data = [], isLoading } = getActivities();
   const activityData = data[id];
-  console.log('activityData', activityData);
 
   return (
     <ScreenWrapper>

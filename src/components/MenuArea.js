@@ -1,8 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components/native';
-import {
-  View,
-} from 'react-native';
+import { View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import BasicButton from '../components/BasicButton';
 import PropTypes from 'prop-types';
@@ -15,7 +13,7 @@ const Wrapper = styled.View`
 `;
 
 const DiscoverButton = styled.View`
-    margin-right: 13px;
+  margin-right: 13px;
 `;
 
 const SavedButton = styled.View``;
@@ -37,14 +35,14 @@ function MenuArea({ screen }) {
         <BasicButton
           label={translations.saved_header_title1}
           onPress={onDiscoverClicked}
-          selected={screen === "discover"}
+          selected={screen === 'discover'}
         />
       </DiscoverButton>
       <SavedButton>
         <BasicButton
           label={translations.saved_header_title2}
           onPress={onSavedClicked}
-          selected={screen === "saved"}
+          selected={screen === 'saved'}
         />
       </SavedButton>
     </Wrapper>
