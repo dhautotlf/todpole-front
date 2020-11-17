@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Text, View } from 'react-native';
 import PropTypes from 'prop-types';
 import TimerIcon from '../assets/icons/timer.svg';
 import StarIcon from '../assets/icons/star.svg';
@@ -10,13 +10,10 @@ const ActivitySummaryWrapper = styled.View`
   display: flex;
   flex-direction: column;
   width: 300px;
-  margin-right: 10px;
-  margin-bottom: 23px;
   border-radius: 8px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
   background: ${(props) => props.theme.colors.white};
-  position: absolute;
-  top: -20px;
+  margin: -20px 10px 20px 0px;
 `;
 
 const ActivityTitle = styled.Text`
@@ -31,7 +28,6 @@ const ActivityTitle = styled.Text`
 
 const ActivityDetails = styled.View`
   display: flex;
-  flex: 1;
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-evenly;
@@ -45,18 +41,35 @@ const ActivityDuration = styled.View`
   align-items: center;
 `;
 
-const ActivityCategory = styled.View`
-  display: flex;
-  flex: 1;
+const DurationTextWrapper = styled.View`
   flex-direction: column;
-  align-items: center;
+  justify-content: center;
 `;
 
-const ActivityRating = styled.View`
-  display: flex;
+const DurationText = styled.Text`
+  text-transform: capitalize;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  padding: ${(props) => props.theme.spacing.small}px 0px;
+`;
+
+const ActivityCategory = styled(ActivityDuration)``;
+
+const CategoryTextWrapper = styled(DurationTextWrapper)`
   flex: 1;
-  flex-direction: column;
-  align-items: center;
+`;
+
+const CategoryText = styled(DurationText)``;
+
+const ActivityRating = styled(ActivityDuration)``;
+
+const RatingTextWrapper = styled(DurationTextWrapper)``;
+
+const RatingText = styled(DurationText)`
+  text-transform: capitalize;
+  padding: ${(props) => props.theme.spacing.small}px 0px;
 `;
 
 function ActivitySummary({ name, category, duration, rating }) {
@@ -65,16 +78,22 @@ function ActivitySummary({ name, category, duration, rating }) {
       <ActivityTitle>{name}</ActivityTitle>
       <ActivityDetails>
         <ActivityDuration>
-          <TimerIcon />
-          <Text>{duration}</Text>
+          <TimerIcon width={22} height={21} />
+          <DurationTextWrapper>
+            <DurationText>{`${duration} min`}</DurationText>
+          </DurationTextWrapper>
         </ActivityDuration>
         <ActivityCategory>
-          <CategoryIcon />
-          <Text>{category}</Text>
+          <CategoryIcon width={22} height={21} />
+          <CategoryTextWrapper>
+            <CategoryText>{category}</CategoryText>
+          </CategoryTextWrapper>
         </ActivityCategory>
         <ActivityRating>
-          <StarIcon />
-          <Text>{rating}</Text>
+          <StarIcon width={22} height={21} />
+          <RatingTextWrapper>
+            <RatingText>{rating}</RatingText>
+          </RatingTextWrapper>
         </ActivityRating>
       </ActivityDetails>
     </ActivitySummaryWrapper>

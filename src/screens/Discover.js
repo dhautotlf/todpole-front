@@ -80,26 +80,34 @@ function Discover() {
   const getTrendingData = () => {
     return data.map((d) => {
       const img = d.activityImageList.filter((image) => image.isMain)[0];
-      return {title: d.name, url: img.url};
+      return { id: d.id, title: d.name, url: img.url };
     });
-  }
+  };
 
   return (
     <StyledSafeAreaView>
       <ScreenWrapper>
         <Header>
-          <MenuArea screen="discover"/>
-          <SearchArea>
-          </SearchArea>
+          <MenuArea screen="discover" />
+          <SearchArea></SearchArea>
         </Header>
-        {isLoading || !data ? <ActivityIndicator /> :
-          (<>
+        {isLoading || !data ? (
+          <ActivityIndicator />
+        ) : (
+          <>
             <TrendingContainer>
               <SectionTitle>{translations.discover_topic_title1}</SectionTitle>
               <IdeasForYou
                 horizontal
                 data={getTrendingData()}
-                renderItem={({ item }) => <Activity title={item.title} img={item}/>}
+                renderItem={({ item }) => (
+                  <Activity
+                    key={item.id}
+                    id={item.id}
+                    title={item.title}
+                    img={item}
+                  />
+                )}
                 keyExtractor={(item) => item.title}
               />
             </TrendingContainer>
@@ -108,7 +116,9 @@ function Discover() {
               <IdeasForYou
                 horizontal
                 data={translations.discover_categories}
-                renderItem={({ item }) => <WelcomeCategory title={item.title} />}
+                renderItem={({ item }) => (
+                  <WelcomeCategory title={item.title} />
+                )}
                 keyExtractor={(item) => item.title}
               />
             </IdeasContainer>

@@ -65,7 +65,7 @@ function LoginForm({ submitButtonLabel, onLogin }) {
           <StyledTextInput
             name="email"
             type="email"
-            value={email}
+            value={'test@test.com'}
             placeholder={translations.signup_option_text1}
             placeholderTextColor={themeContext.colors.silver}
             onChangeText={onChangeEmail}
@@ -88,7 +88,7 @@ function LoginForm({ submitButtonLabel, onLogin }) {
         </FieldView>
       </FieldsContainer>
       <Footer>
-        <BasicButton label={submitButtonLabel} onPress={submitForm} />
+        <BasicButton label={submitButtonLabel} onPress={submitForm} selected />
       </Footer>
     </Form>
   );

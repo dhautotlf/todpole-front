@@ -10,14 +10,14 @@ const StyledSafeAreaView = styled.SafeAreaView`
   flex: 1;
 `;
 
-const ScreenWrapper = styled.ScrollView.attrs(props => ({
+const ScreenWrapper = styled.ScrollView.attrs((props) => ({
   contentContainerStyle: {
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'space-between'
-    }
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
 }))`
-  background: ${props => props.theme.colors.white};
+  background: ${(props) => props.theme.colors.white};
   flex: 1;
 `;
 
@@ -81,6 +81,7 @@ function Welcome({ navigation }) {
           <BasicButton
             label={translations.welcome_footer_button1}
             onPress={() => navigation.navigate('CreateToddler')}
+            selected
           />
           <LoginText onPress={() => navigation.navigate('SignIn')}>
             {translations.welcome_footer_button2}
