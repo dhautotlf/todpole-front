@@ -1,10 +1,10 @@
-import React from 'react';
-import { Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Text } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import { postActivity } from '../reducers/activities';
-import { getSession } from '../hooks';
 import BasicButton from '../components/BasicButton';
 
 const ScreenWrapper = styled.View`
@@ -34,31 +34,40 @@ const Body = styled.View`
 `;
 
 function CreateActivity({ displayName }) {
-  const dispatch = useDispatch();
-  const { errorMessage, isLoading } = getSession();
+  const { navigate } = useNavigation();
+  const [errorMessage, setError] = useState('');
 
-  const createActivity = (activity) => {
+  const dispatch = useDispatch();
+
+  const createActivity = async () => {
     // Mock - to be replaced by activity parameter
-    dispatch(
-      postActivity({
-        category: 'PHYSICAL',
-        name: 'test name variable',
-        ageMin: 1,
-        ageMax: 2,
-        timingMin: 20,
-        timingMax: 10,
-        description: 'This is a description',
-        url: 'This is an URL',
-        activityImageList: [
-          {
-            url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyezISI3nJQy6yoyXrTELnHL9i-mfuXQONTQ&usqp=CAU',
-          },
-          {
-            url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROtCNC9x1c1OT-jueYQqgYosRHNOh3WOa7zg&usqp=CAU',
-          },
-        ],
-      }),
-    );
+    try {
+      const a = await dispatch(
+        postActivity({
+          category: 'PHYSICAL',
+          name: 'test name variable',
+          ageMin: 1,
+          ageMax: 2,
+          timingMin: 20,
+          timingMax: 10,
+          description: 'This is a description',
+          url: 'This is an URL',
+          activityImageList: [
+            {
+              url:
+                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyezISI3nJQy6yoyXrTELnHL9i-mfuXQONTQ&usqp=CAU',
+            },
+            {
+              url:
+                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROtCNC9x1c1OT-jueYQqgYosRHNOh3WOa7zg&usqp=CAU',
+            },
+          ],
+        }),
+      );
+      navigate('ActivityDetail', { id: a.id });
+    } catch (error) {
+      setError(error);
+    }
   };
 
   const submitButtonLabel = 'SUBMIT';

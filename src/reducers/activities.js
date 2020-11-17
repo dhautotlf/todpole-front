@@ -36,22 +36,22 @@ export default handleActions(
       isLoading: false,
       error: payload.error,
     }),
-    [activitiesAction.createActivityStart]: (state) => ({
+    [combineActions(activitiesAction.createActivityStart)]: (state) => ({
       ...state,
       isLoading: true,
     }),
-    [combineActions(activitiesAction.createActivitySuccess)]: (
-      state,
-      { payload },
-    ) => ({
+    [combineActions(
+      activitiesAction.createActivitySuccess,
+      activitiesAction.getActivitySuccess,
+    )]: (state, { payload }) => ({
       ...state,
       isLoading: false,
-      data: { ...state.data, ...{ [payload.id]: payload } },
+      data: { ...state.data, [payload.id]: payload },
     }),
-    [combineActions(activitiesAction.createActivityError)]: (
-      state,
-      { payload },
-    ) => ({
+    [combineActions(
+      activitiesAction.createActivityError,
+      activitiesAction.getActivityError,
+    )]: (state, { payload }) => ({
       ...state,
       isLoading: false,
       error: payload.error,
@@ -66,6 +66,8 @@ export const getActivities = ({ activities }) => ({
   ...activities,
   data: activities.data ? Object.values(activities.data) : INITIAL_STATE.data,
 });
+
+export const getActivity = ({ activities }, id) => activities.data[id];
 
 // THUNKS
 
@@ -84,6 +86,20 @@ export const fetchActivities = () => {
   };
 };
 
+export const fetchActivity = (id) => {
+  return async (dispatch) => {
+    dispatch(activitiesAction.getActivityStart());
+    try {
+      const activity = await Queries.activity({ id });
+      console.log({ activity });
+      dispatch(activitiesAction.getActivitySuccess(activity));
+    } catch (error) {
+      console.log(error);
+      dispatch(activitiesAction.getActivityError({ error }));
+    }
+  };
+};
+
 /**
  * Create all the activities
  */
@@ -93,8 +109,10 @@ export const postActivity = (activityInput) => {
     try {
       const activity = await createActivityMutation(activityInput);
       dispatch(activitiesAction.createActivitySuccess(activity));
+      return activity;
     } catch (error) {
       dispatch(activitiesAction.createActivityError({ error }));
+      throw error;
     }
   };
 };
