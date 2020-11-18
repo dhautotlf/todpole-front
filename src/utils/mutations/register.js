@@ -31,7 +31,6 @@ export default async (variables) => {
     });
     return response.data.register;
   } catch(e) {
-    console.log(e)
     throw e;
   }
   

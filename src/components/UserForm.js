@@ -57,16 +57,16 @@ const GenderButton = styled.TouchableOpacity`
 const genderEnum = [
   {
     translation: translations.createtoddler_gender_text1,
-    value: 'FEMALE'
+    value: 'FEMALE',
   },
   {
     translation: translations.createtoddler_gender_text2,
-    value: 'MALE'
+    value: 'MALE',
   },
   {
     translation: translations.createtoddler_gender_text3,
-    value: 'UNSPECIFIED'
-  }
+    value: 'UNSPECIFIED',
+  },
 ];
 
 function UserForm({ onChange }) {
@@ -85,14 +85,16 @@ function UserForm({ onChange }) {
     setGender(currentGender);
   };
 
-  useEffect(() =>
-    onChange({
-      name,
-      birthDate,
-      gender,
-      type: 'TODDLER'
-    })
-    , [name, birthDate, gender])
+  useEffect(
+    () =>
+      onChange({
+        name,
+        birthDate,
+        gender,
+        type: 'TODDLER',
+      }),
+    [name, birthDate, gender],
+  );
 
   return (
     <Form>
@@ -122,19 +124,15 @@ function UserForm({ onChange }) {
       <FieldView>
         <Label>{translations.createtoddler_gender_title}:</Label>
         <GenderView>
-          {genderEnum.map(g => (
+          {genderEnum.map((g) => (
             <GenderButton
-            onPress={() =>
-              onGenderSelect(g.value)
-            }
-            selected={gender === g.value}
-          >
-            <GenderLabel
+              onPress={() => onGenderSelect(g.value)}
               selected={gender === g.value}
             >
-              {g.translation}
-            </GenderLabel>
-          </GenderButton>
+              <GenderLabel selected={gender === g.value}>
+                {g.translation}
+              </GenderLabel>
+            </GenderButton>
           ))}
         </GenderView>
       </FieldView>
@@ -150,7 +148,7 @@ UserForm.propTypes = {
 
 UserForm.defaultProps = {
   label: 'Default Category',
-  onChange: () => { }
+  onChange: () => {},
 };
 
 export default UserForm;

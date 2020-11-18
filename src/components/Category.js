@@ -41,11 +41,7 @@ const ThumbnailImage = styled.Image`
 function Category({ title, description, image }) {
   return (
     <CategoryWrapper>
-      <ThumbnailImage
-        source={
-          image
-        }
-      ></ThumbnailImage>
+      <ThumbnailImage source={image}></ThumbnailImage>
       <TextWrapper>
         <Title>{title}</Title>
         <Description>{description}</Description>

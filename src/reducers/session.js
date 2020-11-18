@@ -7,6 +7,7 @@ import {
 import Queries from '../utils/queries';
 import Storage from '../utils/storageUtils';
 import AuthHeader from '../utils/authHeader';
+import { uploadImageFromLocalFile } from '../utils/api/apiCloudinary';
 import { get } from 'lodash';
 
 const INITIAL_STATE = {
@@ -89,14 +90,19 @@ export const register = (creds) => {
   return async (dispatch) => {
     dispatch(sessionAction.signUpStart());
     try {
-      console.log(creds)
+      // Extract the toddler information in order to upload the image
+      const toddler = creds?.toddlerList?.[0];
+      if (toddler && toddler.photo) {
+        toddler.photo = await uploadImageFromLocalFile(toddler.photo);
+      }
+      // Register the user with the toddler's uploaded picture URL
       const session = await registerMutation(creds);
       await Storage.storeSession(session);
-      
 
       AuthHeader.getInstance().setTokens(session);
       dispatch(sessionAction.signUpSuccess(session));
     } catch (error) {
+      console.log(error);
       dispatch(sessionAction.signUpError({ error }));
     }
   };

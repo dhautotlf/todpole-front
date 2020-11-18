@@ -45,24 +45,29 @@ function CreateActivity({ displayName }) {
   const createActivity = (activity, goToActivityPdp) => {
     // Mock - to be replaced by activity parameter
     dispatch(
-      postActivity({
-        category: 'PHYSICAL',
-        name: 'test name variable',
-        ageMin: 1,
-        ageMax: 2,
-        timingMin: 20,
-        timingMax: 10,
-        description: 'This is a description',
-        url: 'This is an URL',
-        activityImageList: [
-          {
-            url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyezISI3nJQy6yoyXrTELnHL9i-mfuXQONTQ&usqp=CAU',
-          },
-          {
-            url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROtCNC9x1c1OT-jueYQqgYosRHNOh3WOa7zg&usqp=CAU',
-          },
-        ],
-      }, goToActivityPdp),
+      postActivity(
+        {
+          category: 'PHYSICAL',
+          name: 'test name variable',
+          ageMin: 1,
+          ageMax: 2,
+          timingMin: 20,
+          timingMax: 10,
+          description: 'This is a description',
+          url: 'This is an URL',
+          activityImageList: [
+            {
+              url:
+                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyezISI3nJQy6yoyXrTELnHL9i-mfuXQONTQ&usqp=CAU',
+            },
+            {
+              url:
+                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROtCNC9x1c1OT-jueYQqgYosRHNOh3WOa7zg&usqp=CAU',
+            },
+          ],
+        },
+        goToActivityPdp,
+      ),
     );
   };
 
@@ -75,7 +80,10 @@ function CreateActivity({ displayName }) {
       </Header>
       <Body>
         {errorMessage ? <Text>{errorMessage}</Text> : null}
-        <BasicButton label={submitButtonLabel} onPress={(t) => createActivity(t, goToActivityPdp)} />
+        <BasicButton
+          label={submitButtonLabel}
+          onPress={(t) => createActivity(t, goToActivityPdp)}
+        />
       </Body>
       <Text>{displayName}</Text>
       <Text onPress={() => {}}>NEXT</Text>

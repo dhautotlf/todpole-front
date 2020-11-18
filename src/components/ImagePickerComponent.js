@@ -44,7 +44,7 @@ function ImagePickerComponent({ onImageChange }) {
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1,
+      quality: 0.5,
       //base64: true,
     });
     if (!result.cancelled) {

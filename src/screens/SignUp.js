@@ -33,14 +33,16 @@ const Body = styled.View`
   margin-top: 44px;
 `;
 
-function SignUp({ navigation, route}) {
-  console.log(route.params)
+function SignUp({ navigation, route }) {
   const dispatch = useDispatch();
   const { errorMessage, isLoading } = getSession();
 
   const signUp = (user) => {
-    //dispatch(register(user));
-    dispatch(register({...user, toddlerList: [route.params]}));
+    if (!route.params) {
+      return dispatch(register(user));
+    }
+
+    dispatch(register({ ...user, toddlerList: [route.params] }));
   };
 
   return (

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import getLocalFile from '../fileSystem/getLocalFile';
 
 const uploadPreset = 'tjsj3nii'
 const resourceType = 'image';
@@ -6,9 +7,20 @@ const resourceType = 'image';
 const client = axios.create({
     baseURL: `https://api.cloudinary.com/v1_1/dobowykzt/${resourceType}`,
     headers: {
-      'content-type': 'application/json'
+        'content-type': 'application/json'
     }
 })
+
+const uploadImageFromLocalFile = async path => {
+    try {
+        const base64File = await getLocalFile(path);
+        const secureUrl = await uploadImage(base64File);
+
+        return secureUrl;
+    } catch (e) {
+        throw e;
+    }
+}
 
 const uploadImage = async data => {
     try {
@@ -24,4 +36,4 @@ const uploadImage = async data => {
     }
 };
 
-export { uploadImage };
+export { uploadImage, uploadImageFromLocalFile };

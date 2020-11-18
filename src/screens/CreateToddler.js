@@ -58,7 +58,7 @@ const SkipText = styled.Text`
 `;
 
 function CreateToddler({ navigation }) {
-  const [toddlerForm, updateToddlerForm] = useState({type: 'TODDLER'});
+  const [toddlerForm, updateToddlerForm] = useState({});
   const [photo, updatePhoto] = useState(null);
 
   return (
@@ -74,7 +74,13 @@ function CreateToddler({ navigation }) {
         <Footer>
           <BasicButton
             label={translations.createtoddler_footer_button1}
-            onPress={() => { navigation.navigate('SignUp', { ...toddlerForm, birthDate: toddlerForm.birthDate.toJSON(), photo }) }}
+            onPress={() => {
+              navigation.navigate('SignUp', {
+                ...toddlerForm,
+                birthDate: toddlerForm.birthDate.toJSON(),
+                photo,
+              });
+            }}
           />
           <SkipText onPress={() => navigation.navigate('SignUp')}>
             {translations.createtoddler_footer_button2}
