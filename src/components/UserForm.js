@@ -72,7 +72,7 @@ const genderEnum = [
 function UserForm({ onChange }) {
   const [name, setName] = useState('');
   const [birthDate, setBirthDate] = useState(new Date(1598051730000));
-  const [gender, setGender] = useState('');
+  const [gender, setGender] = useState('FEMALE');
   const themeContext = useContext(ThemeContext);
 
   const onDateChange = (event, selectedDate) => {
@@ -124,10 +124,11 @@ function UserForm({ onChange }) {
       <FieldView>
         <Label>{translations.createtoddler_gender_title}:</Label>
         <GenderView>
-          {genderEnum.map((g) => (
+          {genderEnum.map((g, i) => (
             <GenderButton
               onPress={() => onGenderSelect(g.value)}
               selected={gender === g.value}
+              key={i}
             >
               <GenderLabel selected={gender === g.value}>
                 {g.translation}
