@@ -1,24 +1,40 @@
+const staticImages = {
+  physical: require('../assets/images/physical.jpg'),
+  cognitive:  require('../assets/images/cognitive.jpg'),
+  speech: require('../assets/images/speech.jpg'),
+  socialEmotion: require('../assets/images/social_emotional.jpg'),
+  selfCare: require('../assets/images/self_care.jpg'),
+};
+
 export const translations = {
   welcome_header_title: 'Welcome!',
   welcome_header_text:
     'Explore activities ideas for infant and toddler according to milestones',
   welcome_categories: [
-    { title: 'Physical', text: 'Encourage fine and gross motor development' },
+    {
+      title: 'Physical',
+      text: 'Encourage fine and gross motor development',
+      image: staticImages.physical,
+    },
     {
       title: 'Cognitive',
       text: 'Enhance creativity, imagination, memory and attention skills',
+      image: staticImages.cognitive,
     },
     {
       title: 'Speech',
       text: 'Practice sounds and exercise word understanding',
+      image: staticImages.speech,
     },
     {
       title: 'Social Emotional',
       text: 'Express emotions, interact with others and boost social skills',
+      image: staticImages.socialEmotion,
     },
     {
       title: 'Self Care',
       text: 'Help becoming independent through daily actions',
+      image: staticImages.selfCare,
     },
   ],
   welcome_category_title1: 'Physical',
@@ -76,18 +92,23 @@ export const translations = {
   discover_categories: [
     {
       title: 'Physical',
+      image: staticImages.physical
     },
     {
       title: 'Cognitive',
+      image: staticImages.cognitive
     },
     {
       title: 'Speech',
+      image: staticImages.speech
     },
     {
       title: 'Social Emotional',
+      image: staticImages.socialEmotion
     },
     {
       title: 'Self Care',
+      image: staticImages.selfCare
     },
   ],
   discover_category_title1: 'Physical',

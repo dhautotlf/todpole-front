@@ -116,7 +116,7 @@ function Discover() {
                 horizontal
                 data={translations.discover_categories}
                 renderItem={({ item }) => (
-                  <WelcomeCategory title={item.title} />
+                  <WelcomeCategory title={item.title} image={item.image} />
                 )}
                 keyExtractor={({ title }) => `IDEAS-${title}`}
               />

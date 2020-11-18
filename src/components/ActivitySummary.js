@@ -13,7 +13,14 @@ const ActivitySummaryWrapper = styled.View`
   border-radius: 8px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
   background: ${(props) => props.theme.colors.white};
-  margin: -20px 10px 20px 0px;
+  margin: -20px 10px 25px 10px;
+`;
+
+const ActivityTitleWrapper = styled.View`
+  
+  border-bottom-width: 1px;
+  border-style: solid;
+  border-bottom-color: ${(props) => props.theme.colors.anotherGray}
 `;
 
 const ActivityTitle = styled.Text`
@@ -23,7 +30,6 @@ const ActivityTitle = styled.Text`
   text-align: center;
   color: ${(props) => props.theme.colors.black};
   padding: 10px;
-  border: 1px solid ${(props) => props.theme.colors.anotherGray};
 `;
 
 const ActivityDetails = styled.View`
@@ -75,7 +81,9 @@ const RatingText = styled(DurationText)`
 function ActivitySummary({ name, category, duration, rating }) {
   return (
     <ActivitySummaryWrapper>
-      <ActivityTitle>{name}</ActivityTitle>
+      <ActivityTitleWrapper>
+        <ActivityTitle>{name}</ActivityTitle>
+      </ActivityTitleWrapper>
       <ActivityDetails>
         <ActivityDuration>
           <TimerIcon width={22} height={21} />
