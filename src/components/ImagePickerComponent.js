@@ -3,6 +3,7 @@ import { TouchableOpacity, View, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import CameraIcon from '../assets/icons/photo-camera.svg';
 import styled from 'styled-components/native';
+import PropTypes from 'prop-types';
 
 const CameraButton = styled.TouchableOpacity`
   display: flex;
@@ -22,7 +23,7 @@ const PreviewImage = styled.Image`
   margin-bottom: 28px;
 `;
 
-export default function ImagePickerComponent() {
+function ImagePickerComponent({ onImageChange }) {
   const [image, setImage] = useState(null);
 
   useEffect(() => {
@@ -44,10 +45,12 @@ export default function ImagePickerComponent() {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
+      //base64: true,
     });
-
     if (!result.cancelled) {
+      const imageUri = `data:image/jpg;base64,${result.base64}`;
       setImage(result.uri);
+      onImageChange(result.uri);
     }
   };
 
@@ -69,3 +72,13 @@ export default function ImagePickerComponent() {
     </View>
   );
 }
+
+ImagePickerComponent.propTypes = {
+  onImageChange: PropTypes.func,
+};
+
+ImagePickerComponent.defaultProps = {
+  onImageChange: () => {},
+};
+
+export default ImagePickerComponent;

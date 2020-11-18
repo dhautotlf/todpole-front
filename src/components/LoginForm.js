@@ -45,8 +45,8 @@ const Footer = styled.View`
 `;
 
 function LoginForm({ submitButtonLabel, onLogin }) {
-  const [email, onChangeEmail] = useState('email@email.com');
-  const [password, onChangePassword] = useState('password');
+  const [email, onChangeEmail] = useState('');
+  const [password, onChangePassword] = useState('');
   const themeContext = useContext(ThemeContext);
 
   const submitForm = () => {
@@ -65,7 +65,7 @@ function LoginForm({ submitButtonLabel, onLogin }) {
           <StyledTextInput
             name="email"
             type="email"
-            value={'test@test.com'}
+            value={email}
             placeholder={translations.signup_option_text1}
             placeholderTextColor={themeContext.colors.silver}
             onChangeText={onChangeEmail}

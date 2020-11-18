@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, SafeAreaView, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
@@ -6,6 +6,7 @@ import BasicButton from '../components/BasicButton';
 import UserForm from '../components/UserForm';
 import ImagePickerComponent from '../components/ImagePickerComponent';
 import { translations } from '../constants/translations';
+import { uploadImage as uploadImageApi } from '../utils/api/apiCloudinary';
 
 const StyledSafeAreaView = styled.SafeAreaView`
   flex: 1;
@@ -57,6 +58,9 @@ const SkipText = styled.Text`
 `;
 
 function CreateToddler({ navigation }) {
+  const [toddlerForm, updateToddlerForm] = useState({type: 'TODDLER'});
+  const [photo, updatePhoto] = useState(null);
+
   return (
     <StyledSafeAreaView>
       <ScreenWrapper>
@@ -64,13 +68,13 @@ function CreateToddler({ navigation }) {
           <Description>{translations.createtoddler_header_text}</Description>
         </Header>
         <Body>
-          <ImagePickerComponent />
-          <UserForm />
+          <ImagePickerComponent onImageChange={updatePhoto} />
+          <UserForm onChange={updateToddlerForm} />
         </Body>
         <Footer>
           <BasicButton
             label={translations.createtoddler_footer_button1}
-            onPress={() => navigation.navigate('SignUp')}
+            onPress={() => { navigation.navigate('SignUp', { ...toddlerForm, birthDate: toddlerForm.birthDate.toJSON(), photo }) }}
           />
           <SkipText onPress={() => navigation.navigate('SignUp')}>
             {translations.createtoddler_footer_button2}

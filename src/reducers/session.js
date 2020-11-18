@@ -89,8 +89,10 @@ export const register = (creds) => {
   return async (dispatch) => {
     dispatch(sessionAction.signUpStart());
     try {
+      console.log(creds)
       const session = await registerMutation(creds);
       await Storage.storeSession(session);
+      
 
       AuthHeader.getInstance().setTokens(session);
       dispatch(sessionAction.signUpSuccess(session));

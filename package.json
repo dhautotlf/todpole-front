@@ -22,6 +22,7 @@
     "apollo-client": "^2.6.10",
     "apollo-link-context": "^1.0.20",
     "apollo-link-http": "^1.5.17",
+    "axios": "^0.21.0",
     "expo": "^39.0.4",
     "expo-image-picker": "~9.1.1",
     "expo-splash-screen": "~0.6.2",
@@ -66,9 +67,7 @@
   },
   "private": true,
   "husky": {
-    "hooks": {
-      
-    }
+    "hooks": {}
   },
   "lint-staged": {
     "*.js": [
