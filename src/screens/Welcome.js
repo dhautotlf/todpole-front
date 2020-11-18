@@ -66,6 +66,7 @@ function Welcome({ navigation }) {
         key={index}
         title={category.title}
         description={category.text}
+        image={category.image}
       />
     ),
   );
