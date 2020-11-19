@@ -101,11 +101,7 @@ function Discover() {
                 horizontal
                 data={getTrendingData()}
                 renderItem={({ item }) => (
-                  <Activity
-                    id={item.id}
-                    title={item.title}
-                    img={item}
-                  />
+                  <Activity id={item.id} title={item.title} img={item} />
                 )}
                 keyExtractor={(item) => `TRENDING-${item.id}`}
               />

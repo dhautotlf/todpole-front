@@ -35,9 +35,7 @@ const ThumbnailImage = styled.Image`
 function WelcomeCategory({ title, image }) {
   return (
     <CategoryWrapper>
-      <ThumbnailImage
-        source={image}
-      ></ThumbnailImage>
+      <ThumbnailImage source={image}></ThumbnailImage>
       <TextWrapper>
         <Title>{title}</Title>
       </TextWrapper>

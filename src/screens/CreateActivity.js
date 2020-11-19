@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { useDispatch } from 'react-redux';
 import { postActivity } from '../reducers/activities';
-import { getSession } from '../hooks';
 import ActivityForm from '../components/ActivityForm';
 import BasicButton from '../components/BasicButton';
 import ImagePickerComponent from '../components/ImagePickerComponent';
@@ -51,15 +50,17 @@ const ImagePickerActivityWrapper = styled.View`
 `;
 
 function CreateActivity({ displayName }) {
-  const dispatch = useDispatch();
-  const { errorMessage, isLoading } = getSession();
   const { navigate } = useNavigation();
-  const goToActivityPdp = (id, url) => {
-    navigate('ActivityDetail', { id, url });
-  };
+  const [errorMessage, setError] = useState('');
 
-  const createActivity = (activity, goToActivityPdp) => {
-    dispatch(postActivity(activity, goToActivityPdp));
+  const dispatch = useDispatch();
+  const createActivity = async (activity) => {
+    try {
+      const a = await dispatch(postActivity(activity));
+      navigate('ActivityDetail', { id: a.id });
+    } catch (error) {
+      setError(error);
+    }
   };
 
   const dataImages = [

@@ -103,8 +103,7 @@ function ActivityForm({ submitButtonLabel, onCreateActivity }) {
       name,
       ageMin: 1,
       ageMax: 2,
-      timingMin: 20,
-      timingMax: 10,
+      timing: 10,
       description,
       url,
       activityImageList: [
