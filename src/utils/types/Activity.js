@@ -7,8 +7,7 @@ category
 name
 ageMin
 ageMax
-timingMin
-timingMax
+timing
 description
 url
 activityImageList{${ActivityImage}}
