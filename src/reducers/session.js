@@ -102,7 +102,6 @@ export const register = (creds) => {
       AuthHeader.getInstance().setTokens(session);
       dispatch(sessionAction.signUpSuccess(session));
     } catch (error) {
-      console.log(error);
       dispatch(sessionAction.signUpError({ error }));
     }
   };
