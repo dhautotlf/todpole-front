@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { useDispatch } from 'react-redux';
 import { postActivity } from '../reducers/activities';
-import { getSession } from '../hooks';
 import BasicButton from '../components/BasicButton';
 import { useNavigation } from '@react-navigation/native';
 
@@ -35,18 +34,15 @@ const Body = styled.View`
 `;
 
 function CreateActivity({ displayName }) {
-  const dispatch = useDispatch();
-  const { errorMessage, isLoading } = getSession();
   const { navigate } = useNavigation();
-  const goToActivityPdp = (id, url) => {
-    navigate('ActivityDetail', { id, url });
-  };
+  const [errorMessage, setError] = useState('');
 
-  const createActivity = (activity, goToActivityPdp) => {
+  const dispatch = useDispatch();
+  const createActivity = async () => {
     // Mock - to be replaced by activity parameter
-    dispatch(
-      postActivity(
-        {
+    try {
+      const a = await dispatch(
+        postActivity({
           category: 'PHYSICAL',
           name: 'test name variable',
           ageMin: 1,
@@ -55,6 +51,7 @@ function CreateActivity({ displayName }) {
           timingMax: 10,
           description: 'This is a description',
           url: 'This is an URL',
+          activityTagList: [{text: 'toto12nsafds357'}, {text: 'prouyt'}, {text: 'halloween'}],
           activityImageList: [
             {
               url:
@@ -65,10 +62,12 @@ function CreateActivity({ displayName }) {
                 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROtCNC9x1c1OT-jueYQqgYosRHNOh3WOa7zg&usqp=CAU',
             },
           ],
-        },
-        goToActivityPdp,
-      ),
-    );
+        }),
+      );
+      navigate('ActivityDetail', { id: a.id });
+    } catch (error) {
+      setError(error);
+    }
   };
 
   const submitButtonLabel = 'SUBMIT';
@@ -82,7 +81,7 @@ function CreateActivity({ displayName }) {
         {errorMessage ? <Text>{errorMessage}</Text> : null}
         <BasicButton
           label={submitButtonLabel}
-          onPress={(t) => createActivity(t, goToActivityPdp)}
+          onPress={(t) => createActivity(t)}
         />
       </Body>
       <Text>{displayName}</Text>
