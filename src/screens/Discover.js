@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import Activity from '../components/Activity';
 import MenuArea from '../components/MenuArea';
 import WelcomeCategory from '../components/WelcomeCategory';
+import Surprise from '../components/Surprise';
 import { getActivities } from '../hooks';
 import { translations } from '../constants/translations';
 
@@ -87,6 +88,7 @@ function Discover() {
   return (
     <StyledSafeAreaView>
       <ScreenWrapper>
+        <Surprise />
         <Header>
           <MenuArea screen="discover" />
           <SearchArea></SearchArea>
