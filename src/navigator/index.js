@@ -74,7 +74,7 @@ const DiscoverStack = () => (
     <Stack.Screen
       name="ActivityDetail"
       component={ActivityDetail}
-      options={sharedHeader()}
+      options={{ ...sharedHeader(), headerTransparent: true }}
     />
   </Stack.Navigator>
 );
