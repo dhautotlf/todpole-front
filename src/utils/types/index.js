@@ -4,5 +4,6 @@ import ActivityImage from './ActivityImage';
 import Review from './Review';
 import ActivityInput from './ActivityInput';
 import ActivityImageInput from './ActivityImageInput';
+import UserInput from './UserInput';
 
-export default { Activity, ActivityCategory, ActivityImage, Review, ActivityImageInput, ActivityInput };
+export default { Activity, ActivityCategory, ActivityImage, Review, ActivityImageInput, ActivityInput, UserInput };

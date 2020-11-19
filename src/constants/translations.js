@@ -1,6 +1,6 @@
 const staticImages = {
   physical: require('../assets/images/physical.jpg'),
-  cognitive:  require('../assets/images/cognitive.jpg'),
+  cognitive: require('../assets/images/cognitive.jpg'),
   speech: require('../assets/images/speech.jpg'),
   socialEmotion: require('../assets/images/social_emotional.jpg'),
   selfCare: require('../assets/images/self_care.jpg'),
@@ -92,23 +92,23 @@ export const translations = {
   discover_categories: [
     {
       title: 'Physical',
-      image: staticImages.physical
+      image: staticImages.physical,
     },
     {
       title: 'Cognitive',
-      image: staticImages.cognitive
+      image: staticImages.cognitive,
     },
     {
       title: 'Speech',
-      image: staticImages.speech
+      image: staticImages.speech,
     },
     {
       title: 'Social Emotional',
-      image: staticImages.socialEmotion
+      image: staticImages.socialEmotion,
     },
     {
       title: 'Self Care',
-      image: staticImages.selfCare
+      image: staticImages.selfCare,
     },
   ],
   discover_category_title1: 'Physical',

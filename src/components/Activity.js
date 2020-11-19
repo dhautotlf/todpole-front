@@ -38,8 +38,8 @@ const ThumbnailImage = styled.Image`
 
 function Activity({ id, img, title }) {
   const { navigate } = useNavigation();
-  const goToActivityPdp = () => {
-    navigate('ActivityDetail', { id, url: img.url });
+  const goToActivityPdp = () => {	
+    navigate('ActivityDetail', { id, url: img.url });	
   };
 
   return (

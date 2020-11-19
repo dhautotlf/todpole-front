@@ -17,10 +17,9 @@ const ActivitySummaryWrapper = styled.View`
 `;
 
 const ActivityTitleWrapper = styled.View`
-  
   border-bottom-width: 1px;
   border-style: solid;
-  border-bottom-color: ${(props) => props.theme.colors.anotherGray}
+  border-bottom-color: ${(props) => props.theme.colors.anotherGray};
 `;
 
 const ActivityTitle = styled.Text`

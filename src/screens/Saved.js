@@ -5,7 +5,7 @@ import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import MenuArea from '../components/MenuArea';
 import { translations } from '../constants/translations';
-import BasicButton from '../components/BasicButton'
+import BasicButton from '../components/BasicButton';
 import { signOut } from '../reducers/session';
 
 const StyledSafeAreaView = styled(SafeAreaView)`

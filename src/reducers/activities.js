@@ -91,10 +91,8 @@ export const fetchActivity = (id) => {
     dispatch(activitiesAction.getActivityStart());
     try {
       const activity = await Queries.activity({ id });
-      console.log({ activity });
       dispatch(activitiesAction.getActivitySuccess(activity));
     } catch (error) {
-      console.log(error);
       dispatch(activitiesAction.getActivityError({ error }));
     }
   };

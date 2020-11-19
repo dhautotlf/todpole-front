@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import styled, { ThemeContext } from 'styled-components/native';
 import PropTypes from 'prop-types';
@@ -54,10 +54,25 @@ const GenderButton = styled.TouchableOpacity`
   border-radius: 8px;
 `;
 
-function UserForm() {
-  const [name, setName] = React.useState('');
+const genderEnum = [
+  {
+    translation: translations.createtoddler_gender_text1,
+    value: 'FEMALE',
+  },
+  {
+    translation: translations.createtoddler_gender_text2,
+    value: 'MALE',
+  },
+  {
+    translation: translations.createtoddler_gender_text3,
+    value: 'UNSPECIFIED',
+  },
+];
+
+function UserForm({ onChange }) {
+  const [name, setName] = useState('');
   const [birthDate, setBirthDate] = useState(new Date(1598051730000));
-  const [gender, setGender] = useState('');
+  const [gender, setGender] = useState('FEMALE');
   const themeContext = useContext(ThemeContext);
 
   const onDateChange = (event, selectedDate) => {
@@ -69,6 +84,17 @@ function UserForm() {
     const currentGender = selectedGender || gender;
     setGender(currentGender);
   };
+
+  useEffect(
+    () =>
+      onChange({
+        name,
+        birthDate,
+        gender,
+        type: 'TODDLER',
+      }),
+    [name, birthDate, gender],
+  );
 
   return (
     <Form>
@@ -98,42 +124,17 @@ function UserForm() {
       <FieldView>
         <Label>{translations.createtoddler_gender_title}:</Label>
         <GenderView>
-          <GenderButton
-            onPress={() =>
-              onGenderSelect(translations.createtoddler_gender_text1)
-            }
-            selected={gender === translations.createtoddler_gender_text1}
-          >
-            <GenderLabel
-              selected={gender === translations.createtoddler_gender_text1}
+          {genderEnum.map((g, i) => (
+            <GenderButton
+              onPress={() => onGenderSelect(g.value)}
+              selected={gender === g.value}
+              key={i}
             >
-              {translations.createtoddler_gender_text1}
-            </GenderLabel>
-          </GenderButton>
-          <GenderButton
-            onPress={() =>
-              onGenderSelect(translations.createtoddler_gender_text2)
-            }
-            selected={gender === translations.createtoddler_gender_text2}
-          >
-            <GenderLabel
-              selected={gender === translations.createtoddler_gender_text2}
-            >
-              {translations.createtoddler_gender_text2}
-            </GenderLabel>
-          </GenderButton>
-          <GenderButton
-            onPress={() =>
-              onGenderSelect(translations.createtoddler_gender_text3)
-            }
-            selected={gender === translations.createtoddler_gender_text3}
-          >
-            <GenderLabel
-              selected={gender === translations.createtoddler_gender_text3}
-            >
-              {translations.createtoddler_gender_text3}
-            </GenderLabel>
-          </GenderButton>
+              <GenderLabel selected={gender === g.value}>
+                {g.translation}
+              </GenderLabel>
+            </GenderButton>
+          ))}
         </GenderView>
       </FieldView>
     </Form>
@@ -143,10 +144,12 @@ function UserForm() {
 UserForm.propTypes = {
   label: PropTypes.string,
   onPress: PropTypes.func,
+  onChange: PropTypes.func,
 };
 
 UserForm.defaultProps = {
   label: 'Default Category',
+  onChange: () => {},
 };
 
 export default UserForm;

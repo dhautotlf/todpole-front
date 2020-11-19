@@ -8,8 +8,7 @@ const mutation = gql`
     $name:String!,
     $ageMin:Int!,
     $ageMax:Int!,
-    $timingMin:Int!,
-    $timingMax:Int!,
+    $timing:Int!,
     $description:String!,
     $url:String!
   ) {
@@ -18,8 +17,7 @@ const mutation = gql`
       name: $name
       ageMin: $ageMin
       ageMax: $ageMax
-      timingMin: $timingMin
-      timingMax: $timingMax
+      timing: $timing
       description: $description
       url: $url
       activityImageList: $activityImageList
@@ -27,11 +25,10 @@ const mutation = gql`
       id
       name
       ageMin
-      timingMax
       description
       url
       ageMax
-      timingMin
+      timing
       userId
       activityImageList {
         url
