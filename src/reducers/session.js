@@ -17,16 +17,26 @@ const INITIAL_STATE = {
 
 export default handleActions(
   {
-    [combineActions(
-      sessionAction.signInStart,
-      sessionAction.signUpStart,
-      sessionAction.sessionRestoreStart,
-    )]: (state) => ({
+    [sessionAction.sessionRestoreStart]: (state) => ({
+      ...state,
+      isRestoring: true,
+    }),
+    [sessionAction.sessionRestoreSuccess]: (state, { payload }) => ({
+      ...state,
+      isRestoring: false,
+      userToken: payload,
+    }),
+    [sessionAction.sessionRestoreError]: (state) => ({
+      ...state,
+      isRestoring: false,
+    }),
+    [combineActions(sessionAction.signInStart, sessionAction.signUpStart)]: (
+      state,
+    ) => ({
       ...state,
       isLoading: true,
     }),
     [combineActions(
-      sessionAction.sessionRestoreSuccess,
       sessionAction.signInSuccess,
       sessionAction.signUpSuccess,
     )]: (state, { payload }) => ({
@@ -35,7 +45,6 @@ export default handleActions(
       userToken: payload,
     }),
     [combineActions(
-      sessionAction.sessionRestoreError,
       sessionAction.signInError,
       sessionAction.signUpError,
       sessionAction.signOutError,
@@ -52,6 +61,7 @@ export default handleActions(
 
 export const isAuthenticated = ({ session }) => ({
   isLoading: session.isLoading,
+  isRestoring: session.isRestoring,
   data: session.userToken !== INITIAL_STATE.userToken,
 });
 
@@ -92,8 +102,10 @@ export const register = (creds) => {
     try {
       // Extract the toddler information in order to upload the image
       const toddler = creds?.toddlerList?.[0];
-      if(has(creds, 'toddlerList.[0].photo')){
-        toddler.photo = await uploadImageFromLocalFile(get(creds, 'toddlerList.[0].photo'))
+      if (has(creds, 'toddlerList.[0].photo')) {
+        toddler.photo = await uploadImageFromLocalFile(
+          get(creds, 'toddlerList.[0].photo'),
+        );
       }
       // Register the user with the toddler's uploaded picture URL
       const session = await registerMutation(creds);
