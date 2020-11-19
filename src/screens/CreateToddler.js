@@ -42,6 +42,10 @@ const Body = styled.View`
   margin-top: 44px;
 `;
 
+const ImagePickerComponentWrapper = styled.View`
+  margin-bottom: 28px;
+`;
+
 const Footer = styled.View`
   align-items: center;
   justify-content: flex-end;
@@ -64,7 +68,9 @@ function CreateToddler({ navigation }) {
           <Description>{translations.createtoddler_header_text}</Description>
         </Header>
         <Body>
-          <ImagePickerComponent />
+          <ImagePickerComponentWrapper>
+            <ImagePickerComponent />
+          </ImagePickerComponentWrapper>
           <UserForm />
         </Body>
         <Footer>

@@ -12,17 +12,15 @@ const CameraButton = styled.TouchableOpacity`
   height: 132px;
   border-radius: ${(props) => props.theme.spacing.tiny}px;
   background: ${(props) => props.theme.colors.lightGray};
-  margin-bottom: 28px;
 `;
 
 const PreviewImage = styled.Image`
   width: 132px;
   height: 132px;
   border-radius: ${(props) => props.theme.spacing.tiny}px;
-  margin-bottom: 28px;
 `;
 
-export default function ImagePickerComponent() {
+export default function ImagePickerComponent({ onImageChange }) {
   const [image, setImage] = useState(null);
 
   useEffect(() => {
