@@ -17,6 +17,7 @@ const ScreenWrapper = styled.ScrollView.attrs((props) => ({
 }))`
   background: ${(props) => props.theme.colors.white};
   flex: 1;
+  padding-top: 48px;
 `;
 
 const Header = styled.View`
