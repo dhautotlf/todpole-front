@@ -24,14 +24,9 @@ const mutation = gql`
 `;
 
 export default async (variables) => {
-  try{
     const response = await apiGraph.mutate({
       mutation,
       variables,
     });
     return response.data.register;
-  } catch(e) {
-    throw e;
-  }
-  
 };

@@ -38,10 +38,13 @@ const ThumbnailImage = styled.Image`
 
 function Activity({ id, img, title }) {
   const { navigate } = useNavigation();
+  const goToActivityPdp = () => {	
+    navigate('ActivityDetail', { id, url: img.url });	
+  };
 
   return (
     <ActivityWrapper>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={goToActivityPdp}>
         <ThumbnailImage
           source={{
             uri: img.url,

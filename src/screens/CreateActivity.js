@@ -81,7 +81,7 @@ function CreateActivity({ displayName }) {
         {errorMessage ? <Text>{errorMessage}</Text> : null}
         <BasicButton
           label={submitButtonLabel}
-          onPress={(t) => createActivity(t)}
+          onPress={createActivity}
         />
       </Body>
       <Text>{displayName}</Text>
