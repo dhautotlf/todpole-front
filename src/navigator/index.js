@@ -76,8 +76,8 @@ const HomeTab = () => {
 };
 
 const Navigator = () => {
-  const { data: isSignedIn, isLoading } = isAuthenticated();
-  if (isLoading) return <ActivityIndicator />;
+  const { data: isSignedIn, isRestoring } = isAuthenticated();
+  if (isRestoring) return <ActivityIndicator />;
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={hideHeader}>
