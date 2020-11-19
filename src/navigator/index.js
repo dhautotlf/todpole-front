@@ -24,15 +24,22 @@ import { ThemeContext } from 'styled-components/native';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const UnAuthenticatedHeaderOptions = (index) => () => {
+const sharedHeader = () => {
   const { colors } = React.useContext(ThemeContext);
   return {
-    headerTitle: () => <StepIndicator count={3} selectedIndex={index} />,
     headerBackImage: () => <BackButtonIcon color={colors.mediumGray} />,
     headerBackTitle: () => null,
+    headerTitle: () => null,
     headerStyle: {
       shadowOpacity: 0,
     },
+  };
+};
+
+const UnAuthenticatedHeaderOptions = (index) => () => {
+  return {
+    ...sharedHeader(),
+    headerTitle: () => <StepIndicator count={3} selectedIndex={index} />,
   };
 };
 
@@ -62,9 +69,13 @@ const UnAuthenticatedStack = () => (
 );
 
 const DiscoverStack = () => (
-  <Stack.Navigator screenOptions={hideHeader}>
-    <Stack.Screen name="Discover" component={Discover} />
-    <Stack.Screen name="ActivityDetail" component={ActivityDetail} />
+  <Stack.Navigator>
+    <Stack.Screen name="Discover" component={Discover} options={hideHeader} />
+    <Stack.Screen
+      name="ActivityDetail"
+      component={ActivityDetail}
+      options={sharedHeader()}
+    />
   </Stack.Navigator>
 );
 
@@ -111,9 +122,8 @@ const Navigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={hideHeader}>
-        {isSignedIn ? (
-          <Stack.Screen name="HomeTab" component={HomeTab} />
-        ) : (
+        {isSignedIn && <Stack.Screen name="HomeTab" component={HomeTab} />}
+        {!isSignedIn && (
           <Stack.Screen
             name="UnAuthenticatedStack"
             component={UnAuthenticatedStack}
