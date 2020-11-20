@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ActivityIndicator, Text } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -28,8 +28,8 @@ const sharedHeader = () => {
   const { colors } = React.useContext(ThemeContext);
   return {
     headerBackImage: () => <BackButtonIcon color={colors.mediumGray} />,
-    headerBackTitle: () => null,
-    headerTitle: () => null,
+    headerBackTitle: ' ', //cant be null or empty
+    headerTitle: null,
     headerStyle: {
       shadowOpacity: 0,
     },
