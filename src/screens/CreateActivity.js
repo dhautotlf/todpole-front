@@ -105,7 +105,7 @@ function CreateActivity({ displayName }) {
         <Body>
           <ActivityForm
             submitButtonLabel={translations.createactivity_footer_button}
-            onCreateActivity={(t) => createActivity(t, goToActivityPdp)}
+            onCreateActivity={createActivity}
           />
           {errorMessage ? <Text>{errorMessage}</Text> : null}
         </Body>
