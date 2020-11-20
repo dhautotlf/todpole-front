@@ -12,6 +12,7 @@ const getMainImage = (activityImageList = []) =>
 const ActivityList = (props) => (
   <ActivityFlatList
     {...props}
+    contentContainerStyle={{ flexGrow: 1 }}
     ListHeaderComponent={props.children || props.ListHeaderComponent}
     numColumns={2}
     columnWrapperStyle={{
@@ -34,5 +35,7 @@ ActivityList.propTypes = {
   children: PropTypes.any,
   ListHeaderComponent: PropTypes.any,
 };
+
+ActivityList.defaultProps = {};
 
 export default ActivityList;

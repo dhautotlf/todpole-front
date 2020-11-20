@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView, ActivityIndicator } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
@@ -13,7 +13,6 @@ import { translations } from '../constants/translations';
 import BoxIcon from '../assets/icons/box.svg';
 import ArrowIcon from '../assets/icons/scribble-arrow.svg';
 import { getBookmarkedActivities } from '../hooks';
-import { isEmpty } from 'lodash';
 import shallowFilter from '../utils/shallowStringFilter';
 
 const StyledSafeAreaView = styled(SafeAreaView)`
@@ -44,6 +43,7 @@ const Body = styled.View`
   flex: 1;
   align-items: center;
   justify-content: center;
+  align-self: center;
 `;
 
 const BodyBottom = styled.View`
@@ -67,14 +67,6 @@ const BoldText = styled.Text`
   font-weight: bold;
   margin-vertical: 15px;
 `;
-
-const BodyPicker = ({ isLoading, data, selectedTabIndex }) => {
-  if (isLoading) return <Loading />;
-  if (selectedTabIndex === 0 && isEmpty(data)) return <EmptyFavorite />;
-  if (selectedTabIndex === 1 && isEmpty(data)) return <EmptyCreations />;
-  if (selectedTabIndex === 0) return <ActivityList data={data} />;
-  if (selectedTabIndex === 1) return <ActivityList data={data} />;
-};
 
 const EmptyFavorite = () => {
   const { navigate } = useNavigation();
@@ -111,30 +103,38 @@ function Saved({ tabs }) {
   return (
     <StyledSafeAreaView>
       <ScreenWrapper>
-        <Header>
-          <MenuArea screen="saved" />
-        </Header>
-        <TabContainer>
-          {tabs.map((label, index) => (
-            <TabItem
-              key={label}
-              label={label}
-              onPress={() => onTabSelected(index)}
-              selected={selectedTabIndex === index}
-            />
-          ))}
-        </TabContainer>
-        <SearchBar
-          value={filterParam.text}
-          onChangeText={(text) => onSearchParamChange({ ...filterParam, text })}
-          onFilterPress={() => navigate('SearchModal', filterParam)}
-          onSettingsPress={() => {}}
-        />
-        <BodyPicker
-          isLoading={isLoading}
+        <ActivityList
           data={filterResults(data)}
-          selectedTabIndex={selectedTabIndex}
-        />
+          ListEmptyComponent={() => {
+            if (isLoading) return <Loading />;
+            if (selectedTabIndex === 0) return <EmptyFavorite />;
+            if (selectedTabIndex === 1) return <EmptyCreations />;
+          }}
+        >
+          <>
+            <Header>
+              <MenuArea screen="saved" />
+            </Header>
+            <TabContainer>
+              {tabs.map((label, index) => (
+                <TabItem
+                  key={label}
+                  label={label}
+                  onPress={() => onTabSelected(index)}
+                  selected={selectedTabIndex === index}
+                />
+              ))}
+            </TabContainer>
+            <SearchBar
+              value={filterParam.text}
+              onChangeText={(text) =>
+                onSearchParamChange({ ...filterParam, text })
+              }
+              onFilterPress={() => navigate('SearchModal', filterParam)}
+              onSettingsPress={() => {}}
+            />
+          </>
+        </ActivityList>
       </ScreenWrapper>
     </StyledSafeAreaView>
   );
