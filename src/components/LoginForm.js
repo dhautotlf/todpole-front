@@ -69,6 +69,7 @@ function LoginForm({ submitButtonLabel, onLogin }) {
             placeholder={translations.signup_option_text1}
             placeholderTextColor={themeContext.colors.silver}
             onChangeText={onChangeEmail}
+            autoCapitalize="none"
             required
           />
         </FieldView>
@@ -82,6 +83,7 @@ function LoginForm({ submitButtonLabel, onLogin }) {
             placeholderTextColor={themeContext.colors.silver}
             onChangeText={onChangePassword}
             textContentType={'oneTimeCode'}
+            autoCapitalize="none"
             secureTextEntry
             required
           />
