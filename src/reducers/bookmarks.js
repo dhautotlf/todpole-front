@@ -2,7 +2,7 @@ import { handleActions, combineActions } from 'redux-actions';
 import { bookmarks as bookmarksAction } from '../actions';
 import Queries from '../utils/queries';
 import { createBookmark as createBookmarkMutation } from '../utils/mutations';
-import { isEmpty } from 'lodash';
+import { isNil } from 'lodash';
 
 const INITIAL_STATE = {
   isLoading: false,
@@ -31,6 +31,10 @@ export default handleActions(
       isLoading: false,
       error: payload.error,
     }),
+    [bookmarksAction.createBookmarkSuccess]: (state, { payload }) => ({
+      ...state,
+      data: { ...state.data, [payload.id]: payload },
+    }),
   },
   INITIAL_STATE,
 );
@@ -52,6 +56,12 @@ export const getBookmarkedActivities = ({ activities, bookmarks }) => ({
 });
 
 export const getBookmark = ({ bookmarks }, id) => bookmarks.data[id];
+
+export const isBookmarked = ({ bookmarks }, { id }) =>
+  !isNil(bookmarks.data) &&
+  !isNil(
+    Object.values(bookmarks.data).find(({ activityId }) => activityId === id),
+  );
 
 // THUNKS
 
@@ -77,7 +87,9 @@ export const postBookmark = (activity) => {
   return async (dispatch) => {
     dispatch(bookmarksAction.createBookmarkStart());
     try {
-      const bookmark = await createBookmarkMutation(activity.id);
+      const bookmark = await createBookmarkMutation({
+        activityId: activity.id,
+      });
       dispatch(bookmarksAction.createBookmarkSuccess(bookmark));
       return bookmark;
     } catch (error) {

@@ -19,15 +19,7 @@ const StyledSafeAreaView = styled(SafeAreaView)`
   flex: 1;
 `;
 
-const ScreenWrapper = styled.ScrollView.attrs(() => ({
-  contentContainerStyle: {
-    display: 'flex',
-    flex: 1,
-    flexDirection: 'column',
-    paddingLeft: 17,
-    paddingRight: 17,
-  },
-}))`
+const ScreenWrapper = styled.View`
   background: ${(props) => props.theme.colors.white};
   flex: 1;
 `;
@@ -66,6 +58,10 @@ const BoldText = styled.Text`
   color: ${(props) => props.theme.colors.black};
   font-weight: bold;
   margin-vertical: 15px;
+`;
+
+const SearchArea = styled.View`
+  margin-horizontal: 14px;
 `;
 
 const EmptyFavorite = () => {
@@ -125,14 +121,16 @@ function Saved({ tabs }) {
                 />
               ))}
             </TabContainer>
-            <SearchBar
-              value={filterParam.text}
-              onChangeText={(text) =>
-                onSearchParamChange({ ...filterParam, text })
-              }
-              onFilterPress={() => navigate('SearchModal', filterParam)}
-              onSettingsPress={() => {}}
-            />
+            <SearchArea>
+              <SearchBar
+                value={filterParam.text}
+                onChangeText={(text) =>
+                  onSearchParamChange({ ...filterParam, text })
+                }
+                onFilterPress={() => navigate('SearchModal', filterParam)}
+                onSettingsPress={() => {}}
+              />
+            </SearchArea>
           </>
         </ActivityList>
       </ScreenWrapper>

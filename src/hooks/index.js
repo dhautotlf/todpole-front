@@ -3,6 +3,7 @@ import getSession from './getSession';
 import getActivities from './getActivities';
 import getActivity from './getActivity';
 import getBookmarkedActivities from './getBookmarkedActivities';
+import isActivityBookmarked from './isActivityBookmarked';
 
 export {
   isAuthenticated,
@@ -10,4 +11,5 @@ export {
   getSession,
   getActivity,
   getBookmarkedActivities,
+  isActivityBookmarked,
 };
