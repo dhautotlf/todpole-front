@@ -120,6 +120,8 @@ export const translations = {
 
   saved_header_title1: 'Discover',
   saved_header_title2: 'Saved',
+  saved_tab_title1: 'Favorites',
+  saved_tab_title2: 'Creations',
   saved_header_bar: 'Search...',
   saved_emptystate_text1:
     'Find your next favorite activities and save them with the bookmark icon',

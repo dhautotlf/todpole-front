@@ -3,6 +3,7 @@ import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { translations } from '../constants/translations';
 import FilterIcon from '../assets/icons/filter.svg';
+import SettingsIcon from '../assets/icons/settings.svg';
 import SearchIcon from '../assets/icons/search.svg';
 
 const SearchBarContainer = styled.View`
@@ -52,12 +53,19 @@ function SearchBar(props) {
           onPress={props.onFilterPress}
         />
       )}
+      {props.onSettingsPress && (
+        <SettingsIcon
+          style={{ alignSelf: 'center' }}
+          onPress={props.onSettingsPress}
+        />
+      )}
     </SearchBarContainer>
   );
 }
 
 SearchBar.propTypes = {
   onFilterPress: PropTypes.func,
+  onSettingsPress: PropTypes.func,
 };
 
 SearchBar.defaultProps = {};
