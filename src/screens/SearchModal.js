@@ -6,7 +6,7 @@ import { get } from 'lodash';
 function SearchModal(props) {
   return (
     <SafeAreaView>
-      <SearchBar value={get(props, route.params.text)} />
+      <SearchBar value={get(props, 'route.params.text')} />
       <Text>
         {Object.entries(props.route.params).map(
           ([key, val]) => `${key}:${val}`,
