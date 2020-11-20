@@ -1,5 +1,6 @@
 import gql from 'graphql-tag';
 import apiGraph from '../api/apiGraph';
+import type from '../types';
 
 const mutation = gql`
   mutation createNewActivity(
@@ -22,18 +23,7 @@ const mutation = gql`
       url: $url
       activityImageList: $activityImageList
     }) {
-      id
-      name
-      ageMin
-      description
-      url
-      ageMax
-      timing
-      userId
-      activityImageList {
-        url
-        isMain
-      }
+      ${type.Activity}
     }
   }
 `;

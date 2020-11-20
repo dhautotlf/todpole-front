@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
@@ -7,9 +7,14 @@ import MenuArea from '../components/MenuArea';
 import BasicButton from '../components/BasicButton';
 import SearchBar from '../components/SearchBar';
 import TabItem from '../components/TabItem';
+import ActivityList from '../components/ActivityList';
+import Loading from '../components/Loading';
 import { translations } from '../constants/translations';
 import BoxIcon from '../assets/icons/box.svg';
 import ArrowIcon from '../assets/icons/scribble-arrow.svg';
+import { getBookmarkedActivities } from '../hooks';
+import { isEmpty } from 'lodash';
+import shallowFilter from '../utils/shallowStringFilter';
 
 const StyledSafeAreaView = styled(SafeAreaView)`
   flex: 1;
@@ -63,6 +68,14 @@ const BoldText = styled.Text`
   margin-vertical: 15px;
 `;
 
+const BodyPicker = ({ isLoading, data, selectedTabIndex }) => {
+  if (isLoading) return <Loading />;
+  if (selectedTabIndex === 0 && isEmpty(data)) return <EmptyFavorite />;
+  if (selectedTabIndex === 1 && isEmpty(data)) return <EmptyCreations />;
+  if (selectedTabIndex === 0) return <ActivityList data={data} />;
+  if (selectedTabIndex === 1) return <ActivityList data={data} />;
+};
+
 const EmptyFavorite = () => {
   const { navigate } = useNavigation();
   return (
@@ -78,6 +91,7 @@ const EmptyFavorite = () => {
   );
 };
 
+const SEARCH_TRIGGER_CHAR_COUNT = 2;
 const EmptyCreations = () => (
   <BodyBottom>
     <BoldText>{translations.saved_emptystate_text2}</BoldText>
@@ -89,6 +103,10 @@ function Saved({ tabs }) {
   const { navigate } = useNavigation();
   const [filterParam, onSearchParamChange] = useState({});
   const [selectedTabIndex, onTabSelected] = useState(0);
+  const { data = [], isLoading } = getBookmarkedActivities();
+
+  const filterResults = (data) =>
+    shallowFilter(data, filterParam.text, SEARCH_TRIGGER_CHAR_COUNT);
 
   return (
     <StyledSafeAreaView>
@@ -112,8 +130,11 @@ function Saved({ tabs }) {
           onFilterPress={() => navigate('SearchModal', filterParam)}
           onSettingsPress={() => {}}
         />
-        {selectedTabIndex === 0 && <EmptyFavorite />}
-        {selectedTabIndex === 1 && <EmptyCreations />}
+        <BodyPicker
+          isLoading={isLoading}
+          data={filterResults(data)}
+          selectedTabIndex={selectedTabIndex}
+        />
       </ScreenWrapper>
     </StyledSafeAreaView>
   );

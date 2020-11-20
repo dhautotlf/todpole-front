@@ -8,7 +8,6 @@ const ActivityWrapper = styled.View`
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  margin-right: 10px;
   margin-bottom: 23px;
 `;
 
@@ -38,8 +37,8 @@ const ThumbnailImage = styled.Image`
 
 function Activity({ id, img, title }) {
   const { navigate } = useNavigation();
-  const goToActivityPdp = () => {	
-    navigate('ActivityDetail', { id, url: img.url });	
+  const goToActivityPdp = () => {
+    navigate('ActivityDetail', { id, url: img.url });
   };
 
   return (
