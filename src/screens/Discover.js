@@ -80,6 +80,9 @@ function Discover() {
       return { id: d.id, title: d.name, url: img.url };
     });
 
+  const isSearchMode =
+    filterParam.text && filterParam.text.length >= SEARCH_TRIGGER_CHAR_COUNT;
+
   return (
     <StyledSafeAreaView>
       <Surprise />
@@ -98,9 +101,8 @@ function Discover() {
                 />
               </SearchArea>
             </Header>
-            {isLoading || !data ? (
-              <Loading />
-            ) : (
+            {isLoading || (!data && <Loading />)}
+            {!isSearchMode && !isLoading && data && (
               <>
                 <TrendingContainer>
                   <SectionTitle>
