@@ -12,6 +12,7 @@ import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
 import Welcome from '../screens/Welcome';
 import User from '../screens/User';
+import SearchModal from '../screens/SearchModal';
 import StepIndicator from '../components/StepIndicator';
 import { isAuthenticated } from '../hooks';
 
@@ -116,13 +117,27 @@ const HomeTab = () => {
   );
 };
 
+const ModalStack = createStackNavigator();
+const HomeTabWithSearch = () => (
+  <ModalStack.Navigator mode="modal">
+    <ModalStack.Screen
+      name="HomeStack"
+      component={HomeTab}
+      options={{ headerShown: false }}
+    />
+    <ModalStack.Screen name="SearchModal" component={SearchModal} />
+  </ModalStack.Navigator>
+);
+
 const Navigator = () => {
   const { data: isSignedIn, isRestoring } = isAuthenticated();
   if (isRestoring) return <ActivityIndicator />;
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={hideHeader}>
-        {isSignedIn && <Stack.Screen name="HomeTab" component={HomeTab} />}
+        {isSignedIn && (
+          <Stack.Screen name="HomeTab" component={HomeTabWithSearch} />
+        )}
         {!isSignedIn && (
           <Stack.Screen
             name="UnAuthenticatedStack"
