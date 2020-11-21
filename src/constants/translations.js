@@ -86,7 +86,7 @@ export const translations = {
 
   discover_header_title1: 'Discover',
   discover_header_title2: 'Saved',
-  discover_header_bar: 'Search',
+  discover_header_bar: 'Search...',
   discover_topic_title1: 'Trending Now',
   discover_topic_title2: 'Idea For You',
   discover_categories: [
@@ -120,7 +120,9 @@ export const translations = {
 
   saved_header_title1: 'Discover',
   saved_header_title2: 'Saved',
-  saved_header_bar: 'Search',
+  saved_tab_title1: 'Favorites',
+  saved_tab_title2: 'Creations',
+  saved_header_bar: 'Search...',
   saved_emptystate_text1:
     'Find your next favorite activities and save them with the bookmark icon',
   saved_emptystate_button: 'Discover',

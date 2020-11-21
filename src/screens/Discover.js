@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -13,8 +13,12 @@ import Activity from '../components/Activity';
 import MenuArea from '../components/MenuArea';
 import WelcomeCategory from '../components/WelcomeCategory';
 import Surprise from '../components/Surprise';
+import SearchBar from '../components/SearchBar';
 import { getActivities } from '../hooks';
 import { translations } from '../constants/translations';
+import shallowFilter from '../utils/shallowStringFilter';
+
+import { useNavigation } from '@react-navigation/native';
 
 const StyledSafeAreaView = styled(SafeAreaView)`
   flex: 1;
@@ -68,22 +72,34 @@ const Activities = styled(View)`
 const IdeasForYou = styled(FlatList)``;
 
 function Discover() {
+  const { navigate } = useNavigation();
   const { data = [], isLoading } = getActivities();
+  const [filterParam, onSearchParamChange] = useState({});
+
+  const getMainImage = (activityImageList) =>
+    activityImageList.find(({ isMain }) => isMain);
+
+  const SEARCH_TRIGGER_CHAR_COUNT = 2;
+  const filterResults = (data) =>
+    shallowFilter(data, filterParam.text, SEARCH_TRIGGER_CHAR_COUNT);
 
   const renderActivities = () => {
-    const activities = data.map((d) => {
-      const img = d.activityImageList.filter((image) => image.isMain)[0];
-      return <Activity key={`ALL${d.id}`} id={d.id} img={img} title={d.name} />;
-    });
+    const activities = filterResults(data).map((d) => (
+      <Activity
+        key={`ALL${d.id}`}
+        id={d.id}
+        img={getMainImage(d.activityImageList)}
+        title={d.name}
+      />
+    ));
     return <Activities>{activities}</Activities>;
   };
 
-  const getTrendingData = () => {
-    return data.map((d) => {
-      const img = d.activityImageList.filter((image) => image.isMain)[0];
+  const getTrendingData = () =>
+    filterResults(data).map((d) => {
+      const img = getMainImage(d.activityImageList);
       return { id: d.id, title: d.name, url: img.url };
     });
-  };
 
   return (
     <StyledSafeAreaView>
@@ -97,6 +113,13 @@ function Discover() {
           <ActivityIndicator />
         ) : (
           <>
+            <SearchBar
+              value={filterParam.text}
+              onChangeText={(text) =>
+                onSearchParamChange({ ...filterParam, text })
+              }
+              onFilterPress={() => navigate('SearchModal', filterParam)}
+            />
             <TrendingContainer>
               <SectionTitle>{translations.discover_topic_title1}</SectionTitle>
               <IdeasForYou
@@ -112,7 +135,7 @@ function Discover() {
               <SectionTitle>{translations.discover_topic_title2}</SectionTitle>
               <IdeasForYou
                 horizontal
-                data={translations.discover_categories}
+                data={filterResults(translations.discover_categories)}
                 renderItem={({ item }) => (
                   <WelcomeCategory title={item.title} image={item.image} />
                 )}
