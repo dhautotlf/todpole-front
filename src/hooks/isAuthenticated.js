@@ -7,7 +7,7 @@ export default function () {
   const auth = useSelector(isAuthenticated);
   useEffect(() => {
     if (!auth.isAuthenticated) dispatch(restoreSession());
-  }, [dispatch]);
+  }, []);
 
   return auth;
 }

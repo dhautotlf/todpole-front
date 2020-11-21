@@ -1,7 +1,11 @@
 import React, { useState, useContext } from 'react';
 import styled, { ThemeContext } from 'styled-components/native';
+import { TouchableOpacity } from 'react-native';
+import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import PropTypes from 'prop-types';
 import BasicButton from '../components/BasicButton';
+import MultiSelectModal from '../components/MultiSelectModal';
+import Slider from '@react-native-community/slider';
 import { translations } from '../constants/translations';
 
 const Form = styled.View`
@@ -60,6 +64,8 @@ const CategoryButton = styled.TouchableOpacity`
   border-radius: 8px;
 `;
 
+const TimeSlider = styled(Slider)``;
+
 const Footer = styled.View`
   align-items: center;
   margin: 28px auto;
@@ -91,10 +97,13 @@ const categoryEnum = [
 function ActivityForm({ submitButtonLabel, onCreateActivity }) {
   const [name, onChangeName] = useState('');
   const [category, setCategory] = useState('');
+  const [ageSliderValues, setAgeSliderValues] = React.useState([6, 18]);
+  const [timing, setTiming] = useState(0);
   const [description, onChangeDescription] = useState('');
   const [url, onChangeUrl] = useState('');
   const [review, onChangeReview] = useState('');
   const [tags, onChangeTags] = useState('');
+  const [materialModal, setMaterialModal] = useState(false);
   const themeContext = useContext(ThemeContext);
 
   const submitForm = () => {
@@ -146,6 +155,64 @@ function ActivityForm({ submitButtonLabel, onCreateActivity }) {
     );
   };
 
+  const renderAgeRange = () => {
+    return (
+      <>
+        <Label>{translations.createactivity_field3_title}:</Label>
+        <Label>
+          {`Between ${ageSliderValues[0]} and ${ageSliderValues[1]}`}:
+        </Label>
+        <MultiSlider
+          values={[ageSliderValues[0], ageSliderValues[1]]}
+          sliderLength={250}
+          onValuesChange={(values) => setAgeSliderValues(values)}
+          min={0}
+          max={72}
+          step={1}
+          allowOverlap
+          snapped
+        />
+      </>
+    );
+  };
+
+  const renderTiming = () => {
+    return (
+      <>
+        <Label>{translations.createactivity_field4_title}:</Label>
+        <Label>{timing}</Label>
+        <TimeSlider
+          minimumValue={0}
+          maximumValue={120}
+          minimumTrackTintColor={themeContext.colors.silver}
+          maximumTrackTintColor={themeContext.colors.anotherGray}
+          step={5}
+          onValueChange={(value) => setTiming(value)}
+        />
+      </>
+    );
+  };
+
+  const renderMaterial = () => {
+    return (
+      <>
+        <TouchableOpacity onPress={() => setMaterialModal(true)}>
+          <Label>{translations.activitydetail_topic_title1}:</Label>
+          <StyledTextInput
+            editable={false}
+            pointerEvents="none"
+            placeholder={translations.createactivity_field5_title}
+            placeholderTextColor={themeContext.colors.silver}
+          />
+        </TouchableOpacity>
+        <MultiSelectModal
+          onModalVisibleChange={setMaterialModal}
+          modalVisible={materialModal}
+        />
+      </>
+    );
+  };
+
   return (
     <Form>
       <FieldsContainer>
@@ -162,6 +229,9 @@ function ActivityForm({ submitButtonLabel, onCreateActivity }) {
           />
         </FieldView>
         <FieldView>{renderCategories()}</FieldView>
+        <FieldView>{renderAgeRange()}</FieldView>
+        <FieldView>{renderTiming()}</FieldView>
+        <FieldView>{renderMaterial()}</FieldView>
         <FieldView>
           <Label>{translations.createactivity_field6_title}:</Label>
           <StyledTextInput
