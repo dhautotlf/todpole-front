@@ -49,7 +49,7 @@ function BookmarkButton({ activity, small }) {
 
 BookmarkButton.propTypes = {
   activity: PropTypes.object,
-  small: PropTypes.boolean,
+  small: PropTypes.bool,
 };
 
 BookmarkButton.defaultProps = {
