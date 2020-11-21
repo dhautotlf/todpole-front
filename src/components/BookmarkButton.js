@@ -9,26 +9,26 @@ import { isActivityBookmarked } from '../hooks';
 
 const StyledBookmarkButton = styled.TouchableOpacity`
   background: ${(props) => props.theme.colors.yellowOpacity}
-  width: 54px;
-  height: 54px;
+  width: ${({ small }) => (small ? '30px' : '54px')};
+  height: ${({ small }) => (small ? '30px' : '54px')};
   justify-content: center;
   align-items: center;
-  border-radius: 27px;
+  border-radius: ${({ small }) => (small ? '15px' : '27px')};
 `;
 
 const Bookmark = styled(BookmarkIcon).attrs(() => ({
-  width: 25,
-  height: 31,
+  height: '50%',
+  width: '50%',
   color: 'white',
 }))``;
 
 const Bookmarked = styled(BookmarkedIcon).attrs(() => ({
-  width: 25,
-  height: 31,
+  height: '50%',
+  width: '50%',
   color: 'white',
 }))``;
 
-function BookmarkButton({ activity }) {
+function BookmarkButton({ activity, small }) {
   const dispatch = useDispatch();
 
   const selected = isActivityBookmarked(activity);
@@ -38,7 +38,10 @@ function BookmarkButton({ activity }) {
   };
 
   return (
-    <StyledBookmarkButton onPress={() => createBookmark(activity)}>
+    <StyledBookmarkButton
+      small={small}
+      onPress={() => createBookmark(activity)}
+    >
       {selected ? <Bookmarked /> : <Bookmark />}
     </StyledBookmarkButton>
   );
@@ -46,9 +49,12 @@ function BookmarkButton({ activity }) {
 
 BookmarkButton.propTypes = {
   activity: PropTypes.object,
+  small: PropTypes.boolean,
 };
 
-BookmarkButton.defaultProps = {};
+BookmarkButton.defaultProps = {
+  small: false,
+};
 
 BookmarkButton.StyledBookmarkButton = StyledBookmarkButton;
 

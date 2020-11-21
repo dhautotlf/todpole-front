@@ -73,10 +73,7 @@ const ActivityImageWithButton = (props) => (
   <View>
     <ActivityImage {...props} />
     <BookmarkButtonContainer>
-      <BookmarkButton
-        onPress={props.onBookmarkPress}
-        activity={props.activity}
-      />
+      <BookmarkButton activity={props.activity} />
     </BookmarkButtonContainer>
   </View>
 );
@@ -99,7 +96,6 @@ function ActivityDetail({ route }) {
           source={{
             uri: url || activityImageList.find(({ isMain }) => isMain).url,
           }}
-          onBookmarkPress={() => createBookmark(activityData)}
         />
       </Header>
       <Body>
