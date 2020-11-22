@@ -39,9 +39,9 @@ const ActivityDetailsContent = styled.View`
 
 function ActivityDetails({ activityData }) {
   const [selectedTab, setSelectedTab] = useState('material');
+
   const renderActivityContent = () => {
     let tabContent = null;
-
     switch (selectedTab) {
       case 'description':
         tabContent = (
@@ -54,7 +54,6 @@ function ActivityDetails({ activityData }) {
       default:
         tabContent = <ActivityMaterial />;
     }
-
     return tabContent;
   };
 

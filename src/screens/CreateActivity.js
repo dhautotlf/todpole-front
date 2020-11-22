@@ -52,34 +52,43 @@ const ImagePickerActivityWrapper = styled.View`
 function CreateActivity({ displayName }) {
   const { navigate } = useNavigation();
   const [errorMessage, setError] = useState('');
+  const [photos, updatePhotos] = useState([]);
 
   const dispatch = useDispatch();
   const createActivity = async (activity) => {
+    const activityInputs = { ...activity, activityImageList: photos };
+    console.log('activityInputs', activityInputs);
     try {
-      const a = await dispatch(postActivity(activity));
+      const a = await dispatch(postActivity(activityInputs));
       navigate('ActivityDetail', { id: a.id });
     } catch (error) {
       setError(error);
     }
   };
 
+  const updateImageList = (url, index) => {
+    const isMain = !index;
+    const photoArray = [...photos, { url, isMain }];
+    updatePhotos(photoArray);
+  };
+
   const dataImages = [
     {
+      id: 0,
+      onChange: (url) => {
+        updateImageList(url, 0);
+      },
+    },
+    {
       id: 1,
-      onChange: () => {
-        console.log(1);
+      onChange: (url) => {
+        updateImageList(url, 1);
       },
     },
     {
       id: 2,
-      onChange: () => {
-        console.log(2);
-      },
-    },
-    {
-      id: 3,
-      onChange: () => {
-        console.log(3);
+      onChange: (url) => {
+        updateImageList(url, 2);
       },
     },
   ];
