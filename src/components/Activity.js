@@ -1,11 +1,12 @@
 import React from 'react';
 import { View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import styled from 'styled-components/native';
 import BookmarkButton from '../components/BookmarkButton';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 
-const ActivityWrapper = styled.View`
+const ActivityWrapper = styled.TouchableOpacity`
   flex: 1;
 `;
 
@@ -40,19 +41,26 @@ const BookmarkButtonContainer = styled.View`
 const isMain = ({ isMain }) => isMain;
 const mainImageUri = (images) => ({ uri: get(images.find(isMain), 'url') });
 
-const Activity = ({ id, activityImageList, name }) => (
-  <ActivityWrapper>
-    <ThumbnailImage source={mainImageUri(activityImageList)} />
-    <View>
-      <BookmarkButtonContainer>
-        <BookmarkButton small activity={{ id }} />
-      </BookmarkButtonContainer>
-      <Caption>
-        <Title>{name}</Title>
-      </Caption>
-    </View>
-  </ActivityWrapper>
-);
+const Activity = ({ id, activityImageList, name }) => {
+  const { navigate } = useNavigation();
+  const goToActivityPdp = () => {
+    navigate('ActivityDetail', { id });
+  };
+
+  return (
+    <ActivityWrapper onPress={goToActivityPdp}>
+      <ThumbnailImage source={mainImageUri(activityImageList)} />
+      <View>
+        <BookmarkButtonContainer>
+          <BookmarkButton small activity={{ id }} />
+        </BookmarkButtonContainer>
+        <Caption>
+          <Title>{name}</Title>
+        </Caption>
+      </View>
+    </ActivityWrapper>
+  );
+};
 
 Activity.propTypes = {
   id: PropTypes.number.isRequired,

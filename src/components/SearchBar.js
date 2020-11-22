@@ -14,9 +14,9 @@ const SearchInputContainer = styled.View`
   flex: 1;
   flex-direction: row;
   height: 32px;
-  border-radius: ${({ theme }) => theme.radius.small};
-  padding-horizontal: ${({ theme }) => theme.spacing.small};
-  margin-right: ${({ theme }) => theme.spacing.tiny};
+  border-radius: ${({ theme }) => theme.radius.small}px;
+  padding-horizontal: ${({ theme }) => theme.spacing.small}px;
+  margin-right: ${({ theme }) => theme.spacing.tiny}px;
   background: ${({ theme }) => theme.colors.lightGray};
 `;
 
@@ -30,12 +30,12 @@ const StyledTextInput = styled.TextInput.attrs(({ theme }) => ({
 
 const FilterButton = styled(FilterIcon)`
   align-self: center;
-  margin-horizontal: ${({ theme }) => theme.spacing.tiny};
+  margin-horizontal: ${({ theme }) => theme.spacing.tiny}px;
 `;
 
 const SearchButton = styled(SearchIcon)`
   align-self: center;
-  margin-right: ${({ theme }) => theme.spacing.tiny};
+  margin-right: ${({ theme }) => theme.spacing.tiny}px;
 `;
 
 function SearchBar(props) {
