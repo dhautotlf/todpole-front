@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { useDispatch } from 'react-redux';
 import { postActivity } from '../reducers/activities';
 import ActivityForm from '../components/ActivityForm';
-import BasicButton from '../components/BasicButton';
 import ImagePickerComponent from '../components/ImagePickerComponent';
 import { useNavigation } from '@react-navigation/native';
+import { CommonActions } from '@react-navigation/native';
 import { translations } from '../constants/translations';
 
 const StyledSafeAreaView = styled.SafeAreaView`
@@ -49,19 +49,32 @@ const ImagePickerActivityWrapper = styled.View`
   margin-right: 13px;
 `;
 
-function CreateActivity({ displayName }) {
-  const { navigate } = useNavigation();
+function CreateActivity() {
+  const navigation = useNavigation();
   const [errorMessage, setError] = useState('');
   const [photos, updatePhotos] = useState([]);
 
   const dispatch = useDispatch();
+
   const createActivity = async (activity) => {
     const activityInputs = { ...activity, activityImageList: photos };
     console.log('activityInputs', activityInputs);
     try {
       const a = await dispatch(postActivity(activityInputs));
-      navigate('ActivityDetail', { id: a.id });
+
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [
+            {
+              name: 'Discover',
+            },
+          ],
+        }),
+      );
+      navigation.navigate('ActivityDetail', { id: 1 });
     } catch (error) {
+      console.log({ error });
       setError(error);
     }
   };
@@ -118,8 +131,6 @@ function CreateActivity({ displayName }) {
           />
           {errorMessage ? <Text>{errorMessage}</Text> : null}
         </Body>
-        <Text>{displayName}</Text>
-        <Text onPress={() => {}}>NEXT</Text>
       </ScreenWrapper>
     </StyledSafeAreaView>
   );
