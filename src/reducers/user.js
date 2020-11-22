@@ -42,7 +42,6 @@ export const getUser = ({ user }) => ({
  */
 export const fetchUser = () => {
   return async (dispatch) => {
-    console.log({ userActions });
     dispatch(userActions.getUserStart());
     try {
       const user = await Queries.current();
