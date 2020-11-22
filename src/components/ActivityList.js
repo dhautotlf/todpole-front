@@ -32,7 +32,7 @@ const ActivityList = (props) => (
     {...props}
     initialNumToRender={4}
     data={withPlaceholder(props.data)}
-    //contentContainerStyle={{ flexGrow: 1, backgroundColor: 'pink' }}
+    contentContainerStyle={{ flexGrow: 1 }}
     ListHeaderComponent={props.children || props.ListHeaderComponent}
     numColumns={2}
     renderItem={({ item, index }) => {
