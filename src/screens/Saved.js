@@ -62,6 +62,7 @@ const BoldText = styled.Text`
 
 const SearchArea = styled.View`
   margin-horizontal: 14px;
+  margin-bottom: 10px;
 `;
 
 const EmptyFavorite = () => {
