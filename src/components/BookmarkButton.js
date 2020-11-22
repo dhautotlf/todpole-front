@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import BookmarkIcon from '../assets/icons/bookmark.svg';
 import BookmarkedIcon from '../assets/icons/bookmarked.svg';
-import { postBookmark } from '../reducers/bookmarks';
+import { postBookmark, deleteBookmark } from '../reducers/bookmarks';
 import { isActivityBookmarked } from '../hooks';
 
 const StyledBookmarkButton = styled.TouchableOpacity`
@@ -37,13 +37,16 @@ function BookmarkButton({ activity, small }) {
   const createBookmark = async (activity) =>
     await dispatch(postBookmark(activity));
 
+  const unBookmark = async (activity) =>
+    await dispatch(deleteBookmark(activity));
+
   const Container = small ? StyledSmallBookmarkButton : StyledBookmarkButton;
   const Icon = selected ? Bookmarked : Bookmark;
 
   return (
     <Container
       small={small}
-      onPress={() => createBookmark(activity)}
+      onPress={() => (selected ? unBookmark : createBookmark)(activity)}
     >
       <Icon />
     </Container>

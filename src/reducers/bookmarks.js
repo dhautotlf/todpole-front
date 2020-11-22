@@ -1,9 +1,12 @@
 import { handleActions, combineActions } from 'redux-actions';
 import { bookmarks as bookmarksAction } from '../actions';
 import Queries from '../utils/queries';
-import { createBookmark as createBookmarkMutation } from '../utils/mutations';
+import {
+  createBookmark as createBookmarkMutation,
+  deleteBookmark as deleteBookmarkMutation,
+} from '../utils/mutations';
 import throttleThunk from '../utils/throttleThunk';
-import { isNil } from 'lodash';
+import { isNil, omit } from 'lodash';
 
 const INITIAL_STATE = {
   isLoading: false,
@@ -35,6 +38,10 @@ export default handleActions(
     [bookmarksAction.createBookmarkSuccess]: (state, { payload }) => ({
       ...state,
       data: { ...state.data, [payload.id]: payload },
+    }),
+    [bookmarksAction.deleteBookmarkSuccess]: (state, { payload }) => ({
+      ...state,
+      data: omit(state.data, payload.id),
     }),
   },
   INITIAL_STATE,
@@ -96,6 +103,29 @@ export const postBookmark = (activity) => {
       return bookmark;
     } catch (error) {
       dispatch(bookmarksAction.createBookmarkError({ error }));
+      throw error;
+    }
+  };
+};
+
+/**
+ * Create a the bookmarks
+ */
+export const deleteBookmark = (activity) => {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const { data: bookmarks } = getBookmarks(state);
+    const toDelete = bookmarks.find(
+      ({ activityId }) => activityId === activity.id,
+    );
+
+    dispatch(bookmarksAction.deleteBookmarkStart());
+    try {
+      const bookmark = await deleteBookmarkMutation(toDelete);
+      dispatch(bookmarksAction.deleteBookmarkSuccess(toDelete));
+      return bookmark;
+    } catch (error) {
+      dispatch(bookmarksAction.deleteBookmarkError({ error }));
       throw error;
     }
   };
