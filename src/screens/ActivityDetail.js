@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { SafeAreaView, View } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { getActivity } from '../hooks';
@@ -7,6 +7,10 @@ import { translations } from '../constants/translations';
 import ActivitySummary from '../components/ActivitySummary';
 import ActivityDetails from '../components/ActivityDetails';
 import BookmarkButton from '../components/BookmarkButton';
+
+const StyledSafeAreaView = styled(SafeAreaView)`
+  flex: 1;
+`;
 
 const ScreenWrapper = styled.ScrollView.attrs((props) => ({
   contentContainerStyle: {
@@ -85,28 +89,35 @@ function ActivityDetail({ route }) {
 
   const { activityImageList } = activityData;
 
+  const mainImage =
+    activityImageList && activityImageList.find(({ isMain }) => isMain);
+
+  const activityUrl = url || (!!mainImage && mainImage.url) || null;
+
   return (
-    <ScreenWrapper>
-      <Header>
-        <AgeDetails>
-          <AgeText>{`${activityData.ageMin} - ${activityData.ageMax} ${translations.activitydetail_topic_age}`}</AgeText>
-        </AgeDetails>
-        <ActivityImageWithButton
-          activity={activityData}
-          source={{
-            uri: url || activityImageList.find(({ isMain }) => isMain).url,
-          }}
-        />
-      </Header>
-      <Body>
-        <ActivitySummary
-          name={activityData.name}
-          category={activityData.category}
-          duration={activityData.timing}
-        />
-        <ActivityDetails activityData={activityData} />
-      </Body>
-    </ScreenWrapper>
+    <StyledSafeAreaView>
+      <ScreenWrapper>
+        <Header>
+          <AgeDetails>
+            <AgeText>{`${activityData.ageMin} - ${activityData.ageMax} ${translations.activitydetail_topic_age}`}</AgeText>
+          </AgeDetails>
+          <ActivityImageWithButton
+            activity={activityData}
+            source={{
+              uri: activityUrl,
+            }}
+          />
+        </Header>
+        <Body>
+          <ActivitySummary
+            name={activityData.name}
+            category={activityData.category}
+            duration={activityData.timing}
+          />
+          <ActivityDetails activityData={activityData} />
+        </Body>
+      </ScreenWrapper>
+    </StyledSafeAreaView>
   );
 }
 

@@ -22,7 +22,7 @@ const ActivityList = (props) => (
       <Activity
         key={`ALL${act.id}`}
         id={act.id}
-        img={getMainImage(act.activityImageList)}
+        img={getMainImage(act.activityImageList) || {}}
         title={act.name}
       />
     )}

@@ -71,13 +71,14 @@ function Activity({ id, img, title }) {
 }
 
 Activity.propTypes = {
+  id: PropTypes.number,
+  img: PropTypes.object,
   title: PropTypes.string,
-  description: PropTypes.string,
 };
 
 Activity.defaultProps = {
   title: 'Default Activity',
-  description: 'default text Activity',
+  img: {},
 };
 
 export default Activity;

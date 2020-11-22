@@ -65,6 +65,16 @@ const CategoryButton = styled.TouchableOpacity`
   border-radius: 8px;
 `;
 
+const ReviewHeader = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const RatingArea = styled.TouchableOpacity`
+  flex: 1;
+  align-items: flex-end;
+`;
+
 const TimeSlider = styled(Slider)``;
 
 const AgeMultiSlider = styled(MultiSlider)``;
@@ -77,23 +87,23 @@ const Footer = styled.View`
 const categoryEnum = [
   {
     name: translations.createactivity_field2_text1,
-    value: 'physical',
+    value: 'PHYSICAL',
   },
   {
     name: translations.createactivity_field2_text2,
-    value: 'cognitive',
+    value: 'COGNITIVE',
   },
   {
     name: translations.createactivity_field2_text3,
-    value: 'speech',
+    value: 'SPEECH',
   },
   {
     name: translations.createactivity_field2_text4,
-    value: 'socialEmotional',
+    value: 'SOCIAL_EMOTION',
   },
   {
     name: translations.createactivity_field2_text5,
-    value: 'selfCare',
+    value: 'SELF_CARE',
   },
 ];
 
@@ -104,15 +114,14 @@ function ActivityForm({ submitButtonLabel, onCreateActivity }) {
   const [timing, setTiming] = useState(0);
   const [description, onChangeDescription] = useState('');
   const [url, onChangeUrl] = useState('');
+  const [rating, onChangeRating] = useState({ ratings: 0, views: null });
+  const [shouldIncrement, onChangeIncrement] = useState(true);
   const [review, onChangeReview] = useState('');
   const [tags, onChangeTags] = useState('');
   const [materialModal, setMaterialModal] = useState(false);
   const themeContext = useContext(ThemeContext);
-
-  const ratingObj = {
-    ratings: 3,
-    views: null,
-  };
+  const maxRating = 5;
+  const minRating = 0;
 
   const submitForm = () => {
     const activityDetails = {
@@ -123,24 +132,29 @@ function ActivityForm({ submitButtonLabel, onCreateActivity }) {
       timing,
       description,
       url,
-      activityImageList: [
-        {
-          url:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyezISI3nJQy6yoyXrTELnHL9i-mfuXQONTQ&usqp=CAU',
-        },
-        {
-          url:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROtCNC9x1c1OT-jueYQqgYosRHNOh3WOa7zg&usqp=CAU',
-        },
-      ],
     };
-    console.log('activityDetails', activityDetails);
-    //onCreateActivity(activityDetails);
+    onCreateActivity(activityDetails);
   };
 
   const onCategorySelect = (selectedCategory) => {
     const currentCategory = selectedCategory || category;
     setCategory(currentCategory);
+  };
+
+  const onRateActivity = () => {
+    const currentRating = rating.ratings;
+    let newShouldIncrement = shouldIncrement;
+    if (currentRating === maxRating) {
+      newShouldIncrement = false;
+    } else if (currentRating === minRating) {
+      newShouldIncrement = true;
+    }
+    onChangeIncrement(newShouldIncrement);
+    const newRating = newShouldIncrement
+      ? currentRating + 1
+      : currentRating - 1;
+    const newObjRating = { ...rating, ratings: newRating };
+    onChangeRating(newObjRating);
   };
 
   const renderCategories = () => {
@@ -266,10 +280,12 @@ function ActivityForm({ submitButtonLabel, onCreateActivity }) {
           />
         </FieldView>
         <FieldView>
-          <Label>{translations.createactivity_field8_title}:</Label>
-          <Label>
-            <StarRating ratingObj={ratingObj} />
-          </Label>
+          <ReviewHeader>
+            <Label>{translations.createactivity_field8_title}:</Label>
+            <RatingArea onPress={onRateActivity}>
+              <StarRating ratingObj={rating} hideViews />
+            </RatingArea>
+          </ReviewHeader>
           <StyledTextInput
             name="review"
             type="review"

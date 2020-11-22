@@ -76,7 +76,7 @@ function Discover() {
 
   const getTrendingData = () =>
     filterResults(data).map((d) => {
-      const img = getMainImage(d.activityImageList);
+      const img = getMainImage(d.activityImageList) || {};
       return { id: d.id, title: d.name, url: img.url };
     });
 
