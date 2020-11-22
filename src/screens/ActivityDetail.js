@@ -102,6 +102,7 @@ function ActivityDetail({ route }) {
         <ActivitySummary
           name={activityData.name}
           category={activityData.category}
+          duration={activityData.timing}
         />
         <ActivityDetails activityData={activityData} />
       </Body>
