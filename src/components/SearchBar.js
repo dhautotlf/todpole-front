@@ -28,8 +28,11 @@ const StyledTextInput = styled.TextInput.attrs(({ theme }) => ({
   color: ${({ theme }) => theme.colors.darkGray};
 `;
 
-const FilterButton = styled(FilterIcon)`
+const Touchable = styled.TouchableOpacity`
   align-self: center;
+`;
+
+const FilterButton = styled(FilterIcon)`
   margin-horizontal: ${({ theme }) => theme.spacing.tiny}px;
 `;
 
@@ -45,12 +48,15 @@ function SearchBar(props) {
         <SearchButton />
         <StyledTextInput {...props} />
       </SearchInputContainer>
-      {props.onFilterPress && <FilterButton onPress={props.onFilterPress} />}
+      {props.onFilterPress && (
+        <Touchable onPress={props.onFilterPress}>
+          <FilterButton />
+        </Touchable>
+      )}
       {props.onSettingsPress && (
-        <SettingsIcon
-          style={{ alignSelf: 'center' }}
-          onPress={props.onSettingsPress}
-        />
+        <Touchable onPress={props.onSettingsPress}>
+          <SettingsIcon />
+        </Touchable>
       )}
     </SearchBarContainer>
   );

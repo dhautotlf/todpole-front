@@ -125,7 +125,12 @@ const HomeTabWithSearch = () => (
       component={HomeTab}
       options={{ headerShown: false }}
     />
-    <ModalStack.Screen name="SearchModal" component={SearchModal} />
+    <ModalStack.Screen
+      name="SearchModal"
+      component={SearchModal}
+      options={sharedHeader()}
+    />
+    <ModalStack.Screen name="User" component={User} options={sharedHeader()} />
   </ModalStack.Navigator>
 );
 

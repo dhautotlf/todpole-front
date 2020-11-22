@@ -8,6 +8,8 @@ import { signOut } from '../reducers/session';
 const ScreenWrapper = styled.View`
   display: flex;
   flex: 1;
+  justify-content: center;
+  align-items: center;
 `;
 
 function User() {
@@ -16,7 +18,7 @@ function User() {
 
   return (
     <ScreenWrapper>
-      <BasicButton label={'logout'} onPress={logout} />
+      <BasicButton selected label={'logout'} onPress={logout} />
     </ScreenWrapper>
   );
 }

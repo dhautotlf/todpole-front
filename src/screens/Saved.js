@@ -139,6 +139,7 @@ function Saved() {
                     onSearchParamChange({ ...filterParam, text })
                   }
                   onFilterPress={() => navigate('SearchModal', filterParam)}
+                  onSettingsPress={() => navigate('User')}
                 />
               </SearchArea>
             </Header>
