@@ -15,15 +15,29 @@ const VerticalSeparator = styled(View)`
   width: ${({ theme }) => theme.spacing.small}px;
 `;
 
+const Placeholder = styled(View)`
+  flex: 1;
+`;
+
+// placeholder is necessary to prevent the last odd item of the list to take up the full width
+const withPlaceholder = (data) => {
+  if (!data) return data;
+  if (data.length % 2) return [...data, { placeholder: true }];
+  return data;
+};
+
 const ActivityList = (props) => (
   <ActivityFlatList
     {...props}
+    data={withPlaceholder(props.data)}
     contentContainerStyle={{ flexGrow: 1 }}
     ListHeaderComponent={props.children || props.ListHeaderComponent}
     numColumns={2 + 1} // to include the vertical separator
-    renderItem={({ item, index }) =>
-      (index - 1) % 3 ? <Activity {...item} /> : <VerticalSeparator />
-    }
+    renderItem={({ item, index }) => {
+      if (item.placeholder) return <Placeholder />;
+      if ((index - 1) % 3 === 0) return <VerticalSeparator />;
+      return <Activity {...item} />;
+    }}
     keyExtractor={({ id }) => `ACTIVITY-${id}`}
   />
 );
