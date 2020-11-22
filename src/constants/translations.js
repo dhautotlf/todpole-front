@@ -155,5 +155,6 @@ export const translations = {
   activitydetail_topic_title1: 'Material',
   activitydetail_topic_title2: 'Description',
   activitydetail_topic_title3: 'Review',
+  activitydetail_topic_title4: 'Rating',
   activitydetail_topic_age: 'months',
 };

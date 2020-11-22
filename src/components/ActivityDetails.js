@@ -51,11 +51,11 @@ const Label = styled.Text`
 
 const ActivityDetailsContent = styled.View`
   flex: 1;
+  margin-top: 25px;
 `;
 
 function ActivityDetails({ activityData }) {
   const [selectedTab, setSelectedTab] = useState('material');
-
   const renderActivityContent = () => {
     let tabContent = null;
 

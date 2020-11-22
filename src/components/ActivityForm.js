@@ -5,6 +5,7 @@ import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import PropTypes from 'prop-types';
 import BasicButton from '../components/BasicButton';
 import MultiSelectModal from '../components/MultiSelectModal';
+import StarRating from '../components/StarRating';
 import Slider from '@react-native-community/slider';
 import { translations } from '../constants/translations';
 
@@ -66,6 +67,8 @@ const CategoryButton = styled.TouchableOpacity`
 
 const TimeSlider = styled(Slider)``;
 
+const AgeMultiSlider = styled(MultiSlider)``;
+
 const Footer = styled.View`
   align-items: center;
   margin: 28px auto;
@@ -106,13 +109,18 @@ function ActivityForm({ submitButtonLabel, onCreateActivity }) {
   const [materialModal, setMaterialModal] = useState(false);
   const themeContext = useContext(ThemeContext);
 
+  const ratingObj = {
+    ratings: 3,
+    views: null,
+  };
+
   const submitForm = () => {
     const activityDetails = {
       category,
       name,
-      ageMin: 1,
-      ageMax: 2,
-      timing: 10,
+      ageMin: ageSliderValues[0],
+      ageMax: ageSliderValues[1],
+      timing,
       description,
       url,
       activityImageList: [
@@ -126,7 +134,8 @@ function ActivityForm({ submitButtonLabel, onCreateActivity }) {
         },
       ],
     };
-    onCreateActivity(activityDetails);
+    console.log('activityDetails', activityDetails);
+    //onCreateActivity(activityDetails);
   };
 
   const onCategorySelect = (selectedCategory) => {
@@ -162,13 +171,13 @@ function ActivityForm({ submitButtonLabel, onCreateActivity }) {
         <Label>
           {`Between ${ageSliderValues[0]} and ${ageSliderValues[1]}`}:
         </Label>
-        <MultiSlider
+        <AgeMultiSlider
           values={[ageSliderValues[0], ageSliderValues[1]]}
-          sliderLength={250}
           onValuesChange={(values) => setAgeSliderValues(values)}
           min={0}
           max={72}
           step={1}
+          sliderLength={350}
           allowOverlap
           snapped
         />
@@ -258,6 +267,9 @@ function ActivityForm({ submitButtonLabel, onCreateActivity }) {
         </FieldView>
         <FieldView>
           <Label>{translations.createactivity_field8_title}:</Label>
+          <Label>
+            <StarRating ratingObj={ratingObj} />
+          </Label>
           <StyledTextInput
             name="review"
             type="review"

@@ -66,7 +66,9 @@ const CategoryTextWrapper = styled(DurationTextWrapper)`
   flex: 1;
 `;
 
-const CategoryText = styled(DurationText)``;
+const CategoryText = styled(DurationText)`
+  flex-wrap: wrap;
+`;
 
 const ActivityRating = styled(ActivityDuration)``;
 
