@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components/native';
-import { Text, TouchableOpacity, View } from 'react-native';
 import PropTypes from 'prop-types';
-import TimerIcon from '../assets/icons/timer.svg';
-import StarIcon from '../assets/icons/star.svg';
-import CategoryIcon from '../assets/icons/category.svg';
 import ActivityMaterial from '../components/ActivityMaterial';
 import ActivityDescription from '../components/ActivityDescription';
 import ActivityReview from '../components/ActivityReview';
@@ -22,19 +18,6 @@ const ActivityDetailsTabs = styled.View`
   flex-direction: row;
   justify-content: space-between;
 `;
-
-const ActivityMaterialWrapper = styled.View`
-  display: flex;
-  flex: 1;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: space-evenly;
-  padding: 12px 0px;
-`;
-
-const ActivityDescriptionWrapper = styled(ActivityMaterialWrapper)``;
-
-const ActivityReviewWrapper = styled(ActivityMaterialWrapper)``;
 
 const ActivityButton = styled.TouchableOpacity`
   height: 22px;

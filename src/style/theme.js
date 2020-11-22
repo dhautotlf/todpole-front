@@ -20,6 +20,7 @@ const colors = {
 
   green: '#84A59D',
   yellow: '#F6BD60',
+  yellowOpacity: '#F6BD60AA',
 
   whiteSmoke: '#F5F5F5',
   veryLightGray: '#FAFAFA',

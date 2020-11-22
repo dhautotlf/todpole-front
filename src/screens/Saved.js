@@ -7,23 +7,19 @@ import MenuArea from '../components/MenuArea';
 import BasicButton from '../components/BasicButton';
 import SearchBar from '../components/SearchBar';
 import TabItem from '../components/TabItem';
+import ActivityList from '../components/ActivityList';
+import Loading from '../components/Loading';
 import { translations } from '../constants/translations';
 import BoxIcon from '../assets/icons/box.svg';
 import ArrowIcon from '../assets/icons/scribble-arrow.svg';
+import { getBookmarkedActivities } from '../hooks';
+import shallowFilter from '../utils/shallowStringFilter';
 
 const StyledSafeAreaView = styled(SafeAreaView)`
   flex: 1;
 `;
 
-const ScreenWrapper = styled.ScrollView.attrs(() => ({
-  contentContainerStyle: {
-    display: 'flex',
-    flex: 1,
-    flexDirection: 'column',
-    paddingLeft: 17,
-    paddingRight: 17,
-  },
-}))`
+const ScreenWrapper = styled.View`
   background: ${(props) => props.theme.colors.white};
   flex: 1;
 `;
@@ -39,6 +35,7 @@ const Body = styled.View`
   flex: 1;
   align-items: center;
   justify-content: center;
+  align-self: center;
 `;
 
 const BodyBottom = styled.View`
@@ -63,6 +60,11 @@ const BoldText = styled.Text`
   margin-vertical: 15px;
 `;
 
+const SearchArea = styled.View`
+  margin-horizontal: 14px;
+  margin-bottom: 10px;
+`;
+
 const EmptyFavorite = () => {
   const { navigate } = useNavigation();
   return (
@@ -78,6 +80,7 @@ const EmptyFavorite = () => {
   );
 };
 
+const SEARCH_TRIGGER_CHAR_COUNT = 2;
 const EmptyCreations = () => (
   <BodyBottom>
     <BoldText>{translations.saved_emptystate_text2}</BoldText>
@@ -89,31 +92,48 @@ function Saved({ tabs }) {
   const { navigate } = useNavigation();
   const [filterParam, onSearchParamChange] = useState({});
   const [selectedTabIndex, onTabSelected] = useState(0);
+  const { data = [], isLoading } = getBookmarkedActivities();
+
+  const filterResults = (data) =>
+    shallowFilter(data, filterParam.text, SEARCH_TRIGGER_CHAR_COUNT);
 
   return (
     <StyledSafeAreaView>
       <ScreenWrapper>
-        <Header>
-          <MenuArea screen="saved" />
-        </Header>
-        <TabContainer>
-          {tabs.map((label, index) => (
-            <TabItem
-              key={label}
-              label={label}
-              onPress={() => onTabSelected(index)}
-              selected={selectedTabIndex === index}
-            />
-          ))}
-        </TabContainer>
-        <SearchBar
-          value={filterParam.text}
-          onChangeText={(text) => onSearchParamChange({ ...filterParam, text })}
-          onFilterPress={() => navigate('SearchModal', filterParam)}
-          onSettingsPress={() => {}}
-        />
-        {selectedTabIndex === 0 && <EmptyFavorite />}
-        {selectedTabIndex === 1 && <EmptyCreations />}
+        <ActivityList
+          data={filterResults(data)}
+          ListEmptyComponent={() => {
+            if (isLoading) return <Loading />;
+            if (selectedTabIndex === 0) return <EmptyFavorite />;
+            if (selectedTabIndex === 1) return <EmptyCreations />;
+          }}
+        >
+          <>
+            <Header>
+              <MenuArea screen="saved" />
+            </Header>
+            <TabContainer>
+              {tabs.map((label, index) => (
+                <TabItem
+                  key={label}
+                  label={label}
+                  onPress={() => onTabSelected(index)}
+                  selected={selectedTabIndex === index}
+                />
+              ))}
+            </TabContainer>
+            <SearchArea>
+              <SearchBar
+                value={filterParam.text}
+                onChangeText={(text) =>
+                  onSearchParamChange({ ...filterParam, text })
+                }
+                onFilterPress={() => navigate('SearchModal', filterParam)}
+                onSettingsPress={() => {}}
+              />
+            </SearchArea>
+          </>
+        </ActivityList>
       </ScreenWrapper>
     </StyledSafeAreaView>
   );

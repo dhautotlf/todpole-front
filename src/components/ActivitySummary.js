@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { Text, View } from 'react-native';
 import PropTypes from 'prop-types';
 import TimerIcon from '../assets/icons/timer.svg';
 import StarIcon from '../assets/icons/star.svg';
@@ -13,7 +12,7 @@ const ActivitySummaryWrapper = styled.View`
   border-radius: 8px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
   background: ${(props) => props.theme.colors.white};
-  margin: -20px 10px 25px 10px;
+  margin: -40px 10px 25px 10px;
 `;
 
 const ActivityTitleWrapper = styled.View`

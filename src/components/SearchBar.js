@@ -19,7 +19,6 @@ const SearchInputContainer = styled.View`
   padding-horizontal: 14px;
   margin-right: 10px;
   background: ${({ theme }) => theme.colors.lightGray};
-  color: ${({ theme }) => theme.colors.black};
 `;
 
 const StyledTextInput = styled.TextInput.attrs(({ theme }) => ({
@@ -27,7 +26,7 @@ const StyledTextInput = styled.TextInput.attrs(({ theme }) => ({
   placeholderTextColor: theme.colors.darkGray,
 }))`
   flex: 1;
-  color: ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.colors.darkGray};
 `;
 
 const FilterButton = styled(FilterIcon)`
