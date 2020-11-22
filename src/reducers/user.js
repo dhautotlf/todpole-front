@@ -1,22 +1,54 @@
-import { handleActions, combineActions } from 'redux-actions';
-import { session } from '../actions';
+import { handleActions } from 'redux-actions';
+import { user as userActions } from '../actions';
+import Queries from '../utils/queries';
+import { get } from 'lodash';
 
 const INITIAL_STATE = {
-  isLoading: true,
-  name: null,
+  isLoading: false,
+  data: null,
 };
 
 export default handleActions(
   {
-    [combineActions(
-      session.sessionRestoreSuccess,
-      session.signInSuccess,
-      session.signUpSuccess,
-    )]: (state, { payload }) => ({
+    [userActions.getUserStart]: (state) => ({
+      ...state,
+      isLoading: true,
+    }),
+    [userActions.getUserSuccess]: (state, { payload }) => ({
       ...state,
       isLoading: false,
-      name: payload.name,
+      data: payload,
+    }),
+    [userActions.getUserError]: (state, { payload }) => ({
+      ...state,
+      isLoading: false,
+      error: payload.error,
     }),
   },
   INITIAL_STATE,
 );
+
+// SELECTORS
+
+export const getUser = ({ user }) => ({
+  ...user,
+  errorMessage: get(user, 'error.graphQLErrors[0].message', null),
+});
+
+// THUNKS
+
+/**
+ * Function to read the session store in the local storage
+ */
+export const fetchUser = () => {
+  return async (dispatch) => {
+    console.log({ userActions });
+    dispatch(userActions.getUserStart());
+    try {
+      const user = await Queries.current();
+      dispatch(userActions.getUserSuccess(user));
+    } catch (error) {
+      dispatch(userActions.getUserError({ error }));
+    }
+  };
+};

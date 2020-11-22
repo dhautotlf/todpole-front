@@ -12,11 +12,10 @@ import Loading from '../components/Loading';
 import { translations } from '../constants/translations';
 import BoxIcon from '../assets/icons/box.svg';
 import ArrowIcon from '../assets/icons/scribble-arrow.svg';
-import { getBookmarkedActivities } from '../hooks';
+import { getBookmarkedActivities, getUser, getUserActivities } from '../hooks';
 import shallowFilter from '../utils/shallowStringFilter';
 
 const smallSpacing = ({ theme }) => theme.spacing.small;
-const tinySpacing = ({ theme }) => theme.spacing.tiny;
 
 const StyledSafeAreaView = styled(SafeAreaView)`
   flex: 1;
@@ -88,11 +87,23 @@ const EmptyCreations = () => (
   </BodyBottom>
 );
 
-function Saved({ tabs }) {
+const DISCOVER = 1;
+const SAVED = 2;
+const TABS = [
+  { id: DISCOVER, title: translations.saved_tab_title1 },
+  { id: SAVED, title: translations.saved_tab_title2 },
+];
+
+function Saved() {
   const { navigate } = useNavigation();
   const [filterParam, onSearchParamChange] = useState({});
-  const [selectedTabIndex, onTabSelected] = useState(0);
-  const { data = [], isLoading } = getBookmarkedActivities();
+  const [selectedTab, onTabSelected] = useState(DISCOVER);
+  const { data: user } = getUser();
+
+  const { data, isLoading } = {
+    [DISCOVER]: getBookmarkedActivities,
+    [SAVED]: () => getUserActivities(user),
+  }[selectedTab]();
 
   const filterResults = (data) =>
     shallowFilter(data, filterParam.text, SEARCH_TRIGGER_CHAR_COUNT);
@@ -104,20 +115,20 @@ function Saved({ tabs }) {
           data={filterResults(data)}
           ListEmptyComponent={() => {
             if (isLoading) return <Loading />;
-            if (selectedTabIndex === 0) return <EmptyFavorite />;
-            if (selectedTabIndex === 1) return <EmptyCreations />;
+            if (selectedTab === DISCOVER) return <EmptyFavorite />;
+            if (selectedTab === SAVED) return <EmptyCreations />;
           }}
         >
           <>
             <Header>
               <MenuArea screen="saved" />
               <TabContainer>
-                {tabs.map((label, index) => (
+                {TABS.map(({ id, title }) => (
                   <TabItem
-                    key={label}
-                    label={label}
-                    onPress={() => onTabSelected(index)}
-                    selected={selectedTabIndex === index}
+                    key={id}
+                    label={title}
+                    onPress={() => onTabSelected(id)}
+                    selected={selectedTab === id}
                   />
                 ))}
               </TabContainer>
@@ -142,8 +153,6 @@ Saved.propTypes = {
   tabs: PropTypes.array,
 };
 
-Saved.defaultProps = {
-  tabs: [translations.saved_tab_title1, translations.saved_tab_title2],
-};
+Saved.defaultProps = {};
 
 export default Saved;
