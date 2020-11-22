@@ -10,13 +10,14 @@ const Wrapper = styled.View`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  padding-bottom: ${({ theme }) => theme.spacing.small}px;
 `;
 
 const DiscoverButton = styled.View`
-  margin-right: 13px;
+  margin-horizontal: ${({ theme }) => theme.spacing.tiny}px;
 `;
 
-const SavedButton = styled.View``;
+const SavedButton = styled(DiscoverButton)``;
 
 function MenuArea({ screen }) {
   const { navigate } = useNavigation();

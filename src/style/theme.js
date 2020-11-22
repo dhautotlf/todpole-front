@@ -33,6 +33,14 @@ const colors = {
 
 export default {
   colors,
+  radius: {
+    tiny: 4,
+    small: 8,
+    moderate: 12,
+    medium: 24,
+    large: 32,
+    xlarge: 40,
+  },
   spacing: {
     tiny: 8,
     small: 16,

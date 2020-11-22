@@ -15,6 +15,9 @@ import ArrowIcon from '../assets/icons/scribble-arrow.svg';
 import { getBookmarkedActivities } from '../hooks';
 import shallowFilter from '../utils/shallowStringFilter';
 
+const smallSpacing = ({ theme }) => theme.spacing.small;
+const tinySpacing = ({ theme }) => theme.spacing.tiny;
+
 const StyledSafeAreaView = styled(SafeAreaView)`
   flex: 1;
 `;
@@ -25,9 +28,11 @@ const ScreenWrapper = styled.View`
 `;
 
 const Header = styled.View`
-  display: flex;
-  flex-direction: column;
-  margin-top: 15px;
+  padding-bottom: ${smallSpacing}px;
+`;
+
+const SearchArea = styled.View`
+  margin-horizontal: ${smallSpacing}px;
 `;
 
 const Body = styled.View`
@@ -49,7 +54,7 @@ const BodyBottom = styled.View`
 const TabContainer = styled.View`
   flex-direction: row;
   justify-content: space-evenly;
-  margin-bottom: 6px;
+  margin-bottom: ${smallSpacing}px;
 `;
 
 const BoldText = styled.Text`
@@ -58,11 +63,6 @@ const BoldText = styled.Text`
   color: ${(props) => props.theme.colors.black};
   font-weight: bold;
   margin-vertical: 15px;
-`;
-
-const SearchArea = styled.View`
-  margin-horizontal: 14px;
-  margin-bottom: 10px;
 `;
 
 const EmptyFavorite = () => {
@@ -111,27 +111,26 @@ function Saved({ tabs }) {
           <>
             <Header>
               <MenuArea screen="saved" />
-            </Header>
-            <TabContainer>
-              {tabs.map((label, index) => (
-                <TabItem
-                  key={label}
-                  label={label}
-                  onPress={() => onTabSelected(index)}
-                  selected={selectedTabIndex === index}
+              <TabContainer>
+                {tabs.map((label, index) => (
+                  <TabItem
+                    key={label}
+                    label={label}
+                    onPress={() => onTabSelected(index)}
+                    selected={selectedTabIndex === index}
+                  />
+                ))}
+              </TabContainer>
+              <SearchArea>
+                <SearchBar
+                  value={filterParam.text}
+                  onChangeText={(text) =>
+                    onSearchParamChange({ ...filterParam, text })
+                  }
+                  onFilterPress={() => navigate('SearchModal', filterParam)}
                 />
-              ))}
-            </TabContainer>
-            <SearchArea>
-              <SearchBar
-                value={filterParam.text}
-                onChangeText={(text) =>
-                  onSearchParamChange({ ...filterParam, text })
-                }
-                onFilterPress={() => navigate('SearchModal', filterParam)}
-                onSettingsPress={() => {}}
-              />
-            </SearchArea>
+              </SearchArea>
+            </Header>
           </>
         </ActivityList>
       </ScreenWrapper>
