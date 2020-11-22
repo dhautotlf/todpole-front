@@ -67,6 +67,13 @@ export const getActivities = ({ activities }) => ({
   data: activities.data ? Object.values(activities.data) : INITIAL_STATE.data,
 });
 
+export const getUserActivities = ({ activities }, user) => ({
+  ...activities,
+  data: activities.data
+    ? Object.values(activities.data).filter(({ userId }) => user.id === userId)
+    : INITIAL_STATE.data,
+});
+
 export const getActivity = ({ activities }, id) => activities.data[id];
 
 // THUNKS

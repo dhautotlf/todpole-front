@@ -14,15 +14,11 @@ const StyledSafeAreaView = styled(SafeAreaView)`
 
 const ScreenWrapper = styled.ScrollView.attrs((props) => ({
   contentContainerStyle: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    flex: 1,
+    paddingTop: props.theme.spacing.large,
+    paddingBottom: props.theme.spacing.small,
   },
 }))`
   background: ${(props) => props.theme.colors.white};
-  flex: 1;
-  padding-top: 48px;
 `;
 
 const Header = styled.View`

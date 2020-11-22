@@ -7,7 +7,6 @@ import SettingsIcon from '../assets/icons/settings.svg';
 import SearchIcon from '../assets/icons/search.svg';
 
 const SearchBarContainer = styled.View`
-  padding-vertical: 10px;
   flex-direction: row;
 `;
 
@@ -15,9 +14,9 @@ const SearchInputContainer = styled.View`
   flex: 1;
   flex-direction: row;
   height: 32px;
-  border-radius: 8px;
-  padding-horizontal: 14px;
-  margin-right: 10px;
+  border-radius: ${({ theme }) => theme.radius.small}px;
+  padding-horizontal: ${({ theme }) => theme.spacing.small}px;
+  margin-right: ${({ theme }) => theme.spacing.tiny}px;
   background: ${({ theme }) => theme.colors.lightGray};
 `;
 
@@ -31,27 +30,22 @@ const StyledTextInput = styled.TextInput.attrs(({ theme }) => ({
 
 const FilterButton = styled(FilterIcon)`
   align-self: center;
-  margin-horizontal: 10px;
+  margin-horizontal: ${({ theme }) => theme.spacing.tiny}px;
 `;
 
 const SearchButton = styled(SearchIcon)`
   align-self: center;
-  margin-right: 10px;
+  margin-right: ${({ theme }) => theme.spacing.tiny}px;
 `;
 
 function SearchBar(props) {
   return (
     <SearchBarContainer>
       <SearchInputContainer>
-        <SearchButton style={{ alignSelf: 'center' }} />
+        <SearchButton />
         <StyledTextInput {...props} />
       </SearchInputContainer>
-      {props.onFilterPress && (
-        <FilterButton
-          style={{ alignSelf: 'center' }}
-          onPress={props.onFilterPress}
-        />
-      )}
+      {props.onFilterPress && <FilterButton onPress={props.onFilterPress} />}
       {props.onSettingsPress && (
         <SettingsIcon
           style={{ alignSelf: 'center' }}

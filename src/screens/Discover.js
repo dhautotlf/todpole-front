@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { FlatList, SafeAreaView, Text } from 'react-native';
 import styled from 'styled-components/native';
+import { useNavigation } from '@react-navigation/native';
 import Activity from '../components/Activity';
 import MenuArea from '../components/MenuArea';
 import WelcomeCategory from '../components/WelcomeCategory';
@@ -11,10 +11,12 @@ import Loading from '../components/Loading';
 import { getActivities } from '../hooks';
 import { translations } from '../constants/translations';
 import shallowFilter from '../utils/shallowStringFilter';
+import { get } from 'lodash';
 
-import { useNavigation } from '@react-navigation/native';
+const smallSpacing = ({ theme }) => theme.spacing.small;
+const tinySpacing = ({ theme }) => theme.spacing.tiny;
 
-const StyledSafeAreaView = styled(SafeAreaView)`
+const StyledSafeAreaView = styled.SafeAreaView`
   flex: 1;
 `;
 
@@ -24,40 +26,52 @@ const ScreenWrapper = styled.View`
 `;
 
 const Header = styled.View`
-  display: flex;
-  flex-direction: column;
-  margin-top: 15px;
+  padding-bottom: ${tinySpacing}px;
 `;
 
 const SearchArea = styled.View`
-  margin-horizontal: 14px;
+  margin-horizontal: ${smallSpacing}px;
 `;
 
 const TrendingContainer = styled.View`
-  margin-top: 21px;
+  margin-top: ${smallSpacing}px;
 `;
 
-const IdeasContainer = styled.View`
-  margin-top: 18px;
+const IdeasContainer = styled(TrendingContainer)`
+  margin-top: ${smallSpacing}px;
 `;
 
 const HorizontalFlatlistHeader = styled.View`
-  width: 14px;
+  width: ${smallSpacing}px;
 `;
 
 const VerticalSeparator = styled.View`
-  width: 10px;
+  width: ${tinySpacing}px;
 `;
 
-const SectionTitle = styled(Text)`
+const ActivityWrapper = styled.View`
+  width: 160px;
+`;
+
+const SectionTitle = styled.Text`
   font-weight: bold;
   font-size: 14px;
   line-height: 17px;
-  margin-bottom: 15px;
-  margin-horizontal: 14px;
+  margin-bottom: ${smallSpacing}px;
+  margin-horizontal: ${smallSpacing}px;
 `;
 
-const IdeasForYou = styled(FlatList).attrs(() => ({
+const Trending = styled.FlatList.attrs(() => ({
+  horizontal: true,
+  ItemSeparatorComponent: VerticalSeparator,
+  ListHeaderComponent: HorizontalFlatlistHeader,
+}))`
+  padding-bottom: ${tinySpacing}px;
+  min-height: 200px;
+`;
+
+const IdeasForYou = styled.FlatList.attrs(() => ({
+  horizontal: true,
   ListHeaderComponent: HorizontalFlatlistHeader,
 }))``;
 
@@ -66,22 +80,15 @@ function Discover() {
   const { data = [], isLoading } = getActivities();
   const [filterParam, onSearchParamChange] = useState({});
 
-  const getMainImage = (activityImageList) =>
-    activityImageList.find(({ isMain }) => isMain);
-
   const SEARCH_TRIGGER_CHAR_COUNT = 2;
 
   const filterResults = (data) =>
     shallowFilter(data, filterParam.text, SEARCH_TRIGGER_CHAR_COUNT);
 
-  const getTrendingData = () =>
-    filterResults(data).map((d) => {
-      const img = getMainImage(d.activityImageList) || {};
-      return { id: d.id, title: d.name, url: img.url };
-    });
+  const getTrendingData = () => filterResults(data);
 
   const isSearchMode =
-    filterParam.text && filterParam.text.length >= SEARCH_TRIGGER_CHAR_COUNT;
+    get(filterParam, 'text.length', 0) >= SEARCH_TRIGGER_CHAR_COUNT;
 
   return (
     <StyledSafeAreaView>
@@ -108,14 +115,14 @@ function Discover() {
                   <SectionTitle>
                     {translations.discover_topic_title1}
                   </SectionTitle>
-                  <IdeasForYou
-                    horizontal
+                  <Trending
                     data={getTrendingData()}
                     renderItem={({ item }) => (
-                      <Activity id={item.id} title={item.title} img={item} />
+                      <ActivityWrapper>
+                        <Activity {...item} />
+                      </ActivityWrapper>
                     )}
-                    ItemSeparatorComponent={() => <VerticalSeparator />}
-                    keyExtractor={(item) => `TRENDING-${item.id}`}
+                    keyExtractor={({ id }) => `TRENDING-${id}`}
                   />
                 </TrendingContainer>
                 <IdeasContainer>
@@ -123,11 +130,8 @@ function Discover() {
                     {translations.discover_topic_title2}
                   </SectionTitle>
                   <IdeasForYou
-                    horizontal
                     data={filterResults(translations.discover_categories)}
-                    renderItem={({ item }) => (
-                      <WelcomeCategory title={item.title} image={item.image} />
-                    )}
+                    renderItem={({ item }) => <WelcomeCategory {...item} />}
                     keyExtractor={({ title }) => `IDEAS-${title}`}
                   />
                 </IdeasContainer>

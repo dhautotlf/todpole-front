@@ -4,11 +4,10 @@ import PropTypes from 'prop-types';
 
 const StyledButton = styled.TouchableOpacity`
   max-width: 160px;
-  border-radius: 8px;
+  border-radius: ${({ theme }) => theme.radius.small}px;
   padding: 10px 30px;
-  margin-bottom: 15px;
-  background: ${(props) =>
-    props.selected ? props.theme.colors.green : props.theme.colors.lightGray};
+  background: ${({ selected, theme }) =>
+    selected ? theme.colors.green : theme.colors.lightGray};
 `;
 
 const Label = styled.Text`

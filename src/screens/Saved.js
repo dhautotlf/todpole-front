@@ -12,8 +12,10 @@ import Loading from '../components/Loading';
 import { translations } from '../constants/translations';
 import BoxIcon from '../assets/icons/box.svg';
 import ArrowIcon from '../assets/icons/scribble-arrow.svg';
-import { getBookmarkedActivities } from '../hooks';
+import { getBookmarkedActivities, getUser, getUserActivities } from '../hooks';
 import shallowFilter from '../utils/shallowStringFilter';
+
+const smallSpacing = ({ theme }) => theme.spacing.small;
 
 const StyledSafeAreaView = styled(SafeAreaView)`
   flex: 1;
@@ -25,9 +27,11 @@ const ScreenWrapper = styled.View`
 `;
 
 const Header = styled.View`
-  display: flex;
-  flex-direction: column;
-  margin-top: 15px;
+  padding-bottom: ${smallSpacing}px;
+`;
+
+const SearchArea = styled.View`
+  margin-horizontal: ${smallSpacing}px;
 `;
 
 const Body = styled.View`
@@ -49,7 +53,7 @@ const BodyBottom = styled.View`
 const TabContainer = styled.View`
   flex-direction: row;
   justify-content: space-evenly;
-  margin-bottom: 6px;
+  margin-bottom: ${smallSpacing}px;
 `;
 
 const BoldText = styled.Text`
@@ -58,11 +62,6 @@ const BoldText = styled.Text`
   color: ${(props) => props.theme.colors.black};
   font-weight: bold;
   margin-vertical: 15px;
-`;
-
-const SearchArea = styled.View`
-  margin-horizontal: 14px;
-  margin-bottom: 10px;
 `;
 
 const EmptyFavorite = () => {
@@ -88,11 +87,23 @@ const EmptyCreations = () => (
   </BodyBottom>
 );
 
-function Saved({ tabs }) {
+const DISCOVER = 1;
+const SAVED = 2;
+const TABS = [
+  { id: DISCOVER, title: translations.saved_tab_title1 },
+  { id: SAVED, title: translations.saved_tab_title2 },
+];
+
+function Saved() {
   const { navigate } = useNavigation();
   const [filterParam, onSearchParamChange] = useState({});
-  const [selectedTabIndex, onTabSelected] = useState(0);
-  const { data = [], isLoading } = getBookmarkedActivities();
+  const [selectedTab, onTabSelected] = useState(DISCOVER);
+  const { data: user } = getUser();
+
+  const { data, isLoading } = {
+    [DISCOVER]: getBookmarkedActivities,
+    [SAVED]: () => getUserActivities(user),
+  }[selectedTab]();
 
   const filterResults = (data) =>
     shallowFilter(data, filterParam.text, SEARCH_TRIGGER_CHAR_COUNT);
@@ -104,34 +115,33 @@ function Saved({ tabs }) {
           data={filterResults(data)}
           ListEmptyComponent={() => {
             if (isLoading) return <Loading />;
-            if (selectedTabIndex === 0) return <EmptyFavorite />;
-            if (selectedTabIndex === 1) return <EmptyCreations />;
+            if (selectedTab === DISCOVER) return <EmptyFavorite />;
+            if (selectedTab === SAVED) return <EmptyCreations />;
           }}
         >
           <>
             <Header>
               <MenuArea screen="saved" />
-            </Header>
-            <TabContainer>
-              {tabs.map((label, index) => (
-                <TabItem
-                  key={label}
-                  label={label}
-                  onPress={() => onTabSelected(index)}
-                  selected={selectedTabIndex === index}
+              <TabContainer>
+                {TABS.map(({ id, title }) => (
+                  <TabItem
+                    key={id}
+                    label={title}
+                    onPress={() => onTabSelected(id)}
+                    selected={selectedTab === id}
+                  />
+                ))}
+              </TabContainer>
+              <SearchArea>
+                <SearchBar
+                  value={filterParam.text}
+                  onChangeText={(text) =>
+                    onSearchParamChange({ ...filterParam, text })
+                  }
+                  onFilterPress={() => navigate('SearchModal', filterParam)}
                 />
-              ))}
-            </TabContainer>
-            <SearchArea>
-              <SearchBar
-                value={filterParam.text}
-                onChangeText={(text) =>
-                  onSearchParamChange({ ...filterParam, text })
-                }
-                onFilterPress={() => navigate('SearchModal', filterParam)}
-                onSettingsPress={() => {}}
-              />
-            </SearchArea>
+              </SearchArea>
+            </Header>
           </>
         </ActivityList>
       </ScreenWrapper>
@@ -143,8 +153,6 @@ Saved.propTypes = {
   tabs: PropTypes.array,
 };
 
-Saved.defaultProps = {
-  tabs: [translations.saved_tab_title1, translations.saved_tab_title2],
-};
+Saved.defaultProps = {};
 
 export default Saved;

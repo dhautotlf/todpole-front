@@ -2,6 +2,7 @@ import { handleActions, combineActions } from 'redux-actions';
 import { bookmarks as bookmarksAction } from '../actions';
 import Queries from '../utils/queries';
 import { createBookmark as createBookmarkMutation } from '../utils/mutations';
+import throttleThunk from '../utils/throttleThunk';
 import { isNil } from 'lodash';
 
 const INITIAL_STATE = {
@@ -67,8 +68,9 @@ export const isBookmarked = ({ bookmarks }, { id }) =>
 
 /**
  * Get all the bookmarks
+ * Note: because this thunk is used by a single Activity component, and Activity componentare rendered in list, it is important to
  */
-export const fetchBookmarks = () => {
+export const fetchBookmarks = throttleThunk(() => {
   return async (dispatch) => {
     dispatch(bookmarksAction.getBookmarksStart());
     try {
@@ -78,7 +80,7 @@ export const fetchBookmarks = () => {
       dispatch(bookmarksAction.getBookmarksError({ error }));
     }
   };
-};
+});
 
 /**
  * Create a the bookmarks
