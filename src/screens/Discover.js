@@ -67,6 +67,7 @@ const Trending = styled.FlatList.attrs(() => ({
   ListHeaderComponent: HorizontalFlatlistHeader,
 }))`
   padding-bottom: ${tinySpacing}px;
+  min-height: 200px;
 `;
 
 const IdeasForYou = styled.FlatList.attrs(() => ({
