@@ -1,5 +1,7 @@
 import React from 'react';
+import { View } from 'react-native';
 import styled from 'styled-components/native';
+import BookmarkButton from '../components/BookmarkButton';
 import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
@@ -8,7 +10,6 @@ const ActivityWrapper = styled.View`
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  margin-right: 10px;
   margin-bottom: 23px;
 `;
 
@@ -36,20 +37,31 @@ const ThumbnailImage = styled.Image`
   border-radius: 8px;
 `;
 
+const BookmarkButtonContainer = styled.View`
+  position: absolute;
+  bottom: 19px;
+  right: 8px;
+`;
+
 function Activity({ id, img, title }) {
   const { navigate } = useNavigation();
-  const goToActivityPdp = () => {	
-    navigate('ActivityDetail', { id, url: img.url });	
+  const goToActivityPdp = () => {
+    navigate('ActivityDetail', { id, url: img.url });
   };
 
   return (
     <ActivityWrapper>
       <TouchableOpacity onPress={goToActivityPdp}>
-        <ThumbnailImage
-          source={{
-            uri: img.url,
-          }}
-        ></ThumbnailImage>
+        <View>
+          <ThumbnailImage
+            source={{
+              uri: img.url,
+            }}
+          />
+          <BookmarkButtonContainer>
+            <BookmarkButton small activity={{ id }} />
+          </BookmarkButtonContainer>
+        </View>
         <Caption>
           <Title>{title}</Title>
         </Caption>

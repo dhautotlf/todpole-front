@@ -1,11 +1,12 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { getActivity } from '../hooks';
 import { translations } from '../constants/translations';
 import ActivitySummary from '../components/ActivitySummary';
 import ActivityDetails from '../components/ActivityDetails';
+import BookmarkButton from '../components/BookmarkButton';
 
 const ScreenWrapper = styled.ScrollView.attrs((props) => ({
   contentContainerStyle: {
@@ -62,8 +63,24 @@ const Body = styled.View`
   align-items: center;
 `;
 
+const BookmarkButtonContainer = styled(View)`
+  position: absolute;
+  bottom: 55px;
+  right: 18px;
+`;
+
+const ActivityImageWithButton = (props) => (
+  <View>
+    <ActivityImage {...props} />
+    <BookmarkButtonContainer>
+      <BookmarkButton activity={props.activity} />
+    </BookmarkButtonContainer>
+  </View>
+);
+
 function ActivityDetail({ route }) {
   const { id, url } = route.params;
+
   const activityData = getActivity(id);
 
   const { activityImageList } = activityData;
@@ -74,11 +91,12 @@ function ActivityDetail({ route }) {
         <AgeDetails>
           <AgeText>{`${activityData.ageMin} - ${activityData.ageMax} ${translations.activitydetail_topic_age}`}</AgeText>
         </AgeDetails>
-        <ActivityImage
+        <ActivityImageWithButton
+          activity={activityData}
           source={{
             uri: url || activityImageList.find(({ isMain }) => isMain).url,
           }}
-        ></ActivityImage>
+        />
       </Header>
       <Body>
         <ActivitySummary
@@ -91,7 +109,9 @@ function ActivityDetail({ route }) {
   );
 }
 
-ActivityDetail.propTypes = {};
+ActivityDetail.propTypes = {
+  route: PropTypes.any,
+};
 
 ActivityDetail.defaultProps = {};
 
