@@ -41,14 +41,14 @@ const BookmarkButtonContainer = styled.View`
 const isMain = ({ isMain }) => isMain;
 const mainImageUri = (images) => ({ uri: get(images.find(isMain), 'url') });
 
-const Activity = ({ id, activityImageList, name }) => {
+const Activity = ({ style, id, activityImageList, name }) => {
   const { navigate } = useNavigation();
   const goToActivityPdp = () => {
     navigate('ActivityDetail', { id });
   };
 
   return (
-    <ActivityWrapper onPress={goToActivityPdp}>
+    <ActivityWrapper style={style} onPress={goToActivityPdp}>
       <ThumbnailImage source={mainImageUri(activityImageList)} />
       <View>
         <BookmarkButtonContainer>

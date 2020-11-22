@@ -11,13 +11,14 @@ const ActivityFlatList = styled(FlatList).attrs(({ theme }) => ({
   },
 }))``;
 
-const VerticalSeparator = styled(View)`
-  width: ${({ theme }) => theme.spacing.small}px;
-`;
-
 const Placeholder = styled(View)`
   flex: 1;
 `;
+
+const verticalSeparatorStyle = (index) => ({
+  paddingLeft: index % 2 && 7,
+  paddingRight: index % 2 === 0 && 7,
+});
 
 // placeholder is necessary to prevent the last odd item of the list to take up the full width
 const withPlaceholder = (data) => {
@@ -29,14 +30,14 @@ const withPlaceholder = (data) => {
 const ActivityList = (props) => (
   <ActivityFlatList
     {...props}
+    initialNumToRender={4}
     data={withPlaceholder(props.data)}
-    contentContainerStyle={{ flexGrow: 1 }}
+    //contentContainerStyle={{ flexGrow: 1, backgroundColor: 'pink' }}
     ListHeaderComponent={props.children || props.ListHeaderComponent}
-    numColumns={2 + 1} // to include the vertical separator
+    numColumns={2}
     renderItem={({ item, index }) => {
       if (item.placeholder) return <Placeholder />;
-      if ((index - 1) % 3 === 0) return <VerticalSeparator />;
-      return <Activity {...item} />;
+      return <Activity style={verticalSeparatorStyle(index)} {...item} />;
     }}
     keyExtractor={({ id }) => `ACTIVITY-${id}`}
   />
