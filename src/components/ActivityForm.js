@@ -115,7 +115,6 @@ function ActivityForm({ submitButtonLabel, onCreateActivity }) {
   const [description, onChangeDescription] = useState('');
   const [url, onChangeUrl] = useState('');
   const [rating, onChangeRating] = useState({ ratings: 0, views: null });
-  const [shouldIncrement, onChangeIncrement] = useState(true);
   const [review, onChangeReview] = useState('');
   const [tags, onChangeTags] = useState('');
   const [materialModal, setMaterialModal] = useState(false);
@@ -143,16 +142,7 @@ function ActivityForm({ submitButtonLabel, onCreateActivity }) {
 
   const onRateActivity = () => {
     const currentRating = rating.ratings;
-    let newShouldIncrement = shouldIncrement;
-    if (currentRating === maxRating) {
-      newShouldIncrement = false;
-    } else if (currentRating === minRating) {
-      newShouldIncrement = true;
-    }
-    onChangeIncrement(newShouldIncrement);
-    const newRating = newShouldIncrement
-      ? currentRating + 1
-      : currentRating - 1;
+    const newRating = currentRating === maxRating ? 0 : currentRating + 1;
     const newObjRating = { ...rating, ratings: newRating };
     onChangeRating(newObjRating);
   };

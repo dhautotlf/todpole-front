@@ -22,14 +22,21 @@ function StarRating({ ratingObj, hideViews }) {
 
   let stars = [];
   for (var i = 1; i <= 5; i++) {
-    let icon = <StyledStarFillIcon key={`fill_${i}`} width={18} height={18} />;
+    let icon = (
+      <StyledStarFillIcon
+        key={`fill_${i}`}
+        width={18}
+        height={18}
+        color={themeContext.colors.yellow}
+      />
+    );
     if (i > ratingObj.ratings) {
       icon = (
         <StyledStarUnfillIcon
           key={`unfill_${i}`}
           width={18}
           height={18}
-          fill={themeContext.colors.mediumGray}
+          color={themeContext.colors.yellow}
         />
       );
     }
