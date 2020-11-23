@@ -8,14 +8,16 @@ import { get } from 'lodash';
 
 const ActivityWrapper = styled.TouchableOpacity`
   flex: 1;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
 `;
 
 const Caption = styled.View`
-  border-radius: ${({ theme }) => theme.radius.small}px;
+  border-bottom-left-radius: ${({ theme }) => theme.radius.small}px;
+  border-bottom-right-radius: ${({ theme }) => theme.radius.small}px;
   padding-vertical: 12.5px
   padding-horizontal: ${({ theme }) => theme.spacing.tiny}px;
   background: ${({ theme }) => theme.colors.white};
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  
   margin-top: -10px;
 `;
 
