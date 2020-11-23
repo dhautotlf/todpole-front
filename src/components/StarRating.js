@@ -22,7 +22,6 @@ function StarRating({ ratingObj, hideViews }) {
 
   let stars = [];
   for (var i = 1; i <= 5; i++) {
-    console.log(ratingObj)
     let icon = <StyledStarFillIcon key={`fill_${i}`} width={18} height={18} fill={themeContext.colors.yellow} />;
     if (i > ratingObj.rating) {
       icon = (
