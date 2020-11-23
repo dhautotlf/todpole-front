@@ -11,4 +11,5 @@ timing
 description
 url
 activityImageList{${ActivityImage}}
+averageRating
 `;

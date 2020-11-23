@@ -78,7 +78,7 @@ const RatingText = styled(DurationText)`
   padding: ${(props) => props.theme.spacing.small}px 0px;
 `;
 
-function ActivitySummary({ name, category, duration, rating }) {
+function ActivitySummary({ name, category, duration, averageRating }) {
   return (
     <ActivitySummaryWrapper>
       <ActivityTitleWrapper>
@@ -100,7 +100,7 @@ function ActivitySummary({ name, category, duration, rating }) {
         <ActivityRating>
           <StarIcon width={22} height={21} />
           <RatingTextWrapper>
-            <RatingText>{rating}</RatingText>
+            <RatingText>{averageRating}</RatingText>
           </RatingTextWrapper>
         </ActivityRating>
       </ActivityDetails>

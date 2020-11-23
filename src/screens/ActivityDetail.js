@@ -109,6 +109,7 @@ function ActivityDetail({ route }) {
             name={activityData.name}
             category={activityData.category}
             duration={activityData.timing}
+            averageRating={activityData.averageRating}
           />
           <ActivityDetails activityData={activityData} />
         </Body>
