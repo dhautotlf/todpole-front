@@ -14,6 +14,7 @@ import Welcome from '../screens/Welcome';
 import User from '../screens/User';
 import SearchModal from '../screens/SearchModal';
 import StepIndicator from '../components/StepIndicator';
+import Material from '../components/MultiSelectModal';
 import { isAuthenticated } from '../hooks';
 
 import CreateIcon from '../assets/icons/create.svg';
@@ -131,6 +132,11 @@ const HomeTabWithSearch = () => (
       options={sharedHeader()}
     />
     <ModalStack.Screen name="User" component={User} options={sharedHeader()} />
+    <ModalStack.Screen
+      name="Material"
+      component={Material}
+      options={sharedHeader()}
+    />
   </ModalStack.Navigator>
 );
 

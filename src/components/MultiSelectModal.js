@@ -1,19 +1,8 @@
 import React, { useState } from 'react';
-import {
-  Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
 import CheckBox from 'react-native-check-box';
 import CheckedIcon from '../assets/icons/checked_tick.svg';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
-import { translations } from '../constants/translations';
-
-const StyledModal = styled.Modal`
-  z-index: 1100;
-`;
 
 const MultiSelectModalWrapper = styled.View`
   flex-direction: row;
@@ -21,18 +10,18 @@ const MultiSelectModalWrapper = styled.View`
   align-items: flex-start;
   justify-content: center;
   z-index: 1000;
-  margin-top: 50px;
+  background: ${(props) => props.theme.colors.white};
 `;
 
 const MultiSelectModalContentWrapper = styled.View`
   flex: 1;
-  margin:0 30px;
+  margin: 0 30px;
 `;
 
 const OptionWrapper = styled.View`
   flex-direction: row;
   align-items: center;
-  border-bottom-color: ${props => props.theme.colors.lightGray};
+  border-bottom-color: ${(props) => props.theme.colors.lightGray};
   border-bottom-width: 0.5px;
   border-style: solid;
 `;
@@ -43,13 +32,13 @@ const StyledCheckedIcon = styled(CheckedIcon)`
 `;
 
 const StyledCheckBox = styled(CheckBox).attrs(({ theme }) => ({
-  uncheckedCheckBoxColor: theme.colors.lightGray
+  uncheckedCheckBoxColor: theme.colors.lightGray,
 }))`
   width: 17px;
   height: 17px;
   padding: 0px;
   margin: 13px 13px 13px 0px;
-  background: ${props => props.theme.colors.lightGray};
+  background: ${(props) => props.theme.colors.lightGray};
   justify-content: center;
   align-items: center;
 `;
@@ -66,52 +55,43 @@ const Label = styled.Text`
   line-height: 24px;
 `;
 
-function MultiSelectModal({ onModalVisibleChange, modalVisible, options }) {
-  const [selectedOptions, setSelectedOptions] = useState({});
-  const [isSelected, setSelection] = useState(false);
+function MultiSelectModal({ route, options }) {
+  const [selectedOptions, setSelectedOptions] = useState(
+    route.params.materials,
+  );
 
   const updateSelections = (option, selected) => {
-    setSelectedOptions({
+    const newSelection = {
       ...selectedOptions,
       [option.name]: !selected,
-    });
+    };
+    route.params.onChangeMaterials(newSelection);
+    setSelectedOptions(newSelection);
   };
 
   return (
-    <StyledModal
-      animationType={'slide'}
-      onRequestClose={() => {
-        Alert.alert('Modal has been closed.');
-      }}
-      visible={modalVisible}
-      transparent={false}
-    >
-      <TouchableWithoutFeedback onPress={() => onModalVisibleChange(false)}>
-        <MultiSelectModalWrapper>
-          <TouchableWithoutFeedback onPress={() => {}}>
-            <MultiSelectModalContentWrapper>
-              <Title>Material</Title>
-              {options.map((option) => (
-                <OptionWrapper key={option.key}>
-                  <StyledCheckBox
-                    isChecked={!!selectedOptions[option.name]}
-                    onClick={() =>
-                      updateSelections(option, !!selectedOptions[option.name])
-                    }
-                    checkedImage={<StyledCheckedIcon />}
-                  />
-                  <Label>{option.label}</Label>
-                </OptionWrapper>
-              ))}
-            </MultiSelectModalContentWrapper>
-          </TouchableWithoutFeedback>
-        </MultiSelectModalWrapper>
-      </TouchableWithoutFeedback>
-    </StyledModal>
+    <MultiSelectModalWrapper>
+      <MultiSelectModalContentWrapper>
+        <Title>Material</Title>
+        {options.map((option) => (
+          <OptionWrapper key={option.key}>
+            <StyledCheckBox
+              isChecked={!!selectedOptions[option.name]}
+              onClick={() =>
+                updateSelections(option, !!selectedOptions[option.name])
+              }
+              checkedImage={<StyledCheckedIcon />}
+            />
+            <Label>{option.label}</Label>
+          </OptionWrapper>
+        ))}
+      </MultiSelectModalContentWrapper>
+    </MultiSelectModalWrapper>
   );
 }
 
 MultiSelectModal.propTypes = {
+  route: PropTypes.any,
   options: PropTypes.array,
   modalVisible: PropTypes.bool,
 };

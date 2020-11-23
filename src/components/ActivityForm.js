@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import styled, { ThemeContext } from 'styled-components/native';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import PropTypes from 'prop-types';
 import BasicButton from '../components/BasicButton';
@@ -108,6 +109,7 @@ const categoryEnum = [
 ];
 
 function ActivityForm({ submitButtonLabel, onCreateActivity }) {
+  const { navigate } = useNavigation();
   const [name, onChangeName] = useState('');
   const [category, setCategory] = useState('');
   const [ageSliderValues, setAgeSliderValues] = React.useState([6, 18]);
@@ -117,7 +119,7 @@ function ActivityForm({ submitButtonLabel, onCreateActivity }) {
   const [rating, onChangeRating] = useState({ ratings: 0, views: null });
   const [review, onChangeReview] = useState('');
   const [tags, onChangeTags] = useState('');
-  const [materialModal, setMaterialModal] = useState(false);
+  const [materials, onChangeMaterials] = useState([]);
   const themeContext = useContext(ThemeContext);
   const maxRating = 5;
   const minRating = 0;
@@ -132,7 +134,7 @@ function ActivityForm({ submitButtonLabel, onCreateActivity }) {
       timing,
       description,
       url,
-      review
+      review,
     };
     onCreateActivity(activityDetails);
   };
@@ -209,10 +211,18 @@ function ActivityForm({ submitButtonLabel, onCreateActivity }) {
   };
 
   const renderMaterial = () => {
+    console.log(materials);
     return (
       <>
-        <TouchableOpacity onPress={() => setMaterialModal(true)}>
+        <TouchableOpacity
+          onPress={() => navigate('Material', { materials, onChangeMaterials })}
+        >
           <Label>{translations.activitydetail_topic_title1}:</Label>
+          {Object.entries(materials)
+            .filter(([_, v]) => v)
+            .map(([k]) => (
+              <Text key={k}>{k}</Text>
+            ))}
           <StyledTextInput
             editable={false}
             pointerEvents="none"
@@ -220,10 +230,6 @@ function ActivityForm({ submitButtonLabel, onCreateActivity }) {
             placeholderTextColor={themeContext.colors.silver}
           />
         </TouchableOpacity>
-        <MultiSelectModal
-          onModalVisibleChange={setMaterialModal}
-          modalVisible={materialModal}
-        />
       </>
     );
   };
