@@ -7,7 +7,6 @@ import { translations } from '../constants/translations';
 
 const ActivityReviewWrapper = styled.View`
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
 `;
 
@@ -15,17 +14,20 @@ const Label = styled.Text`
   font-weight: normal;
   font-size: 14px;
   line-height: 17px;
+  margin-top: 5px;
+  margin-bottom: 20px;
 `;
 
-function ActivityReview({ review }) {
-  return (
-    <ActivityReviewWrapper>
+function ActivityReview({ reviewList }) {
+  return reviewList.map(r => (
+  <ActivityReviewWrapper>
+      <StarRating ratingObj={r} hideViews />
       <Label>
-        {translations.activitydetail_topic_title4}({review.views})
+        {r.text}
       </Label>
-      <StarRating ratingObj={review} hideViews />
     </ActivityReviewWrapper>
-  );
+    )
+    )
 }
 
 ActivityReview.propTypes = {};

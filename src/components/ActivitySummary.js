@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components/native';
+import React, { useContext } from 'react';
+import styled, { ThemeContext } from 'styled-components/native';
 import PropTypes from 'prop-types';
 import TimerIcon from '../assets/icons/timer.svg';
 import StarIcon from '../assets/icons/star.svg';
@@ -79,6 +79,8 @@ const RatingText = styled(DurationText)`
 `;
 
 function ActivitySummary({ name, category, duration, averageRating }) {
+  const themeContext = useContext(ThemeContext);
+
   return (
     <ActivitySummaryWrapper>
       <ActivityTitleWrapper>
@@ -98,7 +100,7 @@ function ActivitySummary({ name, category, duration, averageRating }) {
           </CategoryTextWrapper>
         </ActivityCategory>
         <ActivityRating>
-          <StarIcon width={22} height={21} />
+          <StarIcon fill={themeContext.colors.yellow} width={22} height={21} />
           <RatingTextWrapper>
             <RatingText>{averageRating}</RatingText>
           </RatingTextWrapper>

@@ -1,4 +1,5 @@
 import ActivityImage from './ActivityImage';
+import Review from './Review';
 
 export default `
 id
@@ -12,4 +13,5 @@ description
 url
 activityImageList{${ActivityImage}}
 averageRating
+reviewList{${Review}}
 `;

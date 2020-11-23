@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, View } from 'react-native';
+import { SafeAreaView, View, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { getActivity } from '../hooks';
@@ -50,7 +50,7 @@ const AgeText = styled.Text`
 `;
 
 const ActivityImage = styled.Image`
-  width: 316px;
+  width: ${Dimensions.get('window').width * 90/100};
   height: 316px;
   border-radius: 8px;
 `;

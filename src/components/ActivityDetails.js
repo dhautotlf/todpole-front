@@ -49,7 +49,7 @@ function ActivityDetails({ activityData }) {
         );
         break;
       case 'review':
-        tabContent = <ActivityReview />;
+        tabContent = <ActivityReview reviewList={activityData.reviewList} />;
         break;
       default:
         tabContent = <ActivityMaterial />;
