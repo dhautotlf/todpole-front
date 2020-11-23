@@ -123,6 +123,7 @@ function ActivityForm({ submitButtonLabel, onCreateActivity }) {
   const minRating = 0;
 
   const submitForm = () => {
+    const review = { rating: rating.ratings, text: review };
     const activityDetails = {
       category,
       name,
@@ -131,6 +132,7 @@ function ActivityForm({ submitButtonLabel, onCreateActivity }) {
       timing,
       description,
       url,
+      review
     };
     onCreateActivity(activityDetails);
   };

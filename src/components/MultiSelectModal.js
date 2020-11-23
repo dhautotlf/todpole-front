@@ -6,6 +6,7 @@ import {
   View,
 } from 'react-native';
 import CheckBox from 'react-native-check-box';
+import CheckedIcon from '../assets/icons/checked_tick.svg';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { translations } from '../constants/translations';
@@ -15,24 +16,54 @@ const StyledModal = styled.Modal`
 `;
 
 const MultiSelectModalWrapper = styled.View`
+  flex-direction: row;
   flex: 1;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   z-index: 1000;
+  margin-top: 50px;
 `;
 
-const MultiSelectModalContentWrapper = styled.View``;
+const MultiSelectModalContentWrapper = styled.View`
+  flex: 1;
+  margin:0 30px;
+`;
 
 const OptionWrapper = styled.View`
-  width: 80%;
-  padding: 10px;
-  margin-bottom: 10px;
   flex-direction: row;
+  align-items: center;
+  border-bottom-color: ${props => props.theme.colors.lightGray};
+  border-bottom-width: 0.5px;
+  border-style: solid;
 `;
 
-const StyledCheckBox = styled(CheckBox)`
-  width: 30px;
-  height: 30px;
+const StyledCheckedIcon = styled(CheckedIcon)`
+  width: 17px;
+  height: 17px;
+`;
+
+const StyledCheckBox = styled(CheckBox).attrs(({ theme }) => ({
+  uncheckedCheckBoxColor: theme.colors.lightGray
+}))`
+  width: 17px;
+  height: 17px;
+  padding: 0px;
+  margin: 13px 13px 13px 0px;
+  background: ${props => props.theme.colors.lightGray};
+  justify-content: center;
+  align-items: center;
+`;
+
+const Title = styled.Text`
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+`;
+
+const Label = styled.Text`
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 24px;
 `;
 
 function MultiSelectModal({ onModalVisibleChange, modalVisible, options }) {
@@ -59,7 +90,7 @@ function MultiSelectModal({ onModalVisibleChange, modalVisible, options }) {
         <MultiSelectModalWrapper>
           <TouchableWithoutFeedback onPress={() => {}}>
             <MultiSelectModalContentWrapper>
-              <Text>Material</Text>
+              <Title>Material</Title>
               {options.map((option) => (
                 <OptionWrapper key={option.key}>
                   <StyledCheckBox
@@ -67,8 +98,9 @@ function MultiSelectModal({ onModalVisibleChange, modalVisible, options }) {
                     onClick={() =>
                       updateSelections(option, !!selectedOptions[option.name])
                     }
+                    checkedImage={<StyledCheckedIcon />}
                   />
-                  <Text>{option.label}</Text>
+                  <Label>{option.label}</Label>
                 </OptionWrapper>
               ))}
             </MultiSelectModalContentWrapper>
