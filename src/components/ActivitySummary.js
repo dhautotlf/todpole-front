@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { Dimensions } from 'react-native';
 import styled, { ThemeContext } from 'styled-components/native';
 import PropTypes from 'prop-types';
 import TimerIcon from '../assets/icons/timer.svg';
@@ -8,7 +9,7 @@ import CategoryIcon from '../assets/icons/category.svg';
 const ActivitySummaryWrapper = styled.View`
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: ${Dimensions.get('window').width * 80/100};
   border-radius: 8px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
   background: ${(props) => props.theme.colors.white};

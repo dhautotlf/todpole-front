@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {Dimensions} from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import ActivityMaterial from '../components/ActivityMaterial';
@@ -10,7 +11,7 @@ const ActivityDetailsWrapper = styled.View`
   display: flex;
   flex-direction: column;
   flex: 1;
-  width: 316px;
+  width: ${Dimensions.get('window').width * 85/100};
 `;
 
 const ActivityDetailsTabs = styled.View`
