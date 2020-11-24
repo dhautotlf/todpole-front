@@ -2,33 +2,23 @@ import React from 'react';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import BookmarkIcon from '../assets/icons/bookmark.svg';
+import RoundButton from './RoundButton';
 import BookmarkedIcon from '../assets/icons/bookmarked.svg';
+import BookmarkIcon from '../assets/icons/bookmark.svg';
 import { postBookmark, deleteBookmark } from '../reducers/bookmarks';
 import { isActivityBookmarked } from '../hooks';
 
-const StyledBookmarkButton = styled.TouchableOpacity`
-  background: ${(props) => props.theme.colors.yellowOpacity}
-  width: 54px;
-  height: 54px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 27px;
+const StyledBookmarkButton = styled(RoundButton)`
+  background: ${(props) => props.theme.colors.yellowOpacity};
 `;
 
-const StyledSmallBookmarkButton = styled(StyledBookmarkButton)`
-  width: 30px;
-  height: 30px;
-  border-radius: 15px;
-`;
+const Bookmark = styled(BookmarkIcon).attrs(({ theme }) => ({
+  color: theme.colors.white,
+}))``;
 
-const iconParams = {
-  height: '50%',
-  width: '50%',
-  color: 'white',
-};
-const Bookmark = styled(BookmarkIcon).attrs(() => iconParams)``;
-const Bookmarked = styled(BookmarkedIcon).attrs(() => iconParams)``;
+const Bookmarked = styled(BookmarkedIcon).attrs(({ theme }) => ({
+  color: theme.colors.white,
+}))``;
 
 function BookmarkButton({ activity, small }) {
   const dispatch = useDispatch();
@@ -40,16 +30,14 @@ function BookmarkButton({ activity, small }) {
   const unBookmark = async (activity) =>
     await dispatch(deleteBookmark(activity));
 
-  const Container = small ? StyledSmallBookmarkButton : StyledBookmarkButton;
-  const Icon = selected ? Bookmarked : Bookmark;
-
   return (
-    <Container
+    <StyledBookmarkButton
+      selected
+      Icon={Bookmark}
+      IconSelected={Bookmarked}
       small={small}
       onPress={() => (selected ? unBookmark : createBookmark)(activity)}
-    >
-      <Icon />
-    </Container>
+    />
   );
 }
 
