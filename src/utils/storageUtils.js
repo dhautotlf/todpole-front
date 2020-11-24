@@ -1,4 +1,5 @@
-import AsyncStorage from '@react-native-community/async-storage';
+//import AsyncStorage from '@react-native-community/async-storage';
+import { AsyncStorage } from 'react-native';
 
 /*
 This class is a wrapper around a persistence layer.
