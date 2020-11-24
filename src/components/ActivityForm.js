@@ -7,8 +7,11 @@ import PropTypes from 'prop-types';
 import BasicButton from '../components/BasicButton';
 import FieldView from '../components/FieldView';
 import StarRating from '../components/StarRating';
+import RoundButton from '../components/RoundButton';
 import Slider from '@react-native-community/slider';
+import PlusIcon from '../assets/icons/create.svg';
 import { translations } from '../constants/translations';
+import { omit } from 'lodash';
 
 const Form = styled.View`
   display: flex;
@@ -63,6 +66,15 @@ const RatingArea = styled.TouchableOpacity`
 const TimeSlider = styled(Slider)``;
 
 const AgeMultiSlider = styled(MultiSlider)``;
+
+const AddMaterialButton = styled(RoundButton)`
+  marginTop: 9px
+  background: ${({ theme }) => theme.colors.whiteSmoke};
+`;
+
+const AddMaterialIcon = styled(PlusIcon).attrs(({ theme }) => ({
+  color: theme.colors.black,
+}))``;
 
 const Footer = styled.View`
   align-items: center;
@@ -214,23 +226,24 @@ function ActivityForm({
           .filter(([_, v]) => v)
           .map(([k]) => (
             <CategoryButton
-              onPress={() => changeForm(materials, setMaterials)}
+              onPress={() => changeForm(omit(materials, k), setMaterials)}
               selected
               key={k}
             >
               <CategoryLabel selected>{k}</CategoryLabel>
             </CategoryButton>
           ))}
+        <AddMaterialButton
+          medium
+          Icon={AddMaterialIcon}
+          onPress={() =>
+            navigate('Material', {
+              materials,
+              onChangeMaterials: (value) => changeForm(value, setMaterials),
+            })
+          }
+        />
       </CategoryButtonView>
-      <BasicButton
-        label={'add'}
-        onPress={() =>
-          navigate('Material', {
-            materials,
-            onChangeMaterials: (value) => changeForm(value, setMaterials),
-          })
-        }
-      />
     </FieldView>
   );
 
@@ -327,9 +340,15 @@ function ActivityForm({
           ],
         }[context]
       }
-      <Footer>
-        <BasicButton label={submitButtonLabel} onPress={submitForm} selected />
-      </Footer>
+      {'activityCreation' === context && (
+        <Footer>
+          <BasicButton
+            label={submitButtonLabel}
+            onPress={submitForm}
+            selected
+          />
+        </Footer>
+      )}
     </Form>
   );
 }
