@@ -36,7 +36,7 @@ const Header = styled.View`
 
 const Body = styled.View`
   flex: 1;
-  align-items: center;
+  margin-horizontal: ${({ theme }) => theme.spacing.moderate};
 `;
 
 const ImagePickerFlatList = styled.FlatList.attrs((props) => ({
