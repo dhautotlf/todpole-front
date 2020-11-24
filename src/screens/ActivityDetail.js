@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { SafeAreaView, View } from 'react-native';
-import styled from 'styled-components/native';
+import styled, { ThemeContext } from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { getActivity } from '../hooks';
 import { translations } from '../constants/translations';
 import ActivitySummary from '../components/ActivitySummary';
 import ActivityDetails from '../components/ActivityDetails';
 import BookmarkButton from '../components/BookmarkButton';
+import StarIcon from '../assets/icons/star.svg';
 
 const StyledSafeAreaView = styled(SafeAreaView)`
   flex: 1;
@@ -69,6 +70,18 @@ const BookmarkButtonContainer = styled(View)`
   right: 18px;
 `;
 
+const AddReviewButton = styled.TouchableOpacity`
+  background: ${(props) => props.theme.colors.green70};
+  position: absolute;
+  bottom: 21px;
+  right: 47px;
+  width: 54px;
+  height: 54px;
+  border-radius: 54px;
+  justify-content: center;
+  align-items: center;
+`;
+
 const ActivityImageWithButton = (props) => (
   <View>
     <ActivityImage {...props} />
@@ -80,6 +93,7 @@ const ActivityImageWithButton = (props) => (
 
 function ActivityDetail({ route }) {
   const { id, url } = route.params;
+  const themeContext = useContext(ThemeContext);
 
   const activityData = getActivity(id);
 
@@ -114,6 +128,9 @@ function ActivityDetail({ route }) {
           <ActivityDetails activityData={activityData} />
         </Body>
       </ScreenWrapper>
+      <AddReviewButton>
+        <StarIcon width={25} height={30} color={themeContext.colors.white} />
+      </AddReviewButton>
     </StyledSafeAreaView>
   );
 }

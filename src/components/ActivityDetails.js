@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import ActivityMaterial from '../components/ActivityMaterial';
 import ActivityDescription from '../components/ActivityDescription';
 import ActivityReview from '../components/ActivityReview';
+
 import { translations } from '../constants/translations';
 
 const ActivityDetailsWrapper = styled.View`

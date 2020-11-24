@@ -19,6 +19,7 @@ const colors = {
   white20: 'rgba(255, 255, 255, 0.2)',
 
   green: '#84A59D',
+  green70: 'rgba(132, 165, 157, 0.7)',
   yellow: '#F6BD60',
   yellowOpacity: '#F6BD60AA',
 
