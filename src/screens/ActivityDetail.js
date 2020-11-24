@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, View, Dimensions } from 'react-native';
+import { SafeAreaView, View } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { getActivity } from '../hooks';
@@ -7,6 +7,7 @@ import { translations } from '../constants/translations';
 import ActivitySummary from '../components/ActivitySummary';
 import ActivityDetails from '../components/ActivityDetails';
 import BookmarkButton from '../components/BookmarkButton';
+import { get } from 'lodash';
 
 const StyledSafeAreaView = styled(SafeAreaView)`
   flex: 1;
@@ -50,8 +51,8 @@ const AgeText = styled.Text`
 `;
 
 const ActivityImage = styled.Image`
-  width: ${Dimensions.get('window').width * 90/100};
-  height: 316px;
+  flex: 1;
+  aspect-ratio: 1;
   border-radius: 8px;
 `;
 
@@ -70,7 +71,7 @@ const BookmarkButtonContainer = styled(View)`
 `;
 
 const ActivityImageWithButton = (props) => (
-  <View>
+  <View style={{ flex: 1, marginHorizontal: 30 }}>
     <ActivityImage {...props} />
     <BookmarkButtonContainer>
       <BookmarkButton activity={props.activity} />
@@ -79,16 +80,17 @@ const ActivityImageWithButton = (props) => (
 );
 
 function ActivityDetail({ route }) {
-  const { id, url } = route.params;
+  const { id, url = null } = route.params;
 
   const activityData = getActivity(id);
 
-  const { activityImageList } = activityData;
+  const { activityImageList = [] } = activityData;
 
-  const mainImage =
-    activityImageList && activityImageList.find(({ isMain }) => isMain);
-
-  const activityUrl = url || (!!mainImage && mainImage.url) || null;
+  const activityUrl = get(
+    activityImageList.find(({ isMain }) => isMain),
+    'url',
+    url,
+  );
 
   return (
     <StyledSafeAreaView>
