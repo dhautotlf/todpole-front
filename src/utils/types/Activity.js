@@ -1,4 +1,5 @@
 import ActivityImage from './ActivityImage';
+import Review from './Review';
 
 export default `
 id
@@ -10,6 +11,7 @@ ageMax
 timing
 description
 url
+reviewList{${Review}}
 activityImageList{${ActivityImage}}
 averageRating
 `;
