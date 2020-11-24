@@ -36,7 +36,7 @@ const Header = styled.View`
 
 const Body = styled.View`
   flex: 1;
-  margin-horizontal: ${({ theme }) => theme.spacing.moderate};
+  margin-horizontal: ${({ theme }) => theme.spacing.moderate}px;
 `;
 
 const ImagePickerFlatList = styled.FlatList.attrs((props) => ({

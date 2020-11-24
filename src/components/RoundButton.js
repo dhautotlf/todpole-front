@@ -56,8 +56,8 @@ RoundButton.propTypes = {
   small: PropTypes.bool,
   medium: PropTypes.bool,
   selected: PropTypes.bool,
-  Icon: PropTypes.func,
-  IconSelected: PropTypes.func,
+  Icon: PropTypes.object,
+  IconSelected: PropTypes.any,
   onPress: PropTypes.func,
 };
 

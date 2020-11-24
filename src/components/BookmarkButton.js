@@ -32,7 +32,7 @@ function BookmarkButton({ activity, small }) {
 
   return (
     <StyledBookmarkButton
-      selected
+      selected={selected}
       Icon={Bookmark}
       IconSelected={Bookmarked}
       small={small}
