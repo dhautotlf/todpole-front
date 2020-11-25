@@ -1,4 +1,4 @@
-import { handleActions, combineActions } from 'redux-actions';
+import { handleActions } from 'redux-actions';
 import { bookmarks as bookmarksAction } from '../actions';
 import Queries from '../utils/queries';
 import {

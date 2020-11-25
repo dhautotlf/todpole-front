@@ -6,6 +6,7 @@ import getActivity from './getActivity';
 import getUser from './getUser';
 import getBookmarkedActivities from './getBookmarkedActivities';
 import isActivityBookmarked from './isActivityBookmarked';
+import getMaterials from './getMaterials';
 
 export {
   isAuthenticated,
@@ -16,4 +17,5 @@ export {
   getActivity,
   getBookmarkedActivities,
   isActivityBookmarked,
+  getMaterials,
 };
