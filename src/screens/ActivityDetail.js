@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { SafeAreaView, View } from 'react-native';
 import styled, { ThemeContext } from 'styled-components/native';
 import PropTypes from 'prop-types';
@@ -7,6 +7,7 @@ import { translations } from '../constants/translations';
 import ActivitySummary from '../components/ActivitySummary';
 import ActivityDetails from '../components/ActivityDetails';
 import BookmarkButton from '../components/BookmarkButton';
+import AddReviewModal from '../components/AddReviewModal';
 import StarIcon from '../assets/icons/star.svg';
 
 const StyledSafeAreaView = styled(SafeAreaView)`
@@ -93,6 +94,7 @@ const ActivityImageWithButton = (props) => (
 
 function ActivityDetail({ route }) {
   const { id, url } = route.params;
+  const [addReviewModalOpen, setAddReviewModalOpen] = useState(false);
   const themeContext = useContext(ThemeContext);
 
   const activityData = getActivity(id);
@@ -127,8 +129,12 @@ function ActivityDetail({ route }) {
           />
           <ActivityDetails activityData={activityData} />
         </Body>
+        <AddReviewModal
+          isOpen={addReviewModalOpen}
+          closeModal={() => setAddReviewModalOpen(false)}
+        />
       </ScreenWrapper>
-      <AddReviewButton>
+      <AddReviewButton onPress={() => setAddReviewModalOpen(true)}>
         <StarIcon width={25} height={30} color={themeContext.colors.white} />
       </AddReviewButton>
     </StyledSafeAreaView>
