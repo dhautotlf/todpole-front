@@ -3,18 +3,19 @@ import { FlatList } from 'react-native';
 import CheckBox from 'react-native-check-box';
 import CheckedIcon from '../assets/icons/checked_tick.svg';
 import styled from 'styled-components/native';
+import SearchBar from './SearchBar';
 import PropTypes from 'prop-types';
 import { isNil, omit } from 'lodash';
+import shallowFilter from '../utils/shallowStringFilter';
 
 const MultiSelectModalWrapper = styled.View`
-  flex-direction: row;
   flex: 1;
-  align-items: flex-start;
-  justify-content: center;
-  background: ${(props) => props.theme.colors.white};
+  padding-horizontal: ${({ theme }) => theme.spacing.small}px;
+  background: ${({ theme }) => theme.colors.white};
 `;
 
 const MultiSelectModalContentWrapper = styled.FlatList`
+  margin-top: ${({ theme }) => theme.spacing.tiny}px;
   flex: 1;
 `;
 
@@ -66,15 +67,26 @@ const MaterialItem = ({ option, onPress }) => (
   </OptionWrapper>
 );
 
+const SEARCH_TRIGGER_CHAR_COUNT = 2;
 function MultiSelectModal({ options, onSelectedOptionChanged }) {
+  const [filterParam, onSearchParamChange] = useState({});
+  const filterResults = (data) =>
+    shallowFilter(data, filterParam.text, SEARCH_TRIGGER_CHAR_COUNT);
+
   return (
-    <MultiSelectModalContentWrapper
-      data={options}
-      renderItem={({ item }) => (
-        <MaterialItem option={item} onPress={onSelectedOptionChanged} />
-      )}
-      keyExtractor={({ id }) => id}
-    ></MultiSelectModalContentWrapper>
+    <MultiSelectModalWrapper>
+      <SearchBar
+        value={filterParam.text}
+        onChangeText={(text) => onSearchParamChange({ ...filterParam, text })}
+      />
+      <MultiSelectModalContentWrapper
+        data={filterResults(options)}
+        renderItem={({ item }) => (
+          <MaterialItem option={item} onPress={onSelectedOptionChanged} />
+        )}
+        keyExtractor={({ id }) => id}
+      />
+    </MultiSelectModalWrapper>
   );
 }
 
