@@ -5,5 +5,6 @@ id
 userId
 activityId
 rating
+text
 user{${User}}
 `;

@@ -8,6 +8,7 @@ import ActivityImageInput from './ActivityImageInput';
 import UserInput from './UserInput';
 import Bookmark from './Bookmark';
 import BookmarkInput from './BookmarkInput';
+import ReviewInput2 from './ReviewInput2';
 
 export default {
   Activity,
@@ -19,5 +20,6 @@ export default {
   ActivityInput,
   UserInput,
   Bookmark,
-  BookmarkInput
+  BookmarkInput,
+  ReviewInput2,
 };
