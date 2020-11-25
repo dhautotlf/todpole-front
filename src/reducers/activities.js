@@ -2,6 +2,7 @@ import { handleActions, combineActions } from 'redux-actions';
 import { activities as activitiesAction } from '../actions';
 import Queries from '../utils/queries';
 import { createActivity as createActivityMutation } from '../utils/mutations';
+import { uploadImageFromLocalFile } from '../utils/api/apiCloudinary';
 
 const INITIAL_STATE = {
   isLoading: false,
@@ -112,6 +113,17 @@ export const postActivity = (activityInput) => {
   return async (dispatch) => {
     dispatch(activitiesAction.createActivityStart());
     try {
+      // Upload the images through the local path
+      const pathList = activityInput.activityImageList.map((t) => t.url);
+      const results = await Promise.all(
+        pathList.map((p) => uploadImageFromLocalFile(p)),
+      );
+      // Assign images to the activityInput object
+      activityInput.activityImageList = results.map((r, i) => ({
+        isMain: !i,
+        url: r,
+      }));
+
       const activity = await createActivityMutation(activityInput);
       dispatch(activitiesAction.createActivitySuccess(activity));
       return activity;

@@ -102,7 +102,6 @@ function ActivityDetail({ route }) {
     activityImageList && activityImageList.find(({ isMain }) => isMain);
 
   const activityUrl = url || (!!mainImage && mainImage.url) || null;
-
   return (
     <StyledSafeAreaView>
       <ScreenWrapper>
@@ -123,6 +122,7 @@ function ActivityDetail({ route }) {
             category={activityData.category}
             duration={activityData.timing}
             averageRating={activityData.averageRating}
+            username={activityData.user.name}
           />
           <ActivityDetails activityData={activityData} />
         </Body>
