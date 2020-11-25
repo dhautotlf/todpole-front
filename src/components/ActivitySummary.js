@@ -10,11 +10,9 @@ import { translations } from '../constants/translations';
 const ActivitySummaryWrapper = styled.View`
   display: flex;
   flex-direction: column;
-  width: 320px;
   border-radius: 8px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
   background: ${(props) => props.theme.colors.white};
-  margin: -40px 10px 25px 10px;
 `;
 
 const ActivityTitleWrapper = styled.View`
@@ -90,7 +88,13 @@ const RatingText = styled(DurationText)`
   padding: ${(props) => props.theme.spacing.small}px 0px;
 `;
 
-function ActivitySummary({ name, category, duration, averageRating, username }) {
+function ActivitySummary({
+  name,
+  category,
+  duration,
+  averageRating,
+  username,
+}) {
   const themeContext = useContext(ThemeContext);
   return (
     <ActivitySummaryWrapper>
@@ -127,7 +131,7 @@ ActivitySummary.propTypes = {
   category: PropTypes.string,
   duration: PropTypes.number,
   rating: PropTypes.number,
-  username: PropTypes.string
+  username: PropTypes.string,
 };
 
 ActivitySummary.defaultProps = {
@@ -135,7 +139,7 @@ ActivitySummary.defaultProps = {
   category: 'default activity category',
   duration: 0,
   rating: 0,
-  username: ''
+  username: '',
 };
 
 export default ActivitySummary;

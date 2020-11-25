@@ -57,10 +57,13 @@ const ActivityImage = styled.Image`
 
 const Body = styled.View`
   display: flex;
-  flex-direction: column;
-  flex: 1;
-  justify-content: flex-start;
-  align-items: center;
+  margin-top: -40px;
+  margin-horizontal: ${({ theme }) => theme.spacing.medium}px;
+`;
+
+const ActivitySummaryWrapper = styled(View)`
+  margin-horizontal: ${({ theme }) => theme.spacing.tiny}px;
+  margin-bottom: ${({ theme }) => theme.spacing.small}px;
 `;
 
 const BookmarkButtonContainer = styled(View)`
@@ -81,13 +84,18 @@ const AddReviewButton = styled.TouchableOpacity`
   align-items: center;
 `;
 
+const ActivityImageWrapper = styled.View`
+  flex: 1;
+  margin-horizontal: ${({ theme }) => theme.spacing.moderate}px;
+`;
+
 const ActivityImageWithButton = (props) => (
-  <View style={{ flex: 1, marginHorizontal: 30 }}>
+  <ActivityImageWrapper>
     <ActivityImage {...props} />
     <BookmarkButtonContainer>
       <BookmarkButton activity={props.activity} />
     </BookmarkButtonContainer>
-  </View>
+  </ActivityImageWrapper>
 );
 
 function ActivityDetail({ route }) {
@@ -117,13 +125,15 @@ function ActivityDetail({ route }) {
           />
         </Header>
         <Body>
-          <ActivitySummary
-            name={activityData.name}
-            category={activityData.category}
-            duration={activityData.timing}
-            averageRating={activityData.averageRating}
-            username={activityData.user.name}
-          />
+          <ActivitySummaryWrapper>
+            <ActivitySummary
+              name={activityData.name}
+              category={activityData.category}
+              duration={activityData.timing}
+              averageRating={activityData.averageRating}
+              username={activityData.user.name}
+            />
+          </ActivitySummaryWrapper>
           <ActivityDetails activityData={activityData} />
         </Body>
       </ScreenWrapper>
