@@ -9,6 +9,7 @@ const ActivityReviewWrapper = styled.View`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  width: 100%;
 `;
 
 const Label = styled.Text`
@@ -58,12 +59,12 @@ const ReviewText = styled.Text`
 
 function ActivityReview({ reviewList }) {
   const renderReview = (review) => {
-    const { userId, rating, text } = review;
+    const { user, rating, text } = review;
     const fakeDate = 'Nov 23, 2020';
     const ratingObj = { ratings: rating, view: null };
     return (
-      <ReviewContainer key={`review-${userId}`}>
-        <UserName>{userId}</UserName>
+      <ReviewContainer key={`review-${user.id}`}>
+        <UserName>{user.name}</UserName>
         <RatingContainer>
           <StarRating ratingObj={ratingObj} hideViews />
           <ReviewDate>{fakeDate}</ReviewDate>

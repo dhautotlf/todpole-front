@@ -11,7 +11,7 @@ const ActivityDetailsWrapper = styled.View`
   display: flex;
   flex-direction: column;
   flex: 1;
-  width: 316px;
+  width: 350px;
 `;
 
 const ActivityDetailsTabs = styled.View`

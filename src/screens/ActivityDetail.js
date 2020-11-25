@@ -51,8 +51,7 @@ const AgeText = styled.Text`
 `;
 
 const ActivityImage = styled.Image`
-  width: 316px;
-  height: 316px;
+  aspect-ratio: 1;
   border-radius: 8px;
 `;
 
@@ -83,7 +82,7 @@ const AddReviewButton = styled.TouchableOpacity`
 `;
 
 const ActivityImageWithButton = (props) => (
-  <View>
+  <View style={{ flex: 1, marginHorizontal: 30 }}>
     <ActivityImage {...props} />
     <BookmarkButtonContainer>
       <BookmarkButton activity={props.activity} />
