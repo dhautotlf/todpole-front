@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { FlatList } from 'react-native';
 import CheckBox from 'react-native-check-box';
 import CheckedIcon from '../assets/icons/checked_tick.svg';
 import styled from 'styled-components/native';
 import SearchBar from './SearchBar';
 import PropTypes from 'prop-types';
-import { isNil, omit } from 'lodash';
 import shallowFilter from '../utils/shallowStringFilter';
 
 const MultiSelectModalWrapper = styled.View`
@@ -44,12 +42,6 @@ const StyledCheckBox = styled(CheckBox).attrs(({ theme }) => ({
   align-items: center;
 `;
 
-const Title = styled.Text`
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 17px;
-`;
-
 const Label = styled.Text`
   font-weight: normal;
   font-size: 14px;
@@ -66,6 +58,15 @@ const MaterialItem = ({ option, onPress }) => (
     <Label>{option.name}</Label>
   </OptionWrapper>
 );
+
+MaterialItem.propTypes = {
+  option: PropTypes.object,
+  onPress: PropTypes.func,
+};
+
+MaterialItem.defaultProps = {
+  onPress: () => {},
+};
 
 const SEARCH_TRIGGER_CHAR_COUNT = 2;
 function MultiSelectModal({ options, onSelectedOptionChanged }) {
@@ -92,22 +93,12 @@ function MultiSelectModal({ options, onSelectedOptionChanged }) {
 
 MultiSelectModal.propTypes = {
   options: PropTypes.array,
-  modalVisible: PropTypes.bool,
+  onSelectedOptionChanged: PropTypes.func,
 };
 
 MultiSelectModal.defaultProps = {
-  options: [
-    {
-      id: 2,
-      name: 'Tape',
-      selected: true,
-    },
-    {
-      id: 12,
-      name: 'Tape',
-      selected: false,
-    },
-  ],
+  options: [],
+  onSelectedOptionChanged: () => {},
 };
 
 export default MultiSelectModal;

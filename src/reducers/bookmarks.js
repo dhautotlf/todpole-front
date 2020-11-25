@@ -75,7 +75,7 @@ export const isBookmarked = ({ bookmarks }, { id }) =>
 
 /**
  * Get all the bookmarks
- * Note: because this thunk is used by a single Activity component, and Activity componentare rendered in list, it is important to
+ * Note: because this thunk is used by a single Activity component, and Activity component are rendered in list, it is important to
  */
 export const fetchBookmarks = throttleThunk(() => {
   return async (dispatch) => {

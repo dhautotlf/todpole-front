@@ -1,7 +1,6 @@
 import { handleActions } from 'redux-actions';
 import { materials as materialsAction } from '../actions';
 import Queries from '../utils/queries';
-import throttleThunk from '../utils/throttleThunk';
 
 const INITIAL_STATE = {
   isLoading: false,
@@ -43,11 +42,7 @@ export const getMaterials = ({ materials }) => ({
 
 // THUNKS
 
-/**
- * Get all the materials
- * Note: because this thunk is used by a single Activity component, and Activity componentare rendered in list, it is important to
- */
-export const fetchAllMaterials = throttleThunk(() => {
+export const fetchAllMaterials = () => {
   return async (dispatch) => {
     dispatch(materialsAction.getMaterialsStart());
     try {
@@ -57,4 +52,4 @@ export const fetchAllMaterials = throttleThunk(() => {
       dispatch(materialsAction.getMaterialsError({ error }));
     }
   };
-});
+};
