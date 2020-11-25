@@ -14,7 +14,7 @@ import Welcome from '../screens/Welcome';
 import User from '../screens/User';
 import SearchModal from '../screens/SearchModal';
 import StepIndicator from '../components/StepIndicator';
-import Material from '../components/MultiSelectModal';
+import Material from '../screens/MaterialsModal';
 import { isAuthenticated } from '../hooks';
 
 import CreateIcon from '../assets/icons/create.svg';

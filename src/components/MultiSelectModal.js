@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
+import { FlatList } from 'react-native';
 import CheckBox from 'react-native-check-box';
 import CheckedIcon from '../assets/icons/checked_tick.svg';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
+import { isNil, omit } from 'lodash';
 
 const MultiSelectModalWrapper = styled.View`
   flex-direction: row;
   flex: 1;
   align-items: flex-start;
   justify-content: center;
-  z-index: 1000;
   background: ${(props) => props.theme.colors.white};
 `;
 
-const MultiSelectModalContentWrapper = styled.View`
+const MultiSelectModalContentWrapper = styled.FlatList`
   flex: 1;
-  margin: 0 30px;
 `;
 
 const OptionWrapper = styled.View`
@@ -37,7 +37,7 @@ const StyledCheckBox = styled(CheckBox).attrs(({ theme }) => ({
   width: 17px;
   height: 17px;
   padding: 0px;
-  margin: 13px 13px 13px 0px;
+  margin: 13px 13px 13px 13px;
   background: ${(props) => props.theme.colors.lightGray};
   justify-content: center;
   align-items: center;
@@ -55,43 +55,30 @@ const Label = styled.Text`
   line-height: 24px;
 `;
 
-function MultiSelectModal({ route, options }) {
-  const [selectedOptions, setSelectedOptions] = useState(
-    route.params.materials,
-  );
+const MaterialItem = ({ option, onPress }) => (
+  <OptionWrapper key={option.id}>
+    <StyledCheckBox
+      isChecked={option.selected}
+      onClick={() => onPress(option, !option.selected)}
+      checkedImage={<StyledCheckedIcon />}
+    />
+    <Label>{option.name}</Label>
+  </OptionWrapper>
+);
 
-  const updateSelections = (option, selected) => {
-    const newSelection = {
-      ...selectedOptions,
-      [option.name]: !selected,
-    };
-    route.params.onChangeMaterials(newSelection);
-    setSelectedOptions(newSelection);
-  };
-
+function MultiSelectModal({ options, onSelectedOptionChanged }) {
   return (
-    <MultiSelectModalWrapper>
-      <MultiSelectModalContentWrapper>
-        <Title>Material</Title>
-        {options.map((option) => (
-          <OptionWrapper key={option.key}>
-            <StyledCheckBox
-              isChecked={!!selectedOptions[option.name]}
-              onClick={() =>
-                updateSelections(option, !!selectedOptions[option.name])
-              }
-              checkedImage={<StyledCheckedIcon />}
-            />
-            <Label>{option.label}</Label>
-          </OptionWrapper>
-        ))}
-      </MultiSelectModalContentWrapper>
-    </MultiSelectModalWrapper>
+    <MultiSelectModalContentWrapper
+      data={options}
+      renderItem={({ item }) => (
+        <MaterialItem option={item} onPress={onSelectedOptionChanged} />
+      )}
+      keyExtractor={({ id }) => id}
+    ></MultiSelectModalContentWrapper>
   );
 }
 
 MultiSelectModal.propTypes = {
-  route: PropTypes.any,
   options: PropTypes.array,
   modalVisible: PropTypes.bool,
 };
@@ -99,27 +86,16 @@ MultiSelectModal.propTypes = {
 MultiSelectModal.defaultProps = {
   options: [
     {
-      name: 'tape',
-      key: 'tape',
-      label: 'Tape',
+      id: 2,
+      name: 'Tape',
+      selected: true,
     },
     {
-      name: 'wood',
-      key: 'wood',
-      label: 'Pieces of wood',
-    },
-    {
-      name: 'paper',
-      key: 'paper',
-      label: 'Paper',
-    },
-    {
-      name: 'spoon',
-      key: 'spoon',
-      label: 'Tea spoon',
+      id: 12,
+      name: 'Tape',
+      selected: false,
     },
   ],
-  modalVisible: false,
 };
 
 export default MultiSelectModal;

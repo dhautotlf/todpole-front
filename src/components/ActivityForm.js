@@ -224,13 +224,13 @@ function ActivityForm({
       <CategoryButtonView>
         {Object.entries(materials)
           .filter(([_, v]) => v)
-          .map(([k]) => (
+          .map(([k, v]) => (
             <CategoryButton
               onPress={() => changeForm(omit(materials, k), setMaterials)}
               selected
               key={k}
             >
-              <CategoryLabel selected>{k}</CategoryLabel>
+              <CategoryLabel selected>{v.name}</CategoryLabel>
             </CategoryButton>
           ))}
         <AddMaterialButton
@@ -238,7 +238,7 @@ function ActivityForm({
           Icon={AddMaterialIcon}
           onPress={() =>
             navigate('Material', {
-              materials,
+              selectedOptions: materials,
               onChangeMaterials: (value) => changeForm(value, setMaterials),
             })
           }
