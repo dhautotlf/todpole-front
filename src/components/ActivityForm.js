@@ -150,7 +150,10 @@ function ActivityForm({
   };
 
   const ActivityNameInput = (
-    <FieldView title={translations.createactivity_field1_title}>
+    <FieldView
+      key={'ActivityNameInput'}
+      title={translations.createactivity_field1_title}
+    >
       <StyledTextInput
         name="name"
         type="name"
@@ -164,7 +167,10 @@ function ActivityForm({
   );
 
   const CategoryField = (
-    <FieldView title={translations.createactivity_field2_title}>
+    <FieldView
+      key={'CategoryField'}
+      title={translations.createactivity_field2_title}
+    >
       <CategoryButtonView>
         {categoryEnum.map(({ name, value }) => (
           <CategoryButton
@@ -181,6 +187,7 @@ function ActivityForm({
 
   const AgeField = (
     <FieldView
+      key={'AgeField'}
       title={translations.createactivity_field3_title}
       subtitle={translations.createactivity_field3_subtitle}
     >
@@ -204,6 +211,7 @@ function ActivityForm({
 
   const TimingField = (
     <FieldView
+      key={'TimingField'}
       title={translations.createactivity_field4_title}
       subtitle={translations.createactivity_field4_subtitle}
     >
@@ -220,7 +228,10 @@ function ActivityForm({
   );
 
   const MaterialField = (
-    <FieldView title={translations.activitydetail_topic_title1}>
+    <FieldView
+      key={'MaterialField'}
+      title={translations.activitydetail_topic_title1}
+    >
       <CategoryButtonView>
         {Object.entries(materials)
           .filter(([_, v]) => v)
@@ -248,7 +259,10 @@ function ActivityForm({
   );
 
   const DescriptionInput = (
-    <FieldView title={translations.createactivity_field6_title}>
+    <FieldView
+      key={'DescriptionInput'}
+      title={translations.createactivity_field6_title}
+    >
       <StyledTextInput
         name="description"
         type="description"
@@ -263,6 +277,7 @@ function ActivityForm({
 
   const UrlInput = (
     <FieldView
+      key={'UrlInput'}
       title={translations.createactivity_field7_title}
       subtitle={translations.createactivity_field_optional}
     >
@@ -280,6 +295,7 @@ function ActivityForm({
 
   const ReviewInput = (
     <FieldView
+      key={'ReviewInput'}
       title={translations.createactivity_field8_title}
       subtitle={translations.createactivity_field_optional}
       rightComponent={
@@ -302,6 +318,7 @@ function ActivityForm({
 
   const TagInput = (
     <FieldView
+      key={'TagInput'}
       title={translations.createactivity_field9_title}
       subtitle={translations.createactivity_field_optional}
     >
