@@ -161,5 +161,6 @@ export const translations = {
   activitydetail_topic_title4: 'Rating',
   activitydetail_topic_age: 'months',
 
+  activitydetail_created_by: 'Created by',
   addReview_button: 'Publish',
 };
