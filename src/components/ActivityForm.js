@@ -123,12 +123,6 @@ function ActivityForm({
   const [materials, setMaterials] = useState([]);
   const themeContext = useContext(ThemeContext);
   const maxRating = 5;
-  const minRating = 0;
-
-  const changeForm = (value, setter) => {
-    setter(value);
-    onFormChanged(formBuilder());
-  };
 
   const formBuilder = () => ({
     category,
@@ -140,6 +134,11 @@ function ActivityForm({
     url,
     review: { rating: rating.ratings, text: review },
   });
+
+  const changeForm = (value, setter) => {
+    setter(value);
+    onFormChanged(formBuilder());
+  };
 
   const submitForm = () => onCreateActivity(formBuilder());
 
