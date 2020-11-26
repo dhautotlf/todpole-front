@@ -163,4 +163,5 @@ export const translations = {
 
   activitydetail_created_by: 'Created by',
   addReview_button: 'Publish',
+  filter_modal_search_button: 'apply',
 };

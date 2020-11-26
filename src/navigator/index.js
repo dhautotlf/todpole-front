@@ -12,7 +12,7 @@ import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
 import Welcome from '../screens/Welcome';
 import User from '../screens/User';
-import SearchModal from '../screens/SearchModal';
+import FilterModal from '../screens/FilterModal';
 import StepIndicator from '../components/StepIndicator';
 import Material from '../screens/MaterialsModal';
 import { isAuthenticated } from '../hooks';
@@ -127,8 +127,8 @@ const HomeTabWithSearch = () => (
       options={{ headerShown: false }}
     />
     <ModalStack.Screen
-      name="SearchModal"
-      component={SearchModal}
+      name="FilterModal"
+      component={FilterModal}
       options={sharedHeader()}
     />
     <ModalStack.Screen name="User" component={User} options={sharedHeader()} />

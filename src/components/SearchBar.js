@@ -41,6 +41,26 @@ const SearchButton = styled(SearchIcon)`
   margin-right: ${({ theme }) => theme.spacing.tiny}px;
 `;
 
+const ApplyButton = styled.TouchableOpacity`
+  flex-direction: row;
+  border-radius: ${({ theme }) => theme.radius.small}px;
+  padding-horizontal: ${({ theme }) => theme.spacing.tiny}px;
+  padding-vertical: ${({ theme }) => theme.spacing.tiny}px;
+  margin-right: ${({ theme }) => theme.spacing.tiny}px;
+  background: ${({ theme }) => theme.colors.lightGray};
+  align-items: center;
+  justify-content: center;
+`;
+
+const ApplyButtonLabel = styled.Text`
+  text-transform: capitalize;
+  color: ${({ theme }) => theme.colors.black};
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 14px;
+`;
+
 function SearchBar(props) {
   return (
     <SearchBarContainer>
@@ -58,6 +78,13 @@ function SearchBar(props) {
           <SettingsIcon />
         </Touchable>
       )}
+      {props.onSearchPress && (
+        <ApplyButton onPress={props.onSearchPress}>
+          <ApplyButtonLabel>
+            {translations.filter_modal_search_button}
+          </ApplyButtonLabel>
+        </ApplyButton>
+      )}
     </SearchBarContainer>
   );
 }
@@ -65,6 +92,7 @@ function SearchBar(props) {
 SearchBar.propTypes = {
   onFilterPress: PropTypes.func,
   onSettingsPress: PropTypes.func,
+  onSearchPress: PropTypes.func,
 };
 
 SearchBar.defaultProps = {};

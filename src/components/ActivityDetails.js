@@ -52,7 +52,7 @@ function ActivityDetails({ activityData }) {
         tabContent = <ActivityReview reviewList={activityData.reviewList} />;
         break;
       default:
-        tabContent = <ActivityMaterial />;
+        tabContent = <ActivityMaterial materials={activityData.materialList} />;
     }
     return tabContent;
   };

@@ -138,7 +138,7 @@ function Saved() {
                   onChangeText={(text) =>
                     onSearchParamChange({ ...filterParam, text })
                   }
-                  onFilterPress={() => navigate('SearchModal', filterParam)}
+                  onFilterPress={() => navigate('FilterModal', filterParam)}
                   onSettingsPress={() => navigate('User')}
                 />
               </SearchArea>
