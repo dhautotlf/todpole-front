@@ -12,6 +12,7 @@ const mutation = gql`
     $timing:Int!,
     $description:String!,
     $url:String!
+    $review: ReviewInput2
   ) {
     createActivity(activityInput: {
       category: $category
@@ -22,6 +23,7 @@ const mutation = gql`
       description: $description
       url: $url
       activityImageList: $activityImageList
+      review: $review
     }) {
       ${type.Activity}
     }

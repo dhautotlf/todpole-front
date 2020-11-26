@@ -10,13 +10,12 @@ import { translations } from '../constants/translations';
 const ActivityDetailsWrapper = styled.View`
   display: flex;
   flex-direction: column;
-  flex: 1;
-  width: 316px;
 `;
 
 const ActivityDetailsTabs = styled.View`
   display: flex;
   flex-direction: row;
+  margin-horizontal: ${({ theme }) => theme.spacing.tiny}px;
   justify-content: space-between;
 `;
 

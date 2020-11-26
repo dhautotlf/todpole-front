@@ -30,6 +30,7 @@ const colors = {
   mediumGray: '#979797',
   darkGray: '#5C5C5C',
   anotherGray: '#DADADA',
+  grayOverlay: 'rgba(196, 196, 196, 0.5)',
 };
 
 export default {

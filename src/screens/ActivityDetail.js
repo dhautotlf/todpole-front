@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { SafeAreaView, View } from 'react-native';
 import styled, { ThemeContext } from 'styled-components/native';
 import PropTypes from 'prop-types';
@@ -7,6 +7,7 @@ import { translations } from '../constants/translations';
 import ActivitySummary from '../components/ActivitySummary';
 import ActivityDetails from '../components/ActivityDetails';
 import BookmarkButton from '../components/BookmarkButton';
+import AddReviewModal from '../components/AddReviewModal';
 import StarIcon from '../assets/icons/star.svg';
 
 const StyledSafeAreaView = styled(SafeAreaView)`
@@ -51,17 +52,19 @@ const AgeText = styled.Text`
 `;
 
 const ActivityImage = styled.Image`
-  width: 316px;
-  height: 316px;
+  aspect-ratio: 1;
   border-radius: 8px;
 `;
 
 const Body = styled.View`
   display: flex;
-  flex-direction: column;
-  flex: 1;
-  justify-content: flex-start;
-  align-items: center;
+  margin-top: -40px;
+  margin-horizontal: ${({ theme }) => theme.spacing.medium}px;
+`;
+
+const ActivitySummaryWrapper = styled(View)`
+  margin-horizontal: ${({ theme }) => theme.spacing.tiny}px;
+  margin-bottom: ${({ theme }) => theme.spacing.small}px;
 `;
 
 const BookmarkButtonContainer = styled(View)`
@@ -82,17 +85,23 @@ const AddReviewButton = styled.TouchableOpacity`
   align-items: center;
 `;
 
+const ActivityImageWrapper = styled.View`
+  flex: 1;
+  margin-horizontal: ${({ theme }) => theme.spacing.moderate}px;
+`;
+
 const ActivityImageWithButton = (props) => (
-  <View>
+  <ActivityImageWrapper>
     <ActivityImage {...props} />
     <BookmarkButtonContainer>
       <BookmarkButton activity={props.activity} />
     </BookmarkButtonContainer>
-  </View>
+  </ActivityImageWrapper>
 );
 
 function ActivityDetail({ route }) {
   const { id, url } = route.params;
+  const [addReviewModalOpen, setAddReviewModalOpen] = useState(false);
   const themeContext = useContext(ThemeContext);
 
   const activityData = getActivity(id);
@@ -103,7 +112,6 @@ function ActivityDetail({ route }) {
     activityImageList && activityImageList.find(({ isMain }) => isMain);
 
   const activityUrl = url || (!!mainImage && mainImage.url) || null;
-
   return (
     <StyledSafeAreaView>
       <ScreenWrapper>
@@ -119,16 +127,23 @@ function ActivityDetail({ route }) {
           />
         </Header>
         <Body>
-          <ActivitySummary
-            name={activityData.name}
-            category={activityData.category}
-            duration={activityData.timing}
-            averageRating={activityData.averageRating}
-          />
+          <ActivitySummaryWrapper>
+            <ActivitySummary
+              name={activityData.name}
+              category={activityData.category}
+              duration={activityData.timing}
+              averageRating={activityData.averageRating}
+              username={activityData.user.name}
+            />
+          </ActivitySummaryWrapper>
           <ActivityDetails activityData={activityData} />
         </Body>
+        <AddReviewModal
+          isOpen={addReviewModalOpen}
+          closeModal={() => setAddReviewModalOpen(false)}
+        />
       </ScreenWrapper>
-      <AddReviewButton>
+      <AddReviewButton onPress={() => setAddReviewModalOpen(true)}>
         <StarIcon width={25} height={30} color={themeContext.colors.white} />
       </AddReviewButton>
     </StyledSafeAreaView>

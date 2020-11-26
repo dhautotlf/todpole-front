@@ -5,14 +5,14 @@ import TimerIcon from '../assets/icons/timer.svg';
 import StarIcon from '../assets/icons/star.svg';
 import CategoryIcon from '../assets/icons/category.svg';
 
+import { translations } from '../constants/translations';
+
 const ActivitySummaryWrapper = styled.View`
   display: flex;
   flex-direction: column;
-  width: 300px;
   border-radius: 8px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
   background: ${(props) => props.theme.colors.white};
-  margin: -40px 10px 25px 10px;
 `;
 
 const ActivityTitleWrapper = styled.View`
@@ -27,7 +27,17 @@ const ActivityTitle = styled.Text`
   line-height: 21px;
   text-align: center;
   color: ${(props) => props.theme.colors.black};
-  padding: 10px;
+  padding-top: 10px;
+`;
+
+const ActivityUserTitle = styled.Text`
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 10px;
+  text-align: center;
+  color: ${(props) => props.theme.colors.mediumGray};
+  padding-top: 8px;
+  padding-bottom: 10px;
 `;
 
 const ActivityDetails = styled.View`
@@ -35,7 +45,7 @@ const ActivityDetails = styled.View`
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-evenly;
-  padding: 12px 0px;
+  padding: 12px 0px 0px 0px;
 `;
 
 const ActivityDuration = styled.View`
@@ -78,12 +88,19 @@ const RatingText = styled(DurationText)`
   padding: ${(props) => props.theme.spacing.small}px 0px;
 `;
 
-function ActivitySummary({ name, category, duration, averageRating }) {
+function ActivitySummary({
+  name,
+  category,
+  duration,
+  averageRating,
+  username,
+}) {
   const themeContext = useContext(ThemeContext);
   return (
     <ActivitySummaryWrapper>
       <ActivityTitleWrapper>
         <ActivityTitle>{name}</ActivityTitle>
+        <ActivityUserTitle>{`${translations.activitydetail_created_by} ${username}`}</ActivityUserTitle>
       </ActivityTitleWrapper>
       <ActivityDetails>
         <ActivityDuration>
@@ -114,6 +131,7 @@ ActivitySummary.propTypes = {
   category: PropTypes.string,
   duration: PropTypes.number,
   rating: PropTypes.number,
+  username: PropTypes.string,
 };
 
 ActivitySummary.defaultProps = {
@@ -121,6 +139,7 @@ ActivitySummary.defaultProps = {
   category: 'default activity category',
   duration: 0,
   rating: 0,
+  username: '',
 };
 
 export default ActivitySummary;

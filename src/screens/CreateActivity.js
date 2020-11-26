@@ -72,7 +72,7 @@ function CreateActivity() {
           ],
         }),
       );
-      navigation.navigate('ActivityDetail', { id: 1 });
+      navigation.navigate('ActivityDetail', { id: a.id });
     } catch (error) {
       console.log({ error });
       setError(error);
