@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled, { ThemeContext } from 'styled-components/native';
 import PropTypes from 'prop-types';
 import {
@@ -12,6 +13,7 @@ import {
   Button,
   Keyboard,
 } from 'react-native';
+import { postReview } from '../reducers/activities';
 import BackButtonIcon from '../assets/icons/back-modal.svg';
 import StarRating from '../components/StarRating';
 import BasicButton from '../components/BasicButton';
@@ -68,16 +70,40 @@ const StyledKeyboardAvoidingView = styled.KeyboardAvoidingView`
   justify-content: flex-end;
 `;
 
-const AddReviewModal = ({ isOpen, closeModal }) => {
+const ErrorText = styled.Text`
+  font-weight: bold;
+  color: ${(props) => props.theme.colors.red};
+`;
+
+const AddReviewModal = ({ activityId, isOpen, closeModal, addReview }) => {
   const [rating, setRating] = useState({ ratings: 0, views: null });
   const [review, setReview] = useState('');
+  const [errorMessage, setErrorMessage] = useState(null);
   const themeContext = useContext(ThemeContext);
+  const dispatch = useDispatch();
   const maxRating = 5;
+
+  const createReview = async (reviewInput) =>
+    await dispatch(postReview(reviewInput));
 
   const onRateActivity = () => {
     const newRating = (rating.ratings + 1) % (maxRating + 1);
     const newObjRating = { ...rating, ratings: newRating };
     setRating(newObjRating);
+  };
+
+  onPublish = async () => {
+    const reviewInput = {
+      activityId,
+      rating: rating.ratings,
+      text: review,
+    };
+    try {
+      await createReview(reviewInput);
+      closeModal();
+    } catch (err) {
+      setErrorMessage('There has been a problem here, please try again');
+    }
   };
 
   return (
@@ -102,6 +128,7 @@ const AddReviewModal = ({ isOpen, closeModal }) => {
                   <Title>{translations.activitydetail_topic_title3}</Title>
                   <StarRating ratingObj={rating} hideViews />
                 </RatingArea>
+                {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
                 <ReviewArea
                   multiline={true}
                   onChangeText={setReview}
@@ -111,6 +138,7 @@ const AddReviewModal = ({ isOpen, closeModal }) => {
                   <BasicButton
                     label={translations.addReview_button}
                     selected={review !== ''}
+                    onPress={onPublish}
                   />
                 </PublishButton>
               </Body>

@@ -141,6 +141,7 @@ function ActivityDetail({ route }) {
         <AddReviewModal
           isOpen={addReviewModalOpen}
           closeModal={() => setAddReviewModalOpen(false)}
+          activityId={id}
         />
       </ScreenWrapper>
       <AddReviewButton onPress={() => setAddReviewModalOpen(true)}>
