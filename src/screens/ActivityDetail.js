@@ -2,13 +2,15 @@ import React, { useContext, useState } from 'react';
 import { SafeAreaView, View } from 'react-native';
 import styled, { ThemeContext } from 'styled-components/native';
 import PropTypes from 'prop-types';
-import { getActivity } from '../hooks';
+import { getActivity, getUser } from '../hooks';
 import { translations } from '../constants/translations';
 import ActivitySummary from '../components/ActivitySummary';
 import ActivityDetails from '../components/ActivityDetails';
 import BookmarkButton from '../components/BookmarkButton';
 import AddReviewModal from '../components/AddReviewModal';
+import Loading from '../components/Loading';
 import StarIcon from '../assets/icons/star.svg';
+import StarFilledIcon from '../assets/icons/star_fill.svg';
 
 const StyledSafeAreaView = styled(SafeAreaView)`
   flex: 1;
@@ -74,7 +76,8 @@ const BookmarkButtonContainer = styled(View)`
 `;
 
 const AddReviewButton = styled.TouchableOpacity`
-  background: ${(props) => props.theme.colors.green70};
+  background: ${(props) =>
+    props.disabled ? props.theme.colors.yellow70 : props.theme.colors.green70};
   position: absolute;
   bottom: 21px;
   right: 47px;
@@ -103,24 +106,36 @@ function ActivityDetail({ route }) {
   const { id, url } = route.params;
   const [addReviewModalOpen, setAddReviewModalOpen] = useState(false);
   const themeContext = useContext(ThemeContext);
-
-  const activityData = getActivity(id);
-
-  const { activityImageList } = activityData;
+  const { data: user } = getUser();
+  const activity = getActivity(id);
+  const {
+    ageMin,
+    ageMax,
+    averageRating,
+    canReviewActivity,
+    category,
+    name,
+    timing,
+  } = activity;
+  const canUserAddReview = canReviewActivity(user);
 
   const mainImage =
-    activityImageList && activityImageList.find(({ isMain }) => isMain);
+    activity &&
+    activity.activityImageList &&
+    activity.activityImageList.find(({ isMain }) => isMain);
 
   const activityUrl = url || (!!mainImage && mainImage.url) || null;
+
+  if (!activity) return <Loading />;
   return (
     <StyledSafeAreaView>
       <ScreenWrapper>
         <Header>
           <AgeDetails>
-            <AgeText>{`${activityData.ageMin} - ${activityData.ageMax} ${translations.activitydetail_topic_age}`}</AgeText>
+            <AgeText>{`${ageMin} - ${ageMax} ${translations.activitydetail_topic_age}`}</AgeText>
           </AgeDetails>
           <ActivityImageWithButton
-            activity={activityData}
+            activity={activity}
             source={{
               uri: activityUrl,
             }}
@@ -129,14 +144,14 @@ function ActivityDetail({ route }) {
         <Body>
           <ActivitySummaryWrapper>
             <ActivitySummary
-              name={activityData.name}
-              category={activityData.category}
-              duration={activityData.timing}
-              averageRating={activityData.averageRating}
-              username={activityData.user.name}
+              name={name}
+              category={category}
+              duration={timing}
+              averageRating={averageRating}
+              username={activity.user.name}
             />
           </ActivitySummaryWrapper>
-          <ActivityDetails activityData={activityData} />
+          <ActivityDetails activityData={activity} />
         </Body>
         <AddReviewModal
           isOpen={addReviewModalOpen}
@@ -144,8 +159,19 @@ function ActivityDetail({ route }) {
           activityId={id}
         />
       </ScreenWrapper>
-      <AddReviewButton onPress={() => setAddReviewModalOpen(true)}>
-        <StarIcon width={25} height={30} color={themeContext.colors.white} />
+      <AddReviewButton
+        onPress={() => setAddReviewModalOpen(true)}
+        disabled={!canUserAddReview}
+      >
+        {canUserAddReview ? (
+          <StarIcon width={25} height={30} color={themeContext.colors.white} />
+        ) : (
+          <StarFilledIcon
+            width={25}
+            height={30}
+            color={themeContext.colors.white}
+          />
+        )}
       </AddReviewButton>
     </StyledSafeAreaView>
   );

@@ -91,8 +91,6 @@ export const getUserActivities = ({ activities }, user) => ({
     : INITIAL_STATE.data,
 });
 
-export const getActivity = ({ activities }, id) => activities.data[id];
-
 // THUNKS
 
 /**

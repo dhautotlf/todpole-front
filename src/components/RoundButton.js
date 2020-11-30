@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 
 const StyledRoundButton = styled.TouchableOpacity`
-  background: ${(props) => props.theme.colors.yellowOpacity}
+  background: ${(props) => props.theme.colors.yellow70}
   width: 54px;
   height: 54px;
   justify-content: center;
