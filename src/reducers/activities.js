@@ -1,7 +1,9 @@
 import { handleActions, combineActions } from 'redux-actions';
 import { activities as activitiesAction } from '../actions';
+import { review as reviewAction } from '../actions';
 import Queries from '../utils/queries';
 import { createActivity as createActivityMutation } from '../utils/mutations';
+import { createReview as createReviewMutation } from '../utils/mutations';
 import { uploadImageFromLocalFile } from '../utils/api/apiCloudinary';
 
 const INITIAL_STATE = {
@@ -15,29 +17,42 @@ const normalize = (activities) =>
     {},
   );
 
+const addReviewToActivity = (state, review) => {
+  return {
+    ...state.data,
+    [review.activityId]: {
+      ...state.data[review.activityId],
+      reviewList: [...state.data[review.activityId].reviewList, review],
+    },
+  };
+};
+
 export default handleActions(
   {
     [activitiesAction.getActivitiesStart]: (state) => ({
       ...state,
       isLoading: true,
     }),
-    [combineActions(activitiesAction.getActivitiesSuccess)]: (
-      state,
-      { payload },
-    ) => ({
+    [reviewAction.createReviewStart]: (state) => ({
+      ...state,
+      isLoading: true,
+    }),
+    [reviewAction.createReviewSuccess]: (state, { payload }) => ({
+      ...state,
+      isLoading: false,
+      data: addReviewToActivity(state, payload),
+    }),
+    [activitiesAction.getActivitiesSuccess]: (state, { payload }) => ({
       ...state,
       isLoading: false,
       data: normalize(payload),
     }),
-    [combineActions(activitiesAction.getActivitiesError)]: (
-      state,
-      { payload },
-    ) => ({
+    [activitiesAction.getActivitiesError]: (state, { payload }) => ({
       ...state,
       isLoading: false,
       error: payload.error,
     }),
-    [combineActions(activitiesAction.createActivityStart)]: (state) => ({
+    [activitiesAction.createActivityStart]: (state) => ({
       ...state,
       isLoading: true,
     }),
@@ -52,6 +67,7 @@ export default handleActions(
     [combineActions(
       activitiesAction.createActivityError,
       activitiesAction.getActivityError,
+      reviewAction.createReviewError,
     )]: (state, { payload }) => ({
       ...state,
       isLoading: false,
@@ -74,8 +90,6 @@ export const getUserActivities = ({ activities }, user) => ({
     ? Object.values(activities.data).filter(({ userId }) => user.id === userId)
     : INITIAL_STATE.data,
 });
-
-export const getActivity = ({ activities }, id) => activities.data[id];
 
 // THUNKS
 
@@ -107,7 +121,7 @@ export const fetchActivity = (id) => {
 };
 
 /**
- * Create all the activities
+ * Create one activity
  */
 export const postActivity = (activityInput) => {
   return async (dispatch) => {
@@ -129,6 +143,27 @@ export const postActivity = (activityInput) => {
       return activity;
     } catch (error) {
       dispatch(activitiesAction.createActivityError({ error }));
+      throw error;
+    }
+  };
+};
+
+/**
+ * Create a review
+ */
+export const postReview = (review) => {
+  return async (dispatch) => {
+    dispatch(reviewAction.createReviewStart());
+    try {
+      const reviewInput = await createReviewMutation({
+        activityId: review.activityId,
+        rating: review.rating,
+        text: review.text,
+      });
+      dispatch(reviewAction.createReviewSuccess(reviewInput));
+      return reviewInput;
+    } catch (error) {
+      dispatch(reviewAction.createReviewError({ error }));
       throw error;
     }
   };

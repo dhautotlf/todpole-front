@@ -9,7 +9,7 @@ import { postBookmark, deleteBookmark } from '../reducers/bookmarks';
 import { isActivityBookmarked } from '../hooks';
 
 const StyledBookmarkButton = styled(RoundButton)`
-  background: ${(props) => props.theme.colors.yellowOpacity};
+  background: ${(props) => props.theme.colors.yellow70};
 `;
 
 const Bookmark = styled(BookmarkIcon).attrs(({ theme }) => ({

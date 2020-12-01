@@ -90,7 +90,7 @@ export const fetchBookmarks = throttleThunk(() => {
 });
 
 /**
- * Create a the bookmarks
+ * Create a bookmark
  */
 export const postBookmark = (activity) => {
   return async (dispatch) => {
@@ -109,7 +109,7 @@ export const postBookmark = (activity) => {
 };
 
 /**
- * Create a the bookmarks
+ * Delete a bookmark
  */
 export const deleteBookmark = (activity) => {
   return async (dispatch, getState) => {

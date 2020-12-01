@@ -58,7 +58,7 @@ function CreateActivity() {
 
   const createActivity = async (activity) => {
     const activityInputs = { ...activity, activityImageList: photos };
-    console.log('activityInputs', activityInputs);
+
     try {
       const a = await dispatch(postActivity(activityInputs));
 
