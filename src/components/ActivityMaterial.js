@@ -11,10 +11,12 @@ const ActivityMaterialWrapper = styled.View`
   margin-bottom: 23px;
 `;
 
-function ActivityMaterial({ material }) {
+function ActivityMaterial({ materials }) {
   return (
     <ActivityMaterialWrapper>
-      <Text>{material}</Text>
+      {materials.map((material) => (
+        <Text>・{material.name}</Text>
+      ))}
     </ActivityMaterialWrapper>
   );
 }

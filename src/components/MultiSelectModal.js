@@ -2,20 +2,19 @@ import React, { useState } from 'react';
 import CheckBox from 'react-native-check-box';
 import CheckedIcon from '../assets/icons/checked_tick.svg';
 import styled from 'styled-components/native';
+import SearchBar from './SearchBar';
 import PropTypes from 'prop-types';
+import shallowFilter from '../utils/shallowStringFilter';
 
 const MultiSelectModalWrapper = styled.View`
-  flex-direction: row;
   flex: 1;
-  align-items: flex-start;
-  justify-content: center;
-  z-index: 1000;
-  background: ${(props) => props.theme.colors.white};
+  padding-horizontal: ${({ theme }) => theme.spacing.small}px;
+  background: ${({ theme }) => theme.colors.white};
 `;
 
-const MultiSelectModalContentWrapper = styled.View`
+const MultiSelectModalContentWrapper = styled.FlatList`
+  margin-top: ${({ theme }) => theme.spacing.tiny}px;
   flex: 1;
-  margin: 0 30px;
 `;
 
 const OptionWrapper = styled.View`
@@ -37,16 +36,10 @@ const StyledCheckBox = styled(CheckBox).attrs(({ theme }) => ({
   width: 17px;
   height: 17px;
   padding: 0px;
-  margin: 13px 13px 13px 0px;
+  margin: 13px 13px 13px 13px;
   background: ${(props) => props.theme.colors.lightGray};
   justify-content: center;
   align-items: center;
-`;
-
-const Title = styled.Text`
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 17px;
 `;
 
 const Label = styled.Text`
@@ -55,71 +48,57 @@ const Label = styled.Text`
   line-height: 24px;
 `;
 
-function MultiSelectModal({ route, options }) {
-  const [selectedOptions, setSelectedOptions] = useState(
-    route.params.materials,
-  );
+const MaterialItem = ({ option, onPress }) => (
+  <OptionWrapper key={option.id}>
+    <StyledCheckBox
+      isChecked={option.selected}
+      onClick={() => onPress(option, !option.selected)}
+      checkedImage={<StyledCheckedIcon />}
+    />
+    <Label>{option.name}</Label>
+  </OptionWrapper>
+);
 
-  const updateSelections = (option, selected) => {
-    const newSelection = {
-      ...selectedOptions,
-      [option.name]: !selected,
-    };
-    route.params.onChangeMaterials(newSelection);
-    setSelectedOptions(newSelection);
-  };
+MaterialItem.propTypes = {
+  option: PropTypes.object,
+  onPress: PropTypes.func,
+};
+
+MaterialItem.defaultProps = {
+  onPress: () => {},
+};
+
+const SEARCH_TRIGGER_CHAR_COUNT = 2;
+function MultiSelectModal({ options, onSelectedOptionChanged }) {
+  const [filterParam, onSearchParamChange] = useState({});
+  const filterResults = (data) =>
+    shallowFilter(data, filterParam.text, SEARCH_TRIGGER_CHAR_COUNT);
 
   return (
     <MultiSelectModalWrapper>
-      <MultiSelectModalContentWrapper>
-        <Title>Material</Title>
-        {options.map((option) => (
-          <OptionWrapper key={option.key}>
-            <StyledCheckBox
-              isChecked={!!selectedOptions[option.name]}
-              onClick={() =>
-                updateSelections(option, !!selectedOptions[option.name])
-              }
-              checkedImage={<StyledCheckedIcon />}
-            />
-            <Label>{option.label}</Label>
-          </OptionWrapper>
-        ))}
-      </MultiSelectModalContentWrapper>
+      <SearchBar
+        value={filterParam.text}
+        onChangeText={(text) => onSearchParamChange({ ...filterParam, text })}
+      />
+      <MultiSelectModalContentWrapper
+        data={filterResults(options)}
+        renderItem={({ item }) => (
+          <MaterialItem option={item} onPress={onSelectedOptionChanged} />
+        )}
+        keyExtractor={({ id }) => id}
+      />
     </MultiSelectModalWrapper>
   );
 }
 
 MultiSelectModal.propTypes = {
-  route: PropTypes.any,
   options: PropTypes.array,
-  modalVisible: PropTypes.bool,
+  onSelectedOptionChanged: PropTypes.func,
 };
 
 MultiSelectModal.defaultProps = {
-  options: [
-    {
-      name: 'tape',
-      key: 'tape',
-      label: 'Tape',
-    },
-    {
-      name: 'wood',
-      key: 'wood',
-      label: 'Pieces of wood',
-    },
-    {
-      name: 'paper',
-      key: 'paper',
-      label: 'Paper',
-    },
-    {
-      name: 'spoon',
-      key: 'spoon',
-      label: 'Tea spoon',
-    },
-  ],
-  modalVisible: false,
+  options: [],
+  onSelectedOptionChanged: () => {},
 };
 
 export default MultiSelectModal;
