@@ -15,7 +15,7 @@ function ActivityMaterial({ materials }) {
   return (
     <ActivityMaterialWrapper>
       {materials.map((material) => (
-        <Text>・{material.name}</Text>
+        <Text key={material.name}>・{material.name}</Text>
       ))}
     </ActivityMaterialWrapper>
   );
