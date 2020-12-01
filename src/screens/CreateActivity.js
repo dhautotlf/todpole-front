@@ -57,7 +57,13 @@ function CreateActivity() {
   const dispatch = useDispatch();
 
   const createActivity = async (activity) => {
-    const activityInputs = { ...activity, activityImageList: photos };
+    const activityInputs = {
+      ...activity,
+      activityImageList: photos,
+      materialList: Object.values(activity.materials).map(({ name }) => ({
+        name,
+      })),
+    };
 
     try {
       const a = await dispatch(postActivity(activityInputs));
