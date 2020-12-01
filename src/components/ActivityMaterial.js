@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { Text, TouchableOpacity } from 'react-native';
+import { Text } from 'react-native';
 import PropTypes from 'prop-types';
 
 const ActivityMaterialWrapper = styled.View`
@@ -14,19 +14,20 @@ const ActivityMaterialWrapper = styled.View`
 function ActivityMaterial({ materials }) {
   return (
     <ActivityMaterialWrapper>
-      {materials.map((material) => (
-        <Text key={material.name}>・{material.name}</Text>
-      ))}
+      {materials &&
+        materials.map((material) => (
+          <Text key={material.name}>・{material.name}</Text>
+        ))}
     </ActivityMaterialWrapper>
   );
 }
 
 ActivityMaterial.propTypes = {
-  material: PropTypes.string,
+  materials: PropTypes.array,
 };
 
 ActivityMaterial.defaultProps = {
-  material: 'Default Material',
+  materials: [],
 };
 
 export default ActivityMaterial;
