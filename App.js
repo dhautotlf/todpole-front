@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { Provider } from 'react-redux';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, KeyboardAvoidingView } from 'react-native';
 import React from 'react';
 import styled, { ThemeProvider } from 'styled-components/native';
 import theme from './src/style/theme';
@@ -21,13 +21,19 @@ if (window.FETCH_SUPPORT) {
 const StyledSafeAreaView = styled.SafeAreaView`
   flex: 1;
 `;
+
+const StyledKeyboardAvoidingView = styled.KeyboardAvoidingView`
+  flex: 1;
+`;
 export default function App() {
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <StyledSafeAreaView>
-          <StatusBar style="dark" />
-          <Navigator />
+          <StyledKeyboardAvoidingView behavior={'padding'}>
+            <StatusBar style="dark" />
+            <Navigator />
+          </StyledKeyboardAvoidingView>
         </StyledSafeAreaView>
       </ThemeProvider>
     </Provider>
