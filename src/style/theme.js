@@ -23,6 +23,8 @@ const colors = {
   yellow: '#F6BD60',
   yellow70: 'rgba(246, 189, 96, 0.7)',
   red: '#ff0033',
+  redError: '#DA1414',
+  redErrorBg: '#FEEFEF',
 
   whiteSmoke: '#F5F5F5',
   veryLightGray: '#FAFAFA',
