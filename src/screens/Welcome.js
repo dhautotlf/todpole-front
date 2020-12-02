@@ -31,7 +31,6 @@ const Title = styled.Text`
   font-weight: normal;
   font-size: 36px;
   line-height: 43px;
-  margin-top: 44px;
 `;
 
 const Description = styled.Text`
@@ -52,11 +51,11 @@ const Footer = styled.View`
 `;
 
 const LoginText = styled.Text`
-  margin-bottom: 26px;
   color: ${(props) => props.theme.colors.mediumGray};
   font-weight: normal;
   font-size: 14px;
   line-height: 17px;
+  margin-vertical: ${(props) => props.theme.spacing.small}px;
 `;
 
 function Welcome({ navigation }) {
@@ -71,25 +70,23 @@ function Welcome({ navigation }) {
     ),
   );
   return (
-    <StyledSafeAreaView>
-      <ScreenWrapper>
-        <Header>
-          <Title>{translations.welcome_header_title}</Title>
-          <Description>{translations.welcome_header_text}</Description>
-        </Header>
-        <CategoriesWrapper>{listCategories}</CategoriesWrapper>
-        <Footer>
-          <BasicButton
-            label={translations.welcome_footer_button1}
-            onPress={() => navigation.navigate('CreateToddler')}
-            selected
-          />
-          <LoginText onPress={() => navigation.navigate('SignIn')}>
-            {translations.welcome_footer_button2}
-          </LoginText>
-        </Footer>
-      </ScreenWrapper>
-    </StyledSafeAreaView>
+    <ScreenWrapper>
+      <Header>
+        <Title>{translations.welcome_header_title}</Title>
+        <Description>{translations.welcome_header_text}</Description>
+      </Header>
+      <CategoriesWrapper>{listCategories}</CategoriesWrapper>
+      <Footer>
+        <BasicButton
+          label={translations.welcome_footer_button1}
+          onPress={() => navigation.navigate('CreateToddler')}
+          selected
+        />
+        <LoginText onPress={() => navigation.navigate('SignIn')}>
+          {translations.welcome_footer_button2}
+        </LoginText>
+      </Footer>
+    </ScreenWrapper>
   );
 }
 
