@@ -11,7 +11,7 @@ import Loading from '../components/Loading';
 import { getActivities } from '../hooks';
 import { translations } from '../constants/translations';
 import shallowFilter from '../utils/shallowStringFilter';
-import _, { get, isEmpty, omitBy, isNil } from 'lodash';
+import _, { get, isEmpty, isNil, has } from 'lodash';
 
 const smallSpacing = ({ theme }) => theme.spacing.small;
 const tinySpacing = ({ theme }) => theme.spacing.tiny;
@@ -88,33 +88,38 @@ function Discover({ route }) {
 
   const SEARCH_TRIGGER_CHAR_COUNT = 2;
 
-  const filterResults = (data) =>
-    shallowFilter(data, filters.text, SEARCH_TRIGGER_CHAR_COUNT);
+  const filterResults = (data) => {
+    let results = data;
+    if (filters.text)
+      results = shallowFilter(results, filters.text, SEARCH_TRIGGER_CHAR_COUNT);
+    if (filters.materials && has(results, '[0].materialList')) {
+      results = results.filter(({ materialList }) =>
+        Object.values(filters.materials).every(({ id }) =>
+          materialList.map(({ id }) => id).includes(id),
+        ),
+      );
+    }
+
+    return results;
+  };
 
   const getTrendingData = () => filterResults(data);
 
-  console.log('Discover', { filters });
-  const isSearchMode =
-    get(filters, 'text.length', 0) >= SEARCH_TRIGGER_CHAR_COUNT;
+  const isSearchMode = !Object.values(filters).every(isEmpty);
 
   const filterStringBuilder = (props) => {
     return props.text;
-    // console.log('filterStringBuilder', props);
-    // console.log('filterStringBuilder', filters);
-    console.log('filterStringBuilder', props);
-    return Object.entries(props).reduce((acc, [k, v]) => {
-      // console.log('Object.entries', k, v);
-      const formatter = {
-        text: (value) => value,
-        category: (value) => value.name,
-        ageMax: (value) => `${value} months`,
-        ageMin: (value) => `${value} months`,
-        timing: (value) => `${value} minutes`,
-        review: ({ ratings }) => (isEmpty(ratings) ? null : `${ratings} stars`),
-      }[k];
-      console.log({ acc, k, v }, formatter, formatter(v));
-      return formatter && formatter(v) ? `${acc} ${formatter(v)}` : acc;
-    }, '');
+    // return Object.entries(props).reduce((acc, [k, v]) => {
+    //   const formatter = {
+    //     text: (value) => value,
+    //     category: (value) => value.name,
+    //     ageMax: (value) => `${value} months`,
+    //     ageMin: (value) => `${value} months`,
+    //     timing: (value) => `${value} minutes`,
+    //     review: ({ ratings }) => (isEmpty(ratings) ? null : `${ratings} stars`),
+    //   }[k];
+    //   return formatter && formatter(v) ? `${acc} ${formatter(v)}` : acc;
+    // }, '');
   };
 
   return (
