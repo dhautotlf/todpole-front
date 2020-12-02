@@ -54,7 +54,7 @@ const Footer = styled.View`
 `;
 
 const SkipText = styled.Text`
-  margin-bottom: 26px;
+  margin-vertical: ${(props) => props.theme.spacing.small}px;
   color: ${(props) => props.theme.colors.mediumGray};
   font-weight: normal;
   font-size: 14px;
