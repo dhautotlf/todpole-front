@@ -10,6 +10,7 @@ const Wrapper = styled.View`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  padding-top: ${({ theme }) => theme.spacing.tiny}px;
   padding-bottom: ${({ theme }) => theme.spacing.small}px;
 `;
 
