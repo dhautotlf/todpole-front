@@ -98,11 +98,18 @@ const categoryEnum = [
   },
 ];
 
+const defaultFields = {
+  ages: [0, 99],
+  timing: 0,
+};
+
 function FieldForm({ context, onFieldChange, fields }) {
   const themeContext = useContext(ThemeContext);
   const { navigate } = useNavigation();
 
   const maxRating = 5;
+
+  fields = { ...defaultFields, ...fields };
 
   const ActivityNameInput = (
     <FieldView
@@ -121,7 +128,6 @@ function FieldForm({ context, onFieldChange, fields }) {
     </FieldView>
   );
 
-  console.log('FieldForm', fields);
   const CategoryField = (
     <FieldView
       key={'CategoryField'}
@@ -154,7 +160,9 @@ function FieldForm({ context, onFieldChange, fields }) {
       subtitle={translations.createactivity_field3_subtitle}
     >
       <Label>
-        {`Between ${get(fields, 'ages[0]')} and ${get(fields, 'ages[1]')}`}:
+        {`Between ${get(fields, 'ages[0]')} and ${
+          get(fields, 'ages[1]') > 30 ? '+' : get(fields, 'ages[1]')
+        }`}
       </Label>
       <AgeMultiSlider
         values={fields.ages}

@@ -14,6 +14,7 @@ import BoxIcon from '../assets/icons/box.svg';
 import ArrowIcon from '../assets/icons/scribble-arrow.svg';
 import { getBookmarkedActivities, getUser, getUserActivities } from '../hooks';
 import shallowFilter from '../utils/shallowStringFilter';
+import { get } from 'lodash';
 
 const smallSpacing = ({ theme }) => theme.spacing.small;
 
@@ -94,9 +95,11 @@ const TABS = [
   { id: SAVED, title: translations.saved_tab_title2 },
 ];
 
-function Saved() {
+function Saved({ route }) {
   const { navigate } = useNavigation();
-  const [filterParam, onSearchParamChange] = useState({});
+  const [filters, onFiltersChanged] = useState(
+    get(route, 'params.filters', {}),
+  );
   const [selectedTab, onTabSelected] = useState(DISCOVER);
   const { data: user } = getUser();
 
@@ -108,7 +111,7 @@ function Saved() {
   }[selectedTab]();
 
   const filterResults = (data) =>
-    shallowFilter(data, filterParam.text, SEARCH_TRIGGER_CHAR_COUNT);
+    shallowFilter(data, filters.text, SEARCH_TRIGGER_CHAR_COUNT);
 
   return (
     <StyledSafeAreaView>
@@ -136,11 +139,16 @@ function Saved() {
               </TabContainer>
               <SearchArea>
                 <SearchBar
-                  value={filterParam.text}
+                  value={filters.text}
                   onChangeText={(text) =>
-                    onSearchParamChange({ ...filterParam, text })
+                    onFiltersChanged({ ...filters, text })
                   }
-                  onFilterPress={() => navigate('FilterModal', filterParam)}
+                  onFilterPress={() =>
+                    navigate('FilterModal', {
+                      backRoute: 'Saved',
+                      filters,
+                    })
+                  }
                   onSettingsPress={() => navigate('User')}
                 />
               </SearchArea>

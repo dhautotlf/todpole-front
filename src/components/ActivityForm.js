@@ -39,11 +39,6 @@ function ActivityForm({ submitButtonLabel, onCreateActivity, context }) {
     materials,
   });
 
-  const changeForm = (value, setter) => {
-    setter(value);
-    onFormChanged(formBuilder());
-  };
-
   const submitForm = () => onCreateActivity(formBuilder());
 
   return (
@@ -63,7 +58,6 @@ function ActivityForm({ submitButtonLabel, onCreateActivity, context }) {
         }}
         onFieldChange={(props) => {
           const [[key, value]] = Object.entries(props);
-          console.log({ key, value });
           const setter = {
             name: setName,
             category: setCategory,
