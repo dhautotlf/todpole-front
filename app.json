@@ -1,9 +1,13 @@
 {
-  "name": "todpole-front",
-  "displayName": "todpole-front",
+  "name": "Todpole",
+  "displayName": "Todpole",
   "expo": {
-    "name": "todpole-front",
-    "slug": "todpole-front",
+    "ios": {
+      "bundleIdentifier": "com.todpole-app.todpole",
+      "buildNumber": "1.0.0"
+    },
+    "name": "Todpole",
+    "slug": "Todpole",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"

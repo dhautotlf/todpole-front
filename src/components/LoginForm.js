@@ -1,7 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import styled, { ThemeContext } from 'styled-components/native';
 import PropTypes from 'prop-types';
 import BasicButton from '../components/BasicButton';
+import AlertIcon from '../assets/icons/alert.svg';
 import { translations } from '../constants/translations';
 
 const Form = styled.View`
@@ -33,9 +34,31 @@ const StyledTextInput = styled.TextInput`
   padding: 10px;
   width: 320px;
   height: 44px;
-  border: 1px solid ${(props) => props.theme.colors.darkGray};
+  border: 1px solid
+    ${(props) =>
+      props.hasError
+        ? props.theme.colors.redError
+        : props.theme.colors.darkGray};
   border-radius: 8px;
   color: ${(props) => props.theme.colors.black};
+`;
+
+const ErrorWrapper = styled.View`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: ${(props) => props.theme.colors.redErrorBg};
+  padding: 6px 40px 6px 16px;
+  border-radius: 8px;
+`;
+
+const ErrorMessage = styled.Text`
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 20px;
+  text-align: left;
+  color: ${(props) => props.theme.colors.redError};
+  margin-left: ${(props) => props.theme.spacing.tiny}px;
 `;
 
 const Footer = styled.View`
@@ -44,17 +67,36 @@ const Footer = styled.View`
   margin-bottom: 45px;
 `;
 
+const EMAIL_VALIDATION_ERROR = 'Please enter a valid email address';
+
 function LoginForm({ submitButtonLabel, onLogin }) {
-  const [email, onChangeEmail] = useState('');
+  const [email, setEmail] = useState('');
   const [password, onChangePassword] = useState('');
+  const [error, setError] = useState(null);
   const themeContext = useContext(ThemeContext);
 
+  const validateEmail = (email) => {
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  };
+
   const submitForm = () => {
-    const user = {
-      login: email,
-      password,
-    };
-    onLogin(user);
+    if (!validateEmail(email)) {
+      setError(EMAIL_VALIDATION_ERROR);
+    } else {
+      const user = {
+        login: email,
+        password,
+      };
+      onLogin(user);
+    }
+  };
+
+  const onChangeEmail = (email) => {
+    setEmail(email);
+    if (email === '') {
+      setError(null);
+    }
   };
 
   return (
@@ -70,8 +112,20 @@ function LoginForm({ submitButtonLabel, onLogin }) {
             placeholderTextColor={themeContext.colors.silver}
             onChangeText={onChangeEmail}
             autoCapitalize="none"
+            keyboardType="email-address"
             required
+            hasError={error === EMAIL_VALIDATION_ERROR}
           />
+          {error === EMAIL_VALIDATION_ERROR && (
+            <ErrorWrapper>
+              <AlertIcon
+                width={16}
+                height={16}
+                color={themeContext.colors.redError}
+              />
+              <ErrorMessage>{error}</ErrorMessage>
+            </ErrorWrapper>
+          )}
         </FieldView>
         <FieldView>
           <Label>{translations.signup_option_title2}:</Label>

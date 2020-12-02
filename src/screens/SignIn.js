@@ -44,7 +44,6 @@ function SignIn() {
   return (
     <ScreenWrapper>
       <Header>
-        <Text onPress={signIn}>Test Login</Text>
         <Description>{translations.signin_header_text}</Description>
       </Header>
       <Body>
