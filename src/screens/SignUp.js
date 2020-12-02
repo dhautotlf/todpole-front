@@ -47,12 +47,6 @@ function SignUp({ navigation, route }) {
 
   return (
     <ScreenWrapper>
-      <Text onPress={() => navigation.navigate('SignIn')}>Go to SignIn</Text>
-      <Text
-        onPress={() => navigation.navigate('HomeTab', { screen: 'Settings' })}
-      >
-        Go to Discover
-      </Text>
       <Header>
         <Description>{translations.signup_header_text}</Description>
       </Header>
@@ -66,6 +60,7 @@ function SignUp({ navigation, route }) {
             submitButtonLabel={translations.signup_footer_button}
           />
         )}
+        <Text onPress={() => navigation.navigate('SignIn')}>Go to SignIn</Text>
       </Body>
     </ScreenWrapper>
   );
