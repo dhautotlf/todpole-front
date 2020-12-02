@@ -163,7 +163,17 @@ function Discover({ route }) {
                   </SectionTitle>
                   <IdeasForYou
                     data={filterResults(translations.discover_categories)}
-                    renderItem={({ item }) => <WelcomeCategory {...item} />}
+                    renderItem={({ item }) => (
+                      <WelcomeCategory
+                        {...item}
+                        onPress={() =>
+                          onFiltersChanged({
+                            ...filters,
+                            text: item.title,
+                          })
+                        }
+                      />
+                    )}
                     keyExtractor={({ title }) => `IDEAS-${title}`}
                   />
                 </IdeasContainer>

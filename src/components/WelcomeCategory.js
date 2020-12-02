@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 
-const CategoryWrapper = styled.View`
+const CategoryWrapper = styled.TouchableOpacity`
   display: flex;
   flex-direction: column;
   margin-bottom: 23px;
@@ -32,9 +32,9 @@ const ThumbnailImage = styled.Image`
   margin-bottom: 12px;
 `;
 
-function WelcomeCategory({ title, image }) {
+function WelcomeCategory({ title, image, onPress }) {
   return (
-    <CategoryWrapper>
+    <CategoryWrapper disabled={!onPress} onPress={onPress}>
       <ThumbnailImage source={image}></ThumbnailImage>
       <TextWrapper>
         <Title>{title}</Title>
