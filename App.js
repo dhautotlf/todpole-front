@@ -26,7 +26,7 @@ export default function App() {
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <StyledSafeAreaView>
-          <StatusBar style="auto" />
+          <StatusBar style="dark" />
           <Navigator />
         </StyledSafeAreaView>
       </ThemeProvider>
