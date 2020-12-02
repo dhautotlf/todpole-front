@@ -11,7 +11,7 @@ import Loading from '../components/Loading';
 import { getActivities } from '../hooks';
 import { translations } from '../constants/translations';
 import shallowFilter from '../utils/shallowStringFilter';
-import { get } from 'lodash';
+import _, { get, isEmpty, omitBy, isNil } from 'lodash';
 
 const smallSpacing = ({ theme }) => theme.spacing.small;
 const tinySpacing = ({ theme }) => theme.spacing.tiny;
@@ -75,20 +75,47 @@ const IdeasForYou = styled.FlatList.attrs(() => ({
   ListHeaderComponent: HorizontalFlatlistHeader,
 }))``;
 
-function Discover() {
+function Discover({ route }) {
   const { navigate } = useNavigation();
   const { data = [], isLoading } = getActivities();
-  const [filterParam, onSearchParamChange] = useState({});
+  const [filters, onFiltersChanged] = useState(
+    get(route, 'params.filters', {}),
+  );
+
+  React.useEffect(() => {
+    onFiltersChanged(get(route, 'params.filters', {}));
+  }, [route]);
 
   const SEARCH_TRIGGER_CHAR_COUNT = 2;
 
   const filterResults = (data) =>
-    shallowFilter(data, filterParam.text, SEARCH_TRIGGER_CHAR_COUNT);
+    shallowFilter(data, filters.text, SEARCH_TRIGGER_CHAR_COUNT);
 
   const getTrendingData = () => filterResults(data);
 
+  console.log('Discover', { filters });
   const isSearchMode =
-    get(filterParam, 'text.length', 0) >= SEARCH_TRIGGER_CHAR_COUNT;
+    get(filters, 'text.length', 0) >= SEARCH_TRIGGER_CHAR_COUNT;
+
+  const filterStringBuilder = (props) => {
+    return props.text;
+    // console.log('filterStringBuilder', props);
+    // console.log('filterStringBuilder', filters);
+    console.log('filterStringBuilder', props);
+    return Object.entries(props).reduce((acc, [k, v]) => {
+      // console.log('Object.entries', k, v);
+      const formatter = {
+        text: (value) => value,
+        category: (value) => value.name,
+        ageMax: (value) => `${value} months`,
+        ageMin: (value) => `${value} months`,
+        timing: (value) => `${value} minutes`,
+        review: ({ ratings }) => (isEmpty(ratings) ? null : `${ratings} stars`),
+      }[k];
+      console.log({ acc, k, v }, formatter, formatter(v));
+      return formatter && formatter(v) ? `${acc} ${formatter(v)}` : acc;
+    }, '');
+  };
 
   return (
     <StyledSafeAreaView>
@@ -100,11 +127,16 @@ function Discover() {
               <MenuArea screen="discover" />
               <SearchArea>
                 <SearchBar
-                  value={filterParam.text}
+                  value={filterStringBuilder(filters)}
                   onChangeText={(text) =>
-                    onSearchParamChange({ ...filterParam, text })
+                    onFiltersChanged({ ...filters, text })
                   }
-                  onFilterPress={() => navigate('SearchModal', filterParam)}
+                  onFilterPress={() =>
+                    navigate('FilterModal', {
+                      backRoute: 'Discover',
+                      filters,
+                    })
+                  }
                 />
               </SearchArea>
             </Header>
@@ -131,7 +163,17 @@ function Discover() {
                   </SectionTitle>
                   <IdeasForYou
                     data={filterResults(translations.discover_categories)}
-                    renderItem={({ item }) => <WelcomeCategory {...item} />}
+                    renderItem={({ item }) => (
+                      <WelcomeCategory
+                        {...item}
+                        onPress={() =>
+                          onFiltersChanged({
+                            ...filters,
+                            text: item.title,
+                          })
+                        }
+                      />
+                    )}
                     keyExtractor={({ title }) => `IDEAS-${title}`}
                   />
                 </IdeasContainer>
