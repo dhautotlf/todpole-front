@@ -11,7 +11,7 @@ import Loading from '../components/Loading';
 import { getActivities } from '../hooks';
 import { translations } from '../constants/translations';
 import shallowFilter from '../utils/shallowStringFilter';
-import _, { get, isEmpty, isNil, has } from 'lodash';
+import _, { get, isEmpty, isNil, has, isObject } from 'lodash';
 
 const smallSpacing = ({ theme }) => theme.spacing.small;
 const tinySpacing = ({ theme }) => theme.spacing.tiny;
@@ -93,11 +93,24 @@ function Discover({ route }) {
     if (filters.text)
       results = shallowFilter(results, filters.text, SEARCH_TRIGGER_CHAR_COUNT);
     if (filters.materials && has(results, '[0].materialList')) {
-      results = results.filter(({ materialList }) =>
-        Object.values(filters.materials).every(({ id }) =>
-          materialList.map(({ id }) => id).includes(id),
-        ),
-      );
+      const containsAllTheMaterial = ({ materialList }) =>
+          Object.values(filters.materials).every(({ id }) =>
+            materialList.map(({ id }) => id).includes(id),
+          ),
+        results = results.filter(containsAllTheMaterial);
+    }
+    if (filters.category) {
+      const isCategory = ({ category }) => category <= filters.category.value;
+      results = results.filter(isCategory);
+    }
+    if (filters.timing) {
+      const lesserThanTiming = ({ timing }) => timing <= filters.timing;
+      results = results.filter(lesserThanTiming);
+    }
+    if (filters.ages) {
+      const isBetweenTheAges = ({ ageMin, ageMax }) =>
+        ageMin >= filters.ages[0] && ageMax <= filters.ages[1];
+      results = results.filter(isBetweenTheAges);
     }
 
     return results;
@@ -105,7 +118,10 @@ function Discover({ route }) {
 
   const getTrendingData = () => filterResults(data);
 
-  const isSearchMode = !Object.values(filters).every(isEmpty);
+  const isSearchMode = !Object.values(filters).every(
+    (value) =>
+      (isObject(value) && isEmpty(value)) || (!isObject(value) && isNil(value)),
+  );
 
   const filterStringBuilder = (props) => {
     return props.text;

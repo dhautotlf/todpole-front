@@ -10,7 +10,7 @@ import RoundButton from '../components/RoundButton';
 import Slider from '@react-native-community/slider';
 import PlusIcon from '../assets/icons/create.svg';
 import { translations } from '../constants/translations';
-import { omit, get } from 'lodash';
+import { omit, get, cloneDeep } from 'lodash';
 
 const Form = styled.View`
   display: flex;
@@ -98,18 +98,11 @@ const categoryEnum = [
   },
 ];
 
-const defaultFields = {
-  ages: [0, 99],
-  timing: 0,
-};
-
 function FieldForm({ context, onFieldChange, fields }) {
   const themeContext = useContext(ThemeContext);
   const { navigate } = useNavigation();
 
   const maxRating = 5;
-
-  fields = { ...defaultFields, ...fields };
 
   const ActivityNameInput = (
     <FieldView
@@ -128,6 +121,8 @@ function FieldForm({ context, onFieldChange, fields }) {
     </FieldView>
   );
 
+  const isCategorySelected = (category) =>
+    get(fields, 'category.value') === category.value;
   const CategoryField = (
     <FieldView
       key={'CategoryField'}
@@ -136,15 +131,15 @@ function FieldForm({ context, onFieldChange, fields }) {
       <CategoryButtonView>
         {categoryEnum.map((category) => (
           <CategoryButton
-            onPress={() => {
-              onFieldChange({ category });
-            }}
-            selected={fields.category === category}
+            onPress={() =>
+              onFieldChange({
+                category: isCategorySelected(category) ? undefined : category,
+              })
+            }
+            selected={isCategorySelected(category)}
             key={category.value}
           >
-            <CategoryLabel
-              selected={get(fields, 'category.value') === category.value}
-            >
+            <CategoryLabel selected={isCategorySelected(category)}>
               {category.name}
             </CategoryLabel>
           </CategoryButton>

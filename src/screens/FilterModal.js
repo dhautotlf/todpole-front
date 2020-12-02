@@ -25,7 +25,7 @@ const defaultFilters = {
   text: null,
   category: {},
   materials: {},
-  ages: {},
+  ages: [0, 99],
   timing: 0,
 };
 
@@ -50,7 +50,7 @@ function FilterModal({ route }) {
         <Body>
           <FieldForm
             context={'activityFilters'}
-            fields={filters}
+            fields={{ ...defaultFilters, ...filters }}
             onFieldChange={(field) => {
               const a = assign(filters, field);
               return setFilters({ ...a });
