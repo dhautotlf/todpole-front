@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import styled from 'styled-components/native';
@@ -13,7 +13,7 @@ import { translations } from '../constants/translations';
 import BoxIcon from '../assets/icons/box.svg';
 import ArrowIcon from '../assets/icons/scribble-arrow.svg';
 import { getBookmarkedActivities, getUser, getUserActivities } from '../hooks';
-import shallowFilter from '../utils/shallowStringFilter';
+import activityFilters from '../utils/activityFilters';
 import { get } from 'lodash';
 
 const smallSpacing = ({ theme }) => theme.spacing.small;
@@ -80,7 +80,6 @@ const EmptyFavorite = () => {
   );
 };
 
-const SEARCH_TRIGGER_CHAR_COUNT = 2;
 const EmptyCreations = () => (
   <BodyBottom>
     <BoldText>{translations.saved_emptystate_text2}</BoldText>
@@ -103,19 +102,25 @@ function Saved({ route }) {
   const [selectedTab, onTabSelected] = useState(DISCOVER);
   const { data: user } = getUser();
 
+  useEffect(() => {
+    onFiltersChanged(get(route, 'params.filters', {}));
+  }, [route]);
+
   const { data, isLoading } = {
     [DISCOVER]: getBookmarkedActivities,
     [SAVED]: () => getUserActivities(user),
   }[selectedTab]();
 
-  const filterResults = (data) =>
-    shallowFilter(data, filters.text, SEARCH_TRIGGER_CHAR_COUNT);
+  const filterResults = useMemo(() => activityFilters(data, filters), [
+    data,
+    filters,
+  ]);
 
   return (
     <StyledSafeAreaView>
       <ScreenWrapper>
         <ActivityList
-          data={filterResults(data)}
+          data={filterResults}
           ListEmptyComponent={() => {
             if (isLoading) return <Loading />;
             if (selectedTab === DISCOVER) return <EmptyFavorite />;
@@ -160,6 +165,7 @@ function Saved({ route }) {
 
 Saved.propTypes = {
   tabs: PropTypes.array,
+  route: PropTypes.any,
 };
 
 Saved.defaultProps = {};

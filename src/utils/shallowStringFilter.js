@@ -1,6 +1,6 @@
 import { isEmpty, isString } from 'lodash';
 
-export default (data, filterString, trigger) => {
+export default (data, filterString, trigger = 2) => {
   if (isEmpty(filterString) || filterString.length < trigger) return data;
   return data.filter((d) =>
     Object.entries(d).some(([key, val]) => {

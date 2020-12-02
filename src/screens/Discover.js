@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
 import Activity from '../components/Activity';
@@ -10,8 +11,8 @@ import ActivityList from '../components/ActivityList';
 import Loading from '../components/Loading';
 import { getActivities } from '../hooks';
 import { translations } from '../constants/translations';
-import shallowFilter from '../utils/shallowStringFilter';
-import _, { get, isEmpty, isNil, has, isObject } from 'lodash';
+import activityFilters from '../utils/activityFilters';
+import { get, isEmpty, isNil, isObject } from 'lodash';
 
 const smallSpacing = ({ theme }) => theme.spacing.small;
 const tinySpacing = ({ theme }) => theme.spacing.tiny;
@@ -82,49 +83,32 @@ function Discover({ route }) {
     get(route, 'params.filters', {}),
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     onFiltersChanged(get(route, 'params.filters', {}));
   }, [route]);
 
-  const SEARCH_TRIGGER_CHAR_COUNT = 2;
+  const filterResults = useMemo(() => activityFilters(data, filters), [
+    data,
+    filters,
+  ]);
 
-  const filterResults = (data) => {
-    let results = data;
-    if (filters.text)
-      results = shallowFilter(results, filters.text, SEARCH_TRIGGER_CHAR_COUNT);
-    if (filters.materials && has(results, '[0].materialList')) {
-      const containsAllTheMaterial = ({ materialList }) =>
-          Object.values(filters.materials).every(({ id }) =>
-            materialList.map(({ id }) => id).includes(id),
-          ),
-        results = results.filter(containsAllTheMaterial);
-    }
-    if (filters.category) {
-      const isCategory = ({ category }) => category <= filters.category.value;
-      results = results.filter(isCategory);
-    }
-    if (filters.timing) {
-      const lesserThanTiming = ({ timing }) => timing <= filters.timing;
-      results = results.filter(lesserThanTiming);
-    }
-    if (filters.ages) {
-      const isBetweenTheAges = ({ ageMin, ageMax }) =>
-        ageMin >= filters.ages[0] && ageMax <= filters.ages[1];
-      results = results.filter(isBetweenTheAges);
-    }
+  const getTrendingData = useMemo(() => activityFilters(data, filters), [
+    data,
+    filters,
+  ]);
 
-    return results;
-  };
-
-  const getTrendingData = () => filterResults(data);
+  const ideaForYou = useMemo(
+    () => activityFilters(translations.discover_categories, filters),
+    [translations.discover_categories, filters],
+  );
 
   const isSearchMode = !Object.values(filters).every(
     (value) =>
       (isObject(value) && isEmpty(value)) || (!isObject(value) && isNil(value)),
   );
 
-  const filterStringBuilder = (props) => {
-    return props.text;
+  const filterStringBuilder = ({ text }) => {
+    return text;
     // return Object.entries(props).reduce((acc, [k, v]) => {
     //   const formatter = {
     //     text: (value) => value,
@@ -142,7 +126,7 @@ function Discover({ route }) {
     <StyledSafeAreaView>
       <Surprise />
       <ScreenWrapper>
-        <ActivityList data={filterResults(data)}>
+        <ActivityList data={filterResults}>
           <>
             <Header>
               <MenuArea screen="discover" />
@@ -169,7 +153,7 @@ function Discover({ route }) {
                     {translations.discover_topic_title1}
                   </SectionTitle>
                   <Trending
-                    data={getTrendingData()}
+                    data={getTrendingData}
                     renderItem={({ item }) => (
                       <ActivityWrapper>
                         <Activity {...item} />
@@ -183,7 +167,7 @@ function Discover({ route }) {
                     {translations.discover_topic_title2}
                   </SectionTitle>
                   <IdeasForYou
-                    data={filterResults(translations.discover_categories)}
+                    data={ideaForYou}
                     renderItem={({ item }) => (
                       <WelcomeCategory
                         {...item}
@@ -210,6 +194,8 @@ function Discover({ route }) {
   );
 }
 
-Discover.propTypes = {};
+Discover.propTypes = {
+  route: PropTypes.any,
+};
 
 export default Discover;
