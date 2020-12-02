@@ -103,8 +103,6 @@ function Saved({ route }) {
   const [selectedTab, onTabSelected] = useState(DISCOVER);
   const { data: user } = getUser();
 
-  console.log({ user });
-
   const { data, isLoading } = {
     [DISCOVER]: getBookmarkedActivities,
     [SAVED]: () => getUserActivities(user),
