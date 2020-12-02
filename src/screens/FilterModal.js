@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
 import SearchBar from '../components/SearchBar';
 import FieldForm from '../components/FieldForm';
-import BasicButton from '../components/BasicButton';
-import { get, assign } from 'lodash';
+import { get, assign, cloneDeep } from 'lodash';
 
 const ScrollViewWrapper = styled.ScrollView``;
 
@@ -32,10 +32,9 @@ const defaultFilters = {
 function FilterModal({ route }) {
   const navigation = useNavigation();
   const [filters, setFilters] = useState(
-    get(route, 'params.filters', defaultFilters),
+    cloneDeep(get(route, 'params.filters', defaultFilters)),
   );
 
-  console.log('FilterModal', { filters });
   return (
     <StyledSafeAreaView>
       <ScrollViewWrapper>
@@ -43,9 +42,9 @@ function FilterModal({ route }) {
           <SearchBar
             onChangeText={(text) => setFilters({ ...filters, text })}
             value={filters.text}
-            onSearchPress={() => {
-              navigation.navigate(route.params.backRoute, { filters });
-            }}
+            onSearchPress={() =>
+              navigation.navigate(route.params.backRoute, { filters })
+            }
           />
         </SearchArea>
         <Body>
@@ -54,8 +53,6 @@ function FilterModal({ route }) {
             fields={filters}
             onFieldChange={(field) => {
               const a = assign(filters, field);
-
-              console.log('onFieldChange', { field }, { a });
               return setFilters({ ...a });
             }}
           />
@@ -65,7 +62,9 @@ function FilterModal({ route }) {
   );
 }
 
-FilterModal.propTypes = {};
+FilterModal.propTypes = {
+  route: PropTypes.object,
+};
 
 FilterModal.defaultProps = {};
 
