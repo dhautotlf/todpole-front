@@ -166,7 +166,7 @@ function FieldForm({ context, onFieldChange, fields }) {
     >
       <TimeSlider
         optionsArray={[0, 5, 10, 15, 20, 25, 30, 45]}
-        onValueChange={(timing) => onFieldChange({ timing })}
+        onValuesChange={([timing]) => onFieldChange({ timing })}
       />
     </FieldView>
   );

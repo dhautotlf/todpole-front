@@ -15,7 +15,7 @@ const StyledSafeAreaView = styled.SafeAreaView`
   background: ${(props) => props.theme.colors.white};
 `;
 
-const ScreenWrapper = styled.ScrollView.attrs((props) => ({
+const ScreenWrapper = styled.ScrollView.attrs(() => ({
   contentContainerStyle: {
     display: 'flex',
     flexDirection: 'column',
@@ -39,7 +39,7 @@ const Body = styled.View`
   margin-horizontal: ${({ theme }) => theme.spacing.moderate}px;
 `;
 
-const ImagePickerFlatList = styled.FlatList.attrs((props) => ({
+const ImagePickerFlatList = styled.FlatList.attrs(() => ({
   contentContainerStyle: {
     marginLeft: 25,
   },
