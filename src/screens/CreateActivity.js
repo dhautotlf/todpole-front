@@ -49,9 +49,21 @@ const ImagePickerActivityWrapper = styled.View`
   margin-right: 13px;
 `;
 
+const Error = styled.Text`
+  align-self: center;
+  margin-bottom: ${({ theme }) => theme.spacing.moderate}px;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 21px;
+  display: flex;
+  text-align: center;
+  color: ${({ theme }) => theme.colors.spacing}px;
+`;
+
 function CreateActivity() {
   const navigation = useNavigation();
-  const [errorMessage, setError] = useState('');
+  const [errorMessage, setError] = useState('yolo');
   const [loading, setLoading] = useState(false);
   const [photos, updatePhotos] = useState([]);
 
@@ -59,6 +71,7 @@ function CreateActivity() {
 
   const createActivity = async (activity) => {
     setLoading(true);
+    setError(null);
     const activityInputs = {
       ...activity,
       activityImageList: photos,
@@ -81,7 +94,7 @@ function CreateActivity() {
       );
       navigation.navigate('ActivityDetail', { id: a.id });
     } catch (error) {
-      setError(error);
+      setError(error.errorMessage);
     } finally {
       setLoading(false);
     }
@@ -138,7 +151,7 @@ function CreateActivity() {
             onCreateActivity={createActivity}
             loading={loading}
           />
-          {errorMessage ? <Text>{errorMessage}</Text> : null}
+          {errorMessage && <Error>{errorMessage}</Error>}
         </Body>
       </ScreenWrapper>
     </StyledSafeAreaView>

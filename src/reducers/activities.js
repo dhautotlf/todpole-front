@@ -5,6 +5,7 @@ import Queries from '../utils/queries';
 import { createActivity as createActivityMutation } from '../utils/mutations';
 import { createReview as createReviewMutation } from '../utils/mutations';
 import { uploadImageFromLocalFile } from '../utils/api/apiCloudinary';
+import { get } from 'lodash';
 
 const INITIAL_STATE = {
   isLoading: false,
@@ -143,6 +144,7 @@ export const postActivity = (activityInput) => {
       return activity;
     } catch (error) {
       dispatch(activitiesAction.createActivityError({ error }));
+      error.errorMessage = get(error, 'graphQLErrors[0].message', null);
       throw error;
     }
   };
