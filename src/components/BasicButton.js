@@ -19,22 +19,24 @@ const Loading = styled.ActivityIndicator.attrs(({ theme, selected }) => ({
 `;
 
 const Label = styled.Text`
-  font-weight: normal;
+  font-weight: 700;
   font-size: 18px;
   line-height: 21px;
   display: flex;
   align-items: center;
   text-align: center;
-  color: ${(props) =>
-    props.selected ? props.theme.colors.white : props.theme.colors.green};
+  color: ${(props) => props.theme.colors.green};
+`;
+const SelectedLabel = styled(Label)`
+  font-weight: normal;
+  color: ${(props) => props.theme.colors.white};
 `;
 
 function BasicButton({ label, onPress, selected, loading }) {
+  const LabelStyle = selected ? SelectedLabel : Label;
   return (
     <StyledButton disabled={loading} onPress={onPress} selected={selected}>
-      <Label loading={loading} selected={selected}>
-        {label}
-      </Label>
+      <LabelStyle loading={loading}>{label}</LabelStyle>
       {loading && <Loading selected={selected} />}
     </StyledButton>
   );
