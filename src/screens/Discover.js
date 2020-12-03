@@ -11,8 +11,11 @@ import ActivityList from '../components/ActivityList';
 import Loading from '../components/Loading';
 import { getActivities } from '../hooks';
 import { translations } from '../constants/translations';
-import activityFilters from '../utils/activityFilters';
-import { get, isEmpty, isNil, isObject } from 'lodash';
+import activityFilters, {
+  toString,
+  isFilterActive,
+} from '../utils/activityFilters';
+import { get } from 'lodash';
 
 const smallSpacing = ({ theme }) => theme.spacing.small;
 const tinySpacing = ({ theme }) => theme.spacing.tiny;
@@ -102,23 +105,7 @@ function Discover({ route }) {
     [translations.discover_categories, filters],
   );
 
-  const isSearchMode = !Object.values(filters).every(
-    (value) =>
-      (isObject(value) && isEmpty(value)) || (!isObject(value) && isNil(value)),
-  );
-
-  const filterStringBuilder = (filters) => {
-    return Object.entries(filters).reduce((acc, [k, v]) => {
-      const formatter = {
-        text: () => '',
-        category: (value) => value.name,
-        ages: ([min, max]) => `${min} - ${max} months`,
-        timing: (value) => `${value} minutes`,
-        rating: ({ ratings }) => `${ratings} stars`,
-      }[k];
-      return formatter && formatter(v) ? `${acc} ${formatter(v)}` : acc;
-    }, filters.text || '');
-  };
+  const isSearchMode = isFilterActive(filters);
 
   return (
     <StyledSafeAreaView>
@@ -130,7 +117,7 @@ function Discover({ route }) {
               <MenuArea screen="discover" />
               <SearchArea>
                 <SearchBar
-                  value={filterStringBuilder(filters)}
+                  value={toString(filters)}
                   isFilterActive={isSearchMode}
                   onClearPress={() => onFiltersChanged({})}
                   onChangeText={(text) =>

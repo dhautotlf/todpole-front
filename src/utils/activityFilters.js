@@ -1,5 +1,5 @@
 import shallowFilter from './shallowStringFilter';
-import { has, cloneDeep } from 'lodash';
+import { has, cloneDeep, isObject, isNil, isEmpty } from 'lodash';
 
 const containsAllTheMaterial = (filters) => ({ materialList }) =>
   Object.values(filters.materials).every(({ id }) =>
@@ -34,3 +34,21 @@ export default (data, filters) => {
 
   return results;
 };
+
+export const toString = (filters) =>
+  Object.entries(filters).reduce((acc, [k, v]) => {
+    const formatter = {
+      text: () => '',
+      category: (value) => value.name,
+      ages: ([min, max]) => `${min} - ${max} months`,
+      timing: (value) => `${value} minutes`,
+      rating: ({ ratings }) => `${ratings} stars`,
+    }[k];
+    return formatter && formatter(v) ? `${acc} ${formatter(v)}` : acc;
+  }, filters.text || '');
+
+export const isFilterActive = (filters) =>
+  !Object.values(filters).every(
+    (value) =>
+      (isObject(value) && isEmpty(value)) || (!isObject(value) && isNil(value)),
+  );

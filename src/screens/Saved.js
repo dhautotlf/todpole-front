@@ -13,8 +13,11 @@ import { translations } from '../constants/translations';
 import BoxIcon from '../assets/icons/box.svg';
 import ArrowIcon from '../assets/icons/scribble-arrow.svg';
 import { getBookmarkedActivities, getUser, getUserActivities } from '../hooks';
-import activityFilters from '../utils/activityFilters';
-import { get } from 'lodash';
+import activityFilters, {
+  toString,
+  isFilterActive,
+} from '../utils/activityFilters';
+import { get, isObject, isEmpty, isNil } from 'lodash';
 
 const smallSpacing = ({ theme }) => theme.spacing.small;
 
@@ -142,10 +145,12 @@ function Saved({ route }) {
               </TabContainer>
               <SearchArea>
                 <SearchBar
-                  value={filters.text}
+                  value={toString(filters)}
+                  isFilterActive={isFilterActive(filters)}
                   onChangeText={(text) =>
                     onFiltersChanged({ ...filters, text })
                   }
+                  onClearPress={() => onFiltersChanged({})}
                   onFilterPress={() =>
                     navigate('FilterModal', {
                       backRoute: 'Saved',
