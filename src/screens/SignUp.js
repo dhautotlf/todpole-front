@@ -52,14 +52,11 @@ function SignUp({ navigation, route }) {
       </Header>
       <Body>
         {errorMessage ? <Text>{errorMessage}</Text> : null}
-        {isLoading ? (
-          <ActivityIndicator />
-        ) : (
-          <LoginForm
-            onLogin={signUp}
-            submitButtonLabel={translations.signup_footer_button}
-          />
-        )}
+        <LoginForm
+          onLogin={signUp}
+          submitButtonLabel={translations.signup_footer_button}
+          loading={isLoading}
+        />
         <Text onPress={() => navigation.navigate('SignIn')}>Go to SignIn</Text>
       </Body>
     </ScreenWrapper>

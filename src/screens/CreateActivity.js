@@ -52,11 +52,13 @@ const ImagePickerActivityWrapper = styled.View`
 function CreateActivity() {
   const navigation = useNavigation();
   const [errorMessage, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const [photos, updatePhotos] = useState([]);
 
   const dispatch = useDispatch();
 
   const createActivity = async (activity) => {
+    setLoading(true);
     const activityInputs = {
       ...activity,
       activityImageList: photos,
@@ -67,7 +69,6 @@ function CreateActivity() {
 
     try {
       const a = await dispatch(postActivity(activityInputs));
-
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
@@ -80,8 +81,9 @@ function CreateActivity() {
       );
       navigation.navigate('ActivityDetail', { id: a.id });
     } catch (error) {
-      console.log({ error });
       setError(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -134,6 +136,7 @@ function CreateActivity() {
           <ActivityForm
             submitButtonLabel={translations.createactivity_footer_button}
             onCreateActivity={createActivity}
+            loading={loading}
           />
           {errorMessage ? <Text>{errorMessage}</Text> : null}
         </Body>

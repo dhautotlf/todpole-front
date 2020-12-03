@@ -69,7 +69,7 @@ const Footer = styled.View`
 
 const EMAIL_VALIDATION_ERROR = 'Please enter a valid email address';
 
-function LoginForm({ submitButtonLabel, onLogin }) {
+function LoginForm({ submitButtonLabel, onLogin, loading }) {
   const [email, setEmail] = useState('');
   const [password, onChangePassword] = useState('');
   const [error, setError] = useState(null);
@@ -144,7 +144,12 @@ function LoginForm({ submitButtonLabel, onLogin }) {
         </FieldView>
       </FieldsContainer>
       <Footer>
-        <BasicButton label={submitButtonLabel} onPress={submitForm} selected />
+        <BasicButton
+          label={submitButtonLabel}
+          onPress={submitForm}
+          selected
+          loading={loading}
+        />
       </Footer>
     </Form>
   );

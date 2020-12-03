@@ -25,8 +25,9 @@ const defaultFilters = {
   text: null,
   category: {},
   materials: {},
-  ages: [0, 99],
+  ages: [0, 72],
   timing: 0,
+  rating: { ratings: 4 },
 };
 
 function FilterModal({ route }) {

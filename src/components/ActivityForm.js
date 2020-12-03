@@ -15,7 +15,12 @@ const Footer = styled.View`
   margin: 28px auto;
 `;
 
-function ActivityForm({ submitButtonLabel, onCreateActivity, context }) {
+function ActivityForm({
+  submitButtonLabel,
+  onCreateActivity,
+  context,
+  loading,
+}) {
   const [name, setName] = useState('');
   const [category, setCategory] = useState({});
   const [ages, setAges] = React.useState([6, 18]);
@@ -78,6 +83,7 @@ function ActivityForm({ submitButtonLabel, onCreateActivity, context }) {
           <BasicButton
             label={submitButtonLabel}
             onPress={submitForm}
+            loading={loading}
             selected
           />
         </Footer>
@@ -92,6 +98,7 @@ ActivityForm.propTypes = {
   onFormChanged: PropTypes.func,
   submitButtonLabel: PropTypes.string,
   context: PropTypes.string,
+  loading: PropTypes.bool,
 };
 
 ActivityForm.defaultProps = {
@@ -100,6 +107,7 @@ ActivityForm.defaultProps = {
   onFormChanged: () => {},
   submitButtonLabel: 'Create',
   context: 'activityCreation',
+  loading: false,
 };
 
 export default ActivityForm;

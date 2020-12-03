@@ -1,29 +1,19 @@
 import React, { useContext } from 'react';
-import { Dimensions } from 'react-native';
 import styled, { ThemeContext } from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
-import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import PropTypes from 'prop-types';
 import FieldView from '../components/FieldView';
 import StarRating from '../components/StarRating';
 import RoundButton from '../components/RoundButton';
-import Slider from '@react-native-community/slider';
+import MultiSlider from '../components/Slider';
 import PlusIcon from '../assets/icons/create.svg';
 import { translations } from '../constants/translations';
-import { omit, get, cloneDeep } from 'lodash';
+import { omit, get } from 'lodash';
 
 const Form = styled.View`
   display: flex;
   flex-direction: column;
   flex: 1;
-`;
-
-const Label = styled.Text`
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 17px;
-  margin-bottom: 10px;
-  color: ${(props) => props.theme.colors.black};
 `;
 
 const StyledTextInput = styled.TextInput`
@@ -32,6 +22,12 @@ const StyledTextInput = styled.TextInput`
   border: 1px solid ${(props) => props.theme.colors.darkGray};
   border-radius: 8px;
   color: ${(props) => props.theme.colors.black};
+`;
+
+const StyledMultilineTextInput = styled(StyledTextInput).attrs(() => ({
+  multiline: true,
+}))`
+  height: null;
 `;
 
 const CategoryButtonView = styled.View`
@@ -62,7 +58,7 @@ const RatingArea = styled.TouchableOpacity`
   align-items: flex-end;
 `;
 
-const TimeSlider = styled(Slider)``;
+const TimeSlider = styled(MultiSlider)``;
 
 const AgeMultiSlider = styled(MultiSlider)``;
 
@@ -154,22 +150,10 @@ function FieldForm({ context, onFieldChange, fields }) {
       title={translations.createactivity_field3_title}
       subtitle={translations.createactivity_field3_subtitle}
     >
-      <Label>
-        {`Between ${get(fields, 'ages[0]')} and ${
-          get(fields, 'ages[1]') > 30 ? '+' : get(fields, 'ages[1]')
-        }`}
-      </Label>
       <AgeMultiSlider
         values={fields.ages}
         onValuesChange={(ages) => onFieldChange({ ages })}
-        min={0}
-        max={72}
-        step={1}
-        sliderLength={
-          Dimensions.get('window').width - 2 * themeContext.spacing.moderate
-        }
-        allowOverlap
-        snapped
+        optionsArray={[0, 6, 8, 10, 12, 18, 24, 30, 36, 48, 60]}
       />
     </FieldView>
   );
@@ -180,13 +164,8 @@ function FieldForm({ context, onFieldChange, fields }) {
       title={translations.createactivity_field4_title}
       subtitle={translations.createactivity_field4_subtitle}
     >
-      <Label>{fields.timing}</Label>
       <TimeSlider
-        minimumValue={0}
-        maximumValue={120}
-        minimumTrackTintColor={themeContext.colors.silver}
-        maximumTrackTintColor={themeContext.colors.anotherGray}
-        step={5}
+        optionsArray={[0, 5, 10, 15, 20, 25, 30, 45]}
         onValueChange={(timing) => onFieldChange({ timing })}
       />
     </FieldView>
@@ -199,7 +178,7 @@ function FieldForm({ context, onFieldChange, fields }) {
     >
       <CategoryButtonView>
         {Object.entries(get(fields, 'materials', {}))
-          .filter(([_, v]) => v)
+          .filter(([, v]) => v)
           .map(([k, v]) => (
             <CategoryButton
               onPress={() =>
@@ -230,7 +209,7 @@ function FieldForm({ context, onFieldChange, fields }) {
       key={'DescriptionInput'}
       title={translations.createactivity_field6_title}
     >
-      <StyledTextInput
+      <StyledMultilineTextInput
         name="description"
         type="description"
         value={fields.description}
@@ -291,6 +270,26 @@ function FieldForm({ context, onFieldChange, fields }) {
     </FieldView>
   );
 
+  const ReviewNoInput = (
+    <FieldView
+      key={'ReviewInput'}
+      title={translations.createactivity_field8_title}
+      rightComponent={
+        <RatingArea
+          onPress={() => {
+            const newRating = (fields.rating.ratings + 1) % (maxRating + 1);
+            const newObjRating = { ...fields.rating, ratings: newRating };
+            onFieldChange({
+              rating: newObjRating,
+            });
+          }}
+        >
+          <StarRating ratingObj={fields.rating} hideViews />
+        </RatingArea>
+      }
+    ></FieldView>
+  );
+
   const TagInput = (
     <FieldView
       key={'TagInput'}
@@ -329,6 +328,7 @@ function FieldForm({ context, onFieldChange, fields }) {
             AgeField,
             TimingField,
             MaterialField,
+            ReviewNoInput,
           ],
         }[context]
       }

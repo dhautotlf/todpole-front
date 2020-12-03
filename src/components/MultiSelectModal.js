@@ -17,7 +17,7 @@ const MultiSelectModalContentWrapper = styled.FlatList`
   flex: 1;
 `;
 
-const OptionWrapper = styled.View`
+const OptionWrapper = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
   border-bottom-color: ${(props) => props.theme.colors.lightGray};
@@ -49,7 +49,10 @@ const Label = styled.Text`
 `;
 
 const MaterialItem = ({ option, onPress }) => (
-  <OptionWrapper key={option.id}>
+  <OptionWrapper
+    key={option.id}
+    onPress={() => onPress(option, !option.selected)}
+  >
     <StyledCheckBox
       isChecked={option.selected}
       onClick={() => onPress(option, !option.selected)}

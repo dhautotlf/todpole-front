@@ -107,19 +107,17 @@ function Discover({ route }) {
       (isObject(value) && isEmpty(value)) || (!isObject(value) && isNil(value)),
   );
 
-  const filterStringBuilder = ({ text }) => {
-    return text;
-    // return Object.entries(props).reduce((acc, [k, v]) => {
-    //   const formatter = {
-    //     text: (value) => value,
-    //     category: (value) => value.name,
-    //     ageMax: (value) => `${value} months`,
-    //     ageMin: (value) => `${value} months`,
-    //     timing: (value) => `${value} minutes`,
-    //     review: ({ ratings }) => (isEmpty(ratings) ? null : `${ratings} stars`),
-    //   }[k];
-    //   return formatter && formatter(v) ? `${acc} ${formatter(v)}` : acc;
-    // }, '');
+  const filterStringBuilder = (filters) => {
+    return Object.entries(filters).reduce((acc, [k, v]) => {
+      const formatter = {
+        text: () => '',
+        category: (value) => value.name,
+        ages: ([min, max]) => `${min} - ${max} months`,
+        timing: (value) => `${value} minutes`,
+        rating: ({ ratings }) => `${ratings} stars`,
+      }[k];
+      return formatter && formatter(v) ? `${acc} ${formatter(v)}` : acc;
+    }, filters.text || '');
   };
 
   return (
@@ -133,8 +131,13 @@ function Discover({ route }) {
               <SearchArea>
                 <SearchBar
                   value={filterStringBuilder(filters)}
+                  isFilterActive={isSearchMode}
+                  onClearPress={() => onFiltersChanged({})}
                   onChangeText={(text) =>
-                    onFiltersChanged({ ...filters, text })
+                    onFiltersChanged({
+                      ...filters,
+                      text: text.length > 0 ? text : undefined,
+                    })
                   }
                   onFilterPress={() =>
                     navigate('FilterModal', {
