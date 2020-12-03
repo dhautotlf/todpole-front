@@ -164,4 +164,13 @@ export const translations = {
   activitydetail_created_by: 'Created by',
   addReview_button: 'Publish',
   filter_modal_search_button: 'apply',
+
+  setting_option_account: 'account',
+  setting_option_toddler: 'todler account',
+  setting_option_help: 'help',
+  setting_option_about: 'about',
+  setting_option_notifications: 'notifications',
+  setting_option_privacy: 'privacy',
+  setting_option_logout: 'logout',
+  setting_option_delete: 'delete account',
 };

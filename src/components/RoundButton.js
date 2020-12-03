@@ -63,7 +63,7 @@ RoundButton.propTypes = {
 
 RoundButton.defaultProps = {
   small: false,
-  medium: false,
+  medium: true,
   selected: false,
   Icon: null,
   IconSelected: null,
