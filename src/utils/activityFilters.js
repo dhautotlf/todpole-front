@@ -14,6 +14,9 @@ const lesserThanTiming = (filters) => ({ timing }) => timing <= filters.timing;
 const isBetweenTheAges = (filters) => ({ ageMin, ageMax }) =>
   ageMin >= filters.ages[0] && ageMax <= filters.ages[1];
 
+const greaterRating = (filters) => ({ averageRating }) =>
+  averageRating >= filters.rating.ratings;
+
 export default (data, filters) => {
   let results = cloneDeep(data);
 
@@ -30,6 +33,9 @@ export default (data, filters) => {
   }
   if (filters.ages) {
     results = results.filter(isBetweenTheAges(filters));
+  }
+  if (filters.rating) {
+    results = results.filter(greaterRating(filters));
   }
 
   return results;
