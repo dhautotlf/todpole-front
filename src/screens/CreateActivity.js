@@ -63,7 +63,7 @@ const Error = styled.Text`
 
 function CreateActivity() {
   const navigation = useNavigation();
-  const [errorMessage, setError] = useState('yolo');
+  const [errorMessage, setError] = useState();
   const [loading, setLoading] = useState(false);
   const [photos, updatePhotos] = useState([]);
 
