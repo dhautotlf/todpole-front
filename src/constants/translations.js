@@ -75,6 +75,9 @@ export const translations = {
   signup_option_title2: 'Password',
   signup_option_text2: 'Choose a password',
   signup_footer_button: 'Sign Up',
+  signup_validation_error_email: 'Please enter a valid email address',
+  signup_validation_error_name: 'Please enter a valid name',
+  signup_validation_error_password: 'Please enter a password',
 
   signin_header_text: 'Nice to have you back!',
   signin_option_button: 'Login with Google',

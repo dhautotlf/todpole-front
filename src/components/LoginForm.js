@@ -67,9 +67,9 @@ const Footer = styled.View`
   margin-bottom: 45px;
 `;
 
-const EMAIL_VALIDATION_ERROR = 'Please enter a valid email address';
-const NAME_VALIDATION_ERROR = 'Please enter a valid name';
-const PASSWORD_VALIDATION_ERROR = 'Please enter a password';
+const EMAIL_VALIDATION_ERROR = translations.signup_validation_error_email;
+const NAME_VALIDATION_ERROR = translations.signup_validation_error_name;
+const PASSWORD_VALIDATION_ERROR = translations.signup_validation_error_password;
 
 function LoginForm({ submitButtonLabel, onLogin, loading }) {
   const [email, setEmail] = useState('');

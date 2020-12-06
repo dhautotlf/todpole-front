@@ -214,8 +214,6 @@ function FieldForm({ context, onFieldChange, fields }) {
         name="description"
         type="description"
         value={fields.description}
-        multiline
-        numberOfLines={4}
         placeholder={translations.createactivity_field6_text}
         placeholderTextColor={themeContext.colors.silver}
         onChangeText={(description) => onFieldChange({ description })}
