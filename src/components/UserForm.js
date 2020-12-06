@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import styled, { ThemeContext } from 'styled-components/native';
+import { Platform } from 'react-native';
 import PropTypes from 'prop-types';
 import { translations } from '../constants/translations';
 
@@ -119,7 +120,11 @@ function UserForm({ onChange }) {
           is24Hour={true}
           display="compact"
           onChange={onDateChange}
-          textColor={themeContext.colors.black}
+          display={'default'}
+          onChange={onDateChange}
+          {...(Platform.OS === 'ios' && parseFloat(Platform.Version) >= 14
+            ? null
+            : { textColor: themeContext.colors.black })} // on ios 14+ causes crash
         />
       </FieldView>
       <FieldView>
