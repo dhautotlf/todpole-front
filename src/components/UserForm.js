@@ -29,6 +29,7 @@ const StyledTextInput = styled.TextInput`
 
 const StyledDateTimePicker = styled(DateTimePicker)`
   height: 60px;
+  width: 100%;
 `;
 
 const GenderView = styled.View`
