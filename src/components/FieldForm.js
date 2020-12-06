@@ -28,6 +28,7 @@ const StyledMultilineTextInput = styled(StyledTextInput).attrs(() => ({
   multiline: true,
 }))`
   height: null;
+  height: 132px;
 `;
 
 const CategoryButtonView = styled.View`
@@ -213,6 +214,8 @@ function FieldForm({ context, onFieldChange, fields }) {
         name="description"
         type="description"
         value={fields.description}
+        multiline
+        numberOfLines={4}
         placeholder={translations.createactivity_field6_text}
         placeholderTextColor={themeContext.colors.silver}
         onChangeText={(description) => onFieldChange({ description })}

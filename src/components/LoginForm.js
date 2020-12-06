@@ -68,10 +68,13 @@ const Footer = styled.View`
 `;
 
 const EMAIL_VALIDATION_ERROR = 'Please enter a valid email address';
+const NAME_VALIDATION_ERROR = 'Please enter a valid name';
+const PASSWORD_VALIDATION_ERROR = 'Please enter a password';
 
 function LoginForm({ submitButtonLabel, onLogin, loading }) {
   const [email, setEmail] = useState('');
   const [password, onChangePassword] = useState('');
+  const [name, onChangeName] = useState('');
   const [error, setError] = useState(null);
   const themeContext = useContext(ThemeContext);
 
@@ -83,6 +86,10 @@ function LoginForm({ submitButtonLabel, onLogin, loading }) {
   const submitForm = () => {
     if (!validateEmail(email)) {
       setError(EMAIL_VALIDATION_ERROR);
+    } else if (!name) {
+      setError(NAME_VALIDATION_ERROR);
+    } else if (!password) {
+      setError(PASSWORD_VALIDATION_ERROR);
     } else {
       const user = {
         login: email,
@@ -102,6 +109,30 @@ function LoginForm({ submitButtonLabel, onLogin, loading }) {
   return (
     <Form>
       <FieldsContainer>
+        <FieldView>
+          <Label>{translations.signup_option_title0}:</Label>
+          <StyledTextInput
+            name="name"
+            value={name}
+            placeholder={translations.signup_option_text0}
+            placeholderTextColor={themeContext.colors.silver}
+            onChangeText={onChangeName}
+            autoCapitalize="none"
+            keyboardType="default"
+            required
+            hasError={error === NAME_VALIDATION_ERROR}
+          />
+          {error === NAME_VALIDATION_ERROR && (
+            <ErrorWrapper>
+              <AlertIcon
+                width={16}
+                height={16}
+                color={themeContext.colors.redError}
+              />
+              <ErrorMessage>{error}</ErrorMessage>
+            </ErrorWrapper>
+          )}
+        </FieldView>
         <FieldView>
           <Label>{translations.signup_option_title1}:</Label>
           <StyledTextInput
@@ -141,6 +172,16 @@ function LoginForm({ submitButtonLabel, onLogin, loading }) {
             secureTextEntry
             required
           />
+          {error === PASSWORD_VALIDATION_ERROR && (
+            <ErrorWrapper>
+              <AlertIcon
+                width={16}
+                height={16}
+                color={themeContext.colors.redError}
+              />
+              <ErrorMessage>{error}</ErrorMessage>
+            </ErrorWrapper>
+          )}
         </FieldView>
       </FieldsContainer>
       <Footer>

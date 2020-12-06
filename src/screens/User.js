@@ -17,7 +17,7 @@ import Delete from '../assets/icons/trash.svg';
 const ScreenWrapper = styled.View`
   display: flex;
   flex: 1;
-  padding-left: ${({ theme }) => theme.spacing.xlarge}px;
+  padding-left: ${({ theme }) => theme.spacing.moderate}px;
   padding-top: ${({ theme }) => theme.spacing.moderate}px;
   background: ${({ theme }) => theme.colors.white};
 `;
@@ -63,14 +63,14 @@ function User() {
   const logout = () => dispatch(signOut());
 
   const options = [
-    [setting_option_account, green, Account],
-    [setting_option_toddler, green, Toddler],
-    [setting_option_help, green, Question],
-    [setting_option_about, green, Info],
-    [setting_option_notifications, yellow, Bell],
-    [setting_option_privacy, yellow, Lock],
+    //[setting_option_account, green, Account],
+    //[setting_option_toddler, green, Toddler],
+    //[setting_option_help, green, Question],
+    //[setting_option_about, green, Info],
+    //[setting_option_notifications, yellow, Bell],
+    //[setting_option_privacy, yellow, Lock],
     [setting_option_logout, yellow, Logout, logout],
-    [setting_option_delete, yellow, Delete],
+    //[setting_option_delete, yellow, Delete],
   ];
 
   return (

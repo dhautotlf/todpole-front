@@ -58,7 +58,7 @@ const Error = styled.Text`
   line-height: 21px;
   display: flex;
   text-align: center;
-  color: ${({ theme }) => theme.colors.spacing}px;
+  color: ${({ theme }) => theme.colors.redError};
 `;
 
 function CreateActivity() {

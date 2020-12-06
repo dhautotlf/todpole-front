@@ -68,6 +68,8 @@ export const translations = {
   signup_header_text: 'Last step: create your account!',
   signup_option_button: 'Sign up with Google',
   signup_option_text: 'OR',
+  signup_option_title0: 'Name',
+  signup_option_text0: 'Type your name',
   signup_option_title1: 'Email',
   signup_option_text1: 'Type your email address',
   signup_option_title2: 'Password',

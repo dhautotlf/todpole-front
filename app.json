@@ -1,14 +1,23 @@
 {
   "name": "Todpole",
   "displayName": "Todpole",
+  "privacy": true,
+  "icon": "./src/assets/todpole_app_icon.png",
+  "splash": {
+    "image": "./src/assets/todpole_app_icon.png",
+    "resizeMode": "contain",
+    "backgroundColor": "#84A59D"
+  },
+  "orientation": "portrait",
   "expo": {
     "ios": {
       "bundleIdentifier": "com.todpole-app.todpole",
-      "buildNumber": "1.0.0"
+      "buildNumber": "1.0.1",
+      "icon": "./src/assets/todpole_app_icon.png"
     },
     "name": "Todpole",
     "slug": "Todpole",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "assetBundlePatterns": [
       "**/*"
     ],
