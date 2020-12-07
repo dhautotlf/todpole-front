@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
@@ -6,8 +6,12 @@ import { useDispatch } from 'react-redux';
 import { postActivity } from '../reducers/activities';
 import ActivityForm from '../components/ActivityForm';
 import ImagePickerComponent from '../components/ImagePickerComponent';
-import { useNavigation } from '@react-navigation/native';
-import { CommonActions } from '@react-navigation/native';
+import {
+  useNavigation,
+  CommonActions,
+  useFocusEffect,
+} from '@react-navigation/native';
+
 import { translations } from '../constants/translations';
 
 const StyledSafeAreaView = styled.SafeAreaView`
@@ -69,6 +73,41 @@ function CreateActivity() {
 
   const dispatch = useDispatch();
 
+  const dataImages = [
+    {
+      id: 0,
+      onChange: (url) => {
+        updateImageList(url, 0);
+      },
+    },
+    {
+      id: 1,
+      onChange: (url) => {
+        updateImageList(url, 1);
+      },
+    },
+    {
+      id: 2,
+      onChange: (url) => {
+        updateImageList(url, 2);
+      },
+    },
+  ];
+
+  const cleanup = () => {
+    updatePhotos([]);
+  };
+
+  // Use of the react-navigation/native hook to reset the component on the unmounting event
+  // https://reactnavigation.org/docs/navigation-lifecycle/
+  useFocusEffect(
+    React.useCallback(() => {
+      return () => {
+        cleanup();
+      };
+    }, []),
+  );
+
   const createActivity = async (activity) => {
     setLoading(true);
     setError(null);
@@ -105,27 +144,6 @@ function CreateActivity() {
     const photoArray = [...photos, { url, isMain }];
     updatePhotos(photoArray);
   };
-
-  const dataImages = [
-    {
-      id: 0,
-      onChange: (url) => {
-        updateImageList(url, 0);
-      },
-    },
-    {
-      id: 1,
-      onChange: (url) => {
-        updateImageList(url, 1);
-      },
-    },
-    {
-      id: 2,
-      onChange: (url) => {
-        updateImageList(url, 2);
-      },
-    },
-  ];
 
   return (
     <StyledSafeAreaView>

@@ -4,6 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 import CameraIcon from '../assets/icons/photo-camera.svg';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
+import { useFocusEffect } from '@react-navigation/native';
 
 const CameraButton = styled.TouchableOpacity`
   display: flex;
@@ -36,6 +37,14 @@ function ImagePickerComponent({ onImageChange }) {
       }
     })();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      return () => {
+        setImage(null);
+      };
+    }, []),
+  );
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({

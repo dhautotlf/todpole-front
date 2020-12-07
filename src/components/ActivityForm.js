@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import BasicButton from '../components/BasicButton';
+import { useFocusEffect } from '@react-navigation/native';
 import FieldForm from '../components/FieldForm';
+import { clearSession } from '../utils/storageUtils';
 
 const Form = styled.View`
   display: flex;
@@ -31,6 +33,29 @@ function ActivityForm({
   const [review, setReview] = useState('');
   const [tags, setTags] = useState('');
   const [materials, setMaterials] = useState([]);
+
+  const cleanup = () => {
+    setName('');
+    setCategory({});
+    setAges([6, 18]);
+    setTiming(0);
+    setDescription('');
+    setUrl('');
+    setRating({ ratings: 0, views: null });
+    setReview('');
+    setTags('');
+    setMaterials([]);
+  };
+
+  // Use of the react-navigation/native hook to reset the component on the unmounting event
+  // https://reactnavigation.org/docs/navigation-lifecycle/
+  useFocusEffect(
+    React.useCallback(() => {
+      return () => {
+        cleanup();
+      };
+    }, []),
+  );
 
   const formBuilder = () => ({
     category: category.value,
