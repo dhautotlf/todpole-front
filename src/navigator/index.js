@@ -19,7 +19,7 @@ import { isAuthenticated } from '../hooks';
 
 import CreateIcon from '../assets/icons/create.svg';
 import HomeIcon from '../assets/icons/home.svg';
-import UserIcon from '../assets/icons/user.svg';
+import BookmarkIcon from '../assets/icons/bookmarked.svg';
 import BackButtonIcon from '../assets/icons/back.svg';
 import { ThemeContext } from 'styled-components/native';
 
@@ -111,7 +111,16 @@ const HomeTab = () => {
         name="Saved"
         component={Saved}
         options={{
-          tabBarIcon: UserIcon,
+          // eslint-disable-next-line react/display-name, react/prop-types
+          tabBarIcon: ({ size, color }) => {
+            return (
+              <BookmarkIcon
+                width={size}
+                height={size}
+                style={{ color: color }}
+              />
+            );
+          },
         }}
       />
     </Tab.Navigator>
