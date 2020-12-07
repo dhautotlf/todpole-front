@@ -12,12 +12,15 @@
   "expo": {
     "ios": {
       "bundleIdentifier": "com.todpole-app.todpole",
-      "buildNumber": "1.0.2",
-      "icon": "./src/assets/todpole_app_icon.png"
+      "buildNumber": "1.0.3",
+      "icon": "./src/assets/todpole_app_icon.png",
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "Give Todpole access to the photo library to let the user upload his toddler activities ideas."
+      }
     },
     "name": "Todpole",
     "slug": "Todpole",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "assetBundlePatterns": [
       "**/*"
     ],

@@ -52,7 +52,7 @@ function ActivityForm({
   useFocusEffect(
     React.useCallback(() => {
       return () => {
-        cleanup();
+        //cleanup();
       };
     }, []),
   );
