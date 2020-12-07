@@ -103,7 +103,7 @@ function CreateActivity() {
   useFocusEffect(
     React.useCallback(() => {
       return () => {
-        cleanup();
+        //cleanup();
       };
     }, []),
   );

@@ -41,7 +41,7 @@ function ImagePickerComponent({ onImageChange }) {
   useFocusEffect(
     React.useCallback(() => {
       return () => {
-        setImage(null);
+        //setImage(null);
       };
     }, []),
   );
