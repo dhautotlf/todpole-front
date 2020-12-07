@@ -71,7 +71,7 @@ const EMAIL_VALIDATION_ERROR = translations.signup_validation_error_email;
 const NAME_VALIDATION_ERROR = translations.signup_validation_error_name;
 const PASSWORD_VALIDATION_ERROR = translations.signup_validation_error_password;
 
-function LoginForm({ submitButtonLabel, onLogin, loading }) {
+function LoginForm({ submitButtonLabel, onLogin, loading, type }) {
   const [email, setEmail] = useState('');
   const [password, onChangePassword] = useState('');
   const [name, onChangeName] = useState('');
@@ -86,7 +86,7 @@ function LoginForm({ submitButtonLabel, onLogin, loading }) {
   const submitForm = () => {
     if (!validateEmail(email)) {
       setError(EMAIL_VALIDATION_ERROR);
-    } else if (!name) {
+    } else if (!name && type === 'SIGNUP') {
       setError(NAME_VALIDATION_ERROR);
     } else if (!password) {
       setError(PASSWORD_VALIDATION_ERROR);
@@ -94,6 +94,7 @@ function LoginForm({ submitButtonLabel, onLogin, loading }) {
       const user = {
         login: email,
         password,
+        ...(type === 'SIGNUP' ? { name } : null),
       };
       onLogin(user);
     }
@@ -109,30 +110,32 @@ function LoginForm({ submitButtonLabel, onLogin, loading }) {
   return (
     <Form>
       <FieldsContainer>
-        <FieldView>
-          <Label>{translations.signup_option_title0}:</Label>
-          <StyledTextInput
-            name="name"
-            value={name}
-            placeholder={translations.signup_option_text0}
-            placeholderTextColor={themeContext.colors.silver}
-            onChangeText={onChangeName}
-            autoCapitalize="none"
-            keyboardType="default"
-            required
-            hasError={error === NAME_VALIDATION_ERROR}
-          />
-          {error === NAME_VALIDATION_ERROR && (
-            <ErrorWrapper>
-              <AlertIcon
-                width={16}
-                height={16}
-                color={themeContext.colors.redError}
-              />
-              <ErrorMessage>{error}</ErrorMessage>
-            </ErrorWrapper>
-          )}
-        </FieldView>
+        {type === 'SIGNUP' && (
+          <FieldView>
+            <Label>{translations.signup_option_title0}:</Label>
+            <StyledTextInput
+              name="name"
+              value={name}
+              placeholder={translations.signup_option_text0}
+              placeholderTextColor={themeContext.colors.silver}
+              onChangeText={onChangeName}
+              autoCapitalize="none"
+              keyboardType="default"
+              required
+              hasError={error === NAME_VALIDATION_ERROR}
+            />
+            {error === NAME_VALIDATION_ERROR && (
+              <ErrorWrapper>
+                <AlertIcon
+                  width={16}
+                  height={16}
+                  color={themeContext.colors.redError}
+                />
+                <ErrorMessage>{error}</ErrorMessage>
+              </ErrorWrapper>
+            )}
+          </FieldView>
+        )}
         <FieldView>
           <Label>{translations.signup_option_title1}:</Label>
           <StyledTextInput
@@ -200,6 +203,7 @@ LoginForm.propTypes = {
   label: PropTypes.string,
   onLogin: PropTypes.func,
   submitButtonLabel: PropTypes.string,
+  type: PropTypes.string,
 };
 
 LoginForm.defaultProps = {

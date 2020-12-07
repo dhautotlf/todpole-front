@@ -54,6 +54,7 @@ function SignUp({ navigation, route }) {
         {errorMessage ? <Text>{errorMessage}</Text> : null}
         <LoginForm
           onLogin={signUp}
+          type={'SIGNUP'}
           submitButtonLabel={translations.signup_footer_button}
           loading={isLoading}
         />
